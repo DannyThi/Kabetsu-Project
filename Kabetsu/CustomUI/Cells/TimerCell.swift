@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol DelegatedActionDelegate: class {
+protocol TimerCellButtonActionDelegate: class {
     func performDelegatedAction(identifier: Any)
 }
 
@@ -20,7 +20,7 @@ class TimerCell: UICollectionViewCell {
     private var removeButton = UIButton()
     
     private var identifier: TimeInterval!
-    weak var delegate: DelegatedActionDelegate!
+    weak var delegate: TimerCellButtonActionDelegate!
     
     // MARK: - Initialization
     
@@ -35,7 +35,7 @@ class TimerCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func set(timeInterval: TimeInterval, delegate: DelegatedActionDelegate) {
+    func set(timeInterval: TimeInterval, delegate: TimerCellButtonActionDelegate) {
         countdownLabel.setTime(usingRawTime: timeInterval)
         self.identifier = timeInterval
         self.delegate = delegate

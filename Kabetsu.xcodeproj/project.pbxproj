@@ -21,6 +21,7 @@
 		975D929E23E160EF000CE57D /* KBTButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975D929D23E160EF000CE57D /* KBTButton.swift */; };
 		975D92A223E2957C000CE57D /* KBTCircularButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975D92A123E2957C000CE57D /* KBTCircularButton.swift */; };
 		975D92A623E401AC000CE57D /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975D92A523E401AC000CE57D /* Settings.swift */; };
+		975D92B523EBD78F000CE57D /* AddNewTimerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975D92B423EBD78F000CE57D /* AddNewTimerVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		975D929D23E160EF000CE57D /* KBTButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KBTButton.swift; sourceTree = "<group>"; };
 		975D92A123E2957C000CE57D /* KBTCircularButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KBTCircularButton.swift; sourceTree = "<group>"; };
 		975D92A523E401AC000CE57D /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		975D92B423EBD78F000CE57D /* AddNewTimerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewTimerVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +128,7 @@
 			children = (
 				975C25ED23DEBCEF005847FF /* TimersListVC.swift */,
 				975D929B23E100AD000CE57D /* TimerVC.swift */,
+				975D92B423EBD78F000CE57D /* AddNewTimerVC.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -225,6 +228,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				975D92B523EBD78F000CE57D /* AddNewTimerVC.swift in Sources */,
 				975C260623DFA8C5005847FF /* TimerTask.swift in Sources */,
 				975C260123DEC493005847FF /* KBTDigitalDisplayLabel.swift in Sources */,
 				975C260923DFBC2B005847FF /* TimersList.swift in Sources */,
