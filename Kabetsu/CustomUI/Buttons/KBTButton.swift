@@ -26,7 +26,6 @@ class KBTButton: UIButton {
     public init(withTitle title: String) {
         super.init(frame: .zero)
         backgroundColor = .systemGreen
-
         setTitle(title, for: .normal)
         titleLabel?.font = UIFont.systemFont(ofSize: 25, weight: .bold)
         titleLabel?.textColor = .secondaryLabel

@@ -98,35 +98,31 @@ class TimerTask {
         }
         completed?()
     }
-
-
-    
-    
-    
-    // MARK - Text formatting
-    
-//    static func formatRawTimeAsDigitalDisplayText(with time: Double, usingMilliseconds milliseconds: Bool = true) -> String {
-//        let timeAsInt = Int(time)
-//        let seconds = timeAsInt % 60
-//        let minutes = (timeAsInt / 60) % 60
-//        let hours = timeAsInt / 3600
-//
-//        var formattedString = String(format: "%02i:%02i:%02i", hours, minutes, seconds)
-//        if milliseconds {
-//            let milliseconds = Int(time.truncatingRemainder(dividingBy: 1) * 100)
-//            formattedString += String(format: ":%02i", milliseconds)
-//        }
-//        return formattedString
-//    }
-//
-//    static func formatHumanReadableTimeIntoRawTime(hours: Int, minutes: Int, seconds: Int) -> TimeInterval {
-//        let h = hours * 60 * 60
-//        let m = minutes * 60
-//        let s = seconds
-//        return Double(h + m + s)
-//    }
 }
 
+
+extension TimerTask {
+    static func getUnixTimeFromTimeComponents(hours: Int, minutes: Int, seconds: Int) -> TimeInterval {
+        let h = hours * 60 * 60
+        let m = minutes * 60
+        let s = seconds
+        return Double(h + m + s)
+    }
+    
+    static func getFormattedTimeFromUnixTime(time: TimeInterval, usingMilliseconds milliseconds: Bool = true) -> String {
+        let timeAsInt = Int(time)
+        let seconds = timeAsInt % 60
+        let minutes = (timeAsInt / 60) % 60
+        let hours = timeAsInt / 3600
+
+        var formattedString = String(format: "%02i:%02i:%02i", hours, minutes, seconds)
+        if milliseconds {
+            let milliseconds = Int(time.truncatingRemainder(dividingBy: 1) * 100)
+            formattedString += String(format: ":%02i", milliseconds)
+        }
+        return formattedString
+    }
+}
 
 
 

@@ -8,12 +8,22 @@
 
 import UIKit
 
+extension DateInterval {
+    static var timeInSecondsFor24hours: TimeInterval = 86400
+}
+
 class AddNewTimerVC: UIViewController {
     
-    private var textLabel = UILabel()
-    private var timePicker = UIPickerView()
-    private var timersList = TimersList.shared
+    private var hours = 0
+    private var minutes = 0
+    private var seconds = 0
     
+    private let textLabel = UILabel()
+    private let timePicker = UIPickerView()
+    private var confirmBarButton: UIBarButtonItem!
+    private var confirmButton: KBTButton!
+    
+    private let timersList = TimersList.shared
     
     private enum PickerComponents: Int, CaseIterable {
         case hours
@@ -25,11 +35,11 @@ class AddNewTimerVC: UIViewController {
         
         var rowCount: Int {
             switch self {
-            case .hours: return 12
+            case .hours: return 24
             case .hoursLabel: return 1
             case .minutes: return 60
             case .minutesLabel: return 1
-            case .seconds: return 60
+            case .seconds: return 12
             case .secondsLabel: return 1
             }
         }
@@ -37,15 +47,15 @@ class AddNewTimerVC: UIViewController {
         func rowTitle(forRow row: Int) -> String {
             switch self {
             case .hours:
-                return "12"
+                return "\(row)"
             case .hoursLabel:
                 return "hrs"
             case .minutes:
-                return "60"
+                return "\(row)"
             case .minutesLabel:
                 return "min"
             case .seconds:
-                return "60"
+                return "\(row * 5)"
             case .secondsLabel:
                 return "sec"
             }
@@ -57,29 +67,130 @@ class AddNewTimerVC: UIViewController {
         configureViewController()
         configureTextLabel()
         configureTimePicker()
+        configureConfirmButtons()
+        selectPickerRows()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.prefersLargeTitles = false
+        updateUI()
+    }
+    
+    private func getFormattedTextForDisplay() -> String {
+        hours = timePicker.selectedRow(inComponent: PickerComponents.hours.rawValue)
+        minutes = timePicker.selectedRow(inComponent: PickerComponents.minutes.rawValue)
+        seconds = timePicker.selectedRow(inComponent: PickerComponents.seconds.rawValue) * 5
+        
+        let rawTime = TimerTask.getUnixTimeFromTimeComponents(hours: hours, minutes: minutes, seconds: seconds)
+        var formattedTextForDisplay = ""
+        
+        if timersList.timers.firstIndex(of: rawTime) == nil, rawTime != 0.0 {
+            confirmBarButton.isEnabled = true
+            confirmButton.isEnabled = true
+            confirmButton.backgroundColor = .systemGreen
+            formattedTextForDisplay = getTimeFromPicker()
+        } else {
+            confirmBarButton.isEnabled = false
+            confirmButton.isEnabled = false
+            confirmButton.backgroundColor = .systemGray
+            formattedTextForDisplay = rawTime == 0.0 ? "Cannot create timer of 0 seconds" : "Time already in collection."
+        }
+        return formattedTextForDisplay
+    }
+    
+    private func getTimeFromPicker() -> String {
+        hours = timePicker.selectedRow(inComponent: PickerComponents.hours.rawValue)
+        minutes = timePicker.selectedRow(inComponent: PickerComponents.minutes.rawValue)
+        seconds = timePicker.selectedRow(inComponent: PickerComponents.seconds.rawValue) * 5
+        
+        var displayComponents = [String]()
+        
+        if hours != 0 {
+            displayComponents.append("\(hours) hour(s)")
+        }
+        if minutes != 0 {
+            displayComponents.append("\(minutes) minute(s)")
+        }
+        if seconds != 0 {
+            displayComponents.append("\(seconds) seconds")
+        }
+        
+        var displayText = ""
+        for (index, item) in displayComponents.enumerated() {
+            displayText += item
+            if displayComponents.count != 1 {
+                if index != displayComponents.count - 1 {
+                    displayText += index != displayComponents.count - 2 ?  ", " : ", and "
+                }
+            }
+        }
+        return displayText
+    }
+    
+    private func updateUI() {
+        textLabel.text = getFormattedTextForDisplay()
     }
 }
+
+
+
+// MARK: - Find a unique time in timersList
+
+extension AddNewTimerVC {
+    private func getUniqueTimeForPicker(time: TimeInterval) -> TimeInterval {
+        guard time < DateInterval.timeInSecondsFor24hours - 60 else { return time }
+        var time = time
+        if timersList.timers.contains(time) {
+             time = getUniqueTimeForPicker(time: time + 60)
+        }
+        return time
+    }
+    
+    private func convertUnixTimeToTimeComponents(time: TimeInterval) -> String {
+        let formatter = DateComponentsFormatter()
+        formatter.unitsStyle = .positional
+        formatter.zeroFormattingBehavior = .pad
+        formatter.allowedUnits = [.hour, .minute, .second]
+        return formatter.string(from: time)!
+    }
+    
+    private func selectPickerRows() {
+        let uniqueTime = getUniqueTimeForPicker(time: timersList.timers.last ?? 60)
+        let timeString = convertUnixTimeToTimeComponents(time: uniqueTime)
+        let timeComponents = timeString.components(separatedBy: ":")
+        for (index, time) in timeComponents.enumerated() {
+            let row = Int(time)!
+            let component: PickerComponents
+            switch index {
+            case 0: component = PickerComponents.hours
+            case 1: component = PickerComponents.minutes
+            case 2: component = PickerComponents.seconds
+            default:
+                component = PickerComponents.hours
+                fatalError("Error in producing picker component enum in AddNewTimerVC")
+            }
+            timePicker.selectRow(row, inComponent: component.rawValue, animated: false)
+        }
+    }
+}
+
+
 
 // MARK: - UIPickerView Delegate
 
 extension AddNewTimerVC: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        //checkForValidity()
+        updateUI()
     }
     
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
         let pickerComponent = PickerComponents(rawValue: component)!
-        
         let title = pickerComponent.rowTitle(forRow: row)
-
-        let attributedTitle = NSAttributedString(string: title, attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGreen])
-        return attributedTitle
+        let stringColorKey = NSAttributedString.Key.foregroundColor
+        return NSAttributedString(string: title, attributes: [stringColorKey: UIColor.label])
     }
 }
+
 
 
 // MARK: - UIPickerView Datasource
@@ -94,9 +205,9 @@ extension AddNewTimerVC: UIPickerViewDataSource {
         let pickerComponent = PickerComponents(rawValue: component)!
         return pickerComponent.rowCount
     }
-    
-    
 }
+
+
 
 // MARK: - Configuration
 
@@ -125,9 +236,8 @@ extension AddNewTimerVC {
         textLabel.clipsToBounds = true
         
         let padding: CGFloat = 20
-        
         NSLayoutConstraint.activate([
-            textLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: padding),
+            textLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             textLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             textLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
             textLabel.heightAnchor.constraint(equalToConstant: 100)
@@ -137,14 +247,43 @@ extension AddNewTimerVC {
     private func configureTimePicker() {
         view.addSubview(timePicker)
         timePicker.translatesAutoresizingMaskIntoConstraints = false
+        timePicker.backgroundColor = .secondarySystemBackground
+        timePicker.layer.cornerRadius = 16
+        timePicker.layer.borderWidth = 2
+        timePicker.layer.borderColor = UIColor.white.cgColor
+        timePicker.clipsToBounds = true
         timePicker.delegate = self
         timePicker.dataSource = self
+        
         let padding: CGFloat = 20
         NSLayoutConstraint.activate([
-            timePicker.topAnchor.constraint(equalTo: textLabel.bottomAnchor, constant: padding),
+            timePicker.topAnchor.constraint(equalTo: textLabel.bottomAnchor, constant: 10),
             timePicker.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant:  padding),
             timePicker.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
             timePicker.heightAnchor.constraint(equalToConstant: 200)
         ])
+    }
+    
+    private func configureConfirmButtons() {
+        confirmBarButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(confirmButtonTapped))
+        navigationItem.rightBarButtonItem = confirmBarButton
+
+        confirmButton = KBTButton(withTitle: "Add Timer")
+        confirmButton.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
+        view.addSubview(confirmButton)
+        
+        let padding: CGFloat = 20
+        NSLayoutConstraint.activate([
+            confirmButton.topAnchor.constraint(equalTo: timePicker.bottomAnchor, constant: padding),
+            confirmButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+            confirmButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+            confirmButton.heightAnchor.constraint(equalToConstant: 50)
+        ])
+    }
+    
+    @objc private func confirmButtonTapped() {
+        let time = TimerTask.getUnixTimeFromTimeComponents(hours: hours, minutes: minutes, seconds: seconds)
+        timersList.timers.append(time)
+        navigationController?.popViewController(animated: true)
     }
 }

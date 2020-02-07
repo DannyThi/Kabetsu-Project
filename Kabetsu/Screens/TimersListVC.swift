@@ -53,15 +53,13 @@ class TimersListVC: UIViewController {
         super.viewDidLoad()
         configureViewController()
         configureBarButtonItems()
-
         configureCollectionView()
         configureDataSource()
-        
-        updateUI(animated: false)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.prefersLargeTitles = true
+        updateUI(animated: false)
     }
 }
 
