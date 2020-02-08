@@ -22,3 +22,64 @@ class UIHelpers {
     }
     
 }
+
+
+class Constraints {
+    enum ConstraintsKey {
+        case iPhonePortrait, iPhoneLandscape, iPadPortrait, iPadLandscape
+    }
+    
+    var iPhonePortrait: [NSLayoutConstraint] = []
+    var iPhoneLandscape: [NSLayoutConstraint] = []
+    var iPadPortrait: [NSLayoutConstraint] = []
+    var iPadLandscape: [NSLayoutConstraint] = []
+    
+    init(iPhonePortrait: [NSLayoutConstraint]? = nil, iPhoneLandscape: [NSLayoutConstraint]? = nil,
+         iPadPortrait: [NSLayoutConstraint]? = nil, iPadLandscape: [NSLayoutConstraint]? = nil) {
+        
+        if iPhonePortrait != nil { self.iPhonePortrait = iPhonePortrait! }
+        if iPhoneLandscape != nil { self.iPhoneLandscape = iPhoneLandscape! }
+        if iPadPortrait != nil { self.iPadPortrait = iPadPortrait! }
+        if iPadLandscape != nil { self.iPadLandscape = iPadLandscape! }
+    }
+    
+    func activate(_ constraintsType: ConstraintsKey) {
+        NSLayoutConstraint.deactivate(iPhonePortrait)
+        NSLayoutConstraint.deactivate(iPhoneLandscape)
+        NSLayoutConstraint.deactivate(iPadPortrait)
+        NSLayoutConstraint.deactivate(iPadLandscape)
+        
+        var selectedConstraints: [NSLayoutConstraint]
+        switch constraintsType {
+        case .iPhonePortrait:
+            guard !iPhonePortrait.isEmpty else {
+                print("Layout constraint not set for \(ConstraintsKey.iPhonePortrait)");
+                return
+            }
+            selectedConstraints = iPhonePortrait
+            
+        case .iPhoneLandscape:
+            guard !iPhoneLandscape.isEmpty else {
+                print("Layout constraint not set for \(ConstraintsKey.iPhoneLandscape)");
+                return
+            }
+            selectedConstraints = iPhoneLandscape
+            
+        case .iPadPortrait:
+            guard !iPadPortrait.isEmpty else {
+                print("Layout constraint not set for \(ConstraintsKey.iPadPortrait)");
+                return
+            }
+            selectedConstraints = iPadPortrait
+
+        case .iPadLandscape:
+            guard !iPadLandscape.isEmpty else {
+                print("Layout constraint not set for \(ConstraintsKey.iPadLandscape)");
+                return
+            }
+            selectedConstraints = iPadLandscape
+        }
+        
+        NSLayoutConstraint.activate(selectedConstraints)
+    }
+}

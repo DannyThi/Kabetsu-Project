@@ -19,7 +19,9 @@ final class TimersList {
     
     var timers: [TimeInterval] {
         get { return internalTimers }
-        set { internalTimers = newValue.sorted() }
+        set {
+            internalTimers = Array(Set(newValue)).sorted()
+        }
     }
     
     // Stored
@@ -31,9 +33,9 @@ final class TimersList {
     }
     
     private init() {
-        let storedTimers = UserDefaults.standard.value(forKey: TimersList.Key) as? [Double]
+        let storedTimers = UserDefaults.standard.value(forKey: TimersList.Key) as? [TimeInterval]
         if let timers = storedTimers, !timers.isEmpty {
-            internalTimers = timers
+            internalTimers = Array(Set(timers)).sorted()
             print(timers)
         } else {
             internalTimers = [30.0, 60.0, 120.0, 240.0]

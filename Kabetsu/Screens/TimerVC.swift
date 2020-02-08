@@ -70,7 +70,7 @@ extension TimerVC {
         let config = UIHelpers.symbolConfig
         let dismissImage = UIImage(systemName: "multiply", withConfiguration: config)
         let dismissButton = UIBarButtonItem(image: dismissImage, style: .plain, target: self, action: #selector(dismissController))
-        navigationItem.rightBarButtonItem = dismissButton
+        navigationItem.leftBarButtonItem = dismissButton
     }
     
     @objc private func dismissController() {
@@ -81,7 +81,7 @@ extension TimerVC {
         let config = UIHelpers.symbolConfig
         let projectImage = UIImage(systemName: "tv", withConfiguration: config)
         let projectButton = UIBarButtonItem(image: projectImage, style: .plain, target: self, action: #selector(projectScreen))
-        navigationItem.leftBarButtonItem = projectButton
+        navigationItem.rightBarButtonItem = projectButton
     }
     
     @objc private func projectScreen() {

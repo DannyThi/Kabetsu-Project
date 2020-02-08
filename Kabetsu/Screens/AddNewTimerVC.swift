@@ -12,6 +12,10 @@ extension DateInterval {
     static var timeInSecondsFor24hours: TimeInterval = 86400
 }
 
+protocol AddNewTimerViewControllerDelegate: class {
+    func didDismissAddNewTimerVC()
+}
+
 class AddNewTimerVC: UIViewController {
     
     private var hours = 0
@@ -24,7 +28,11 @@ class AddNewTimerVC: UIViewController {
     private var confirmButton: KBTButton!
     
     private let timersList = TimersList.shared
-    
+    private var constraints = Constraints()
+
+    weak var delegate: AddNewTimerViewControllerDelegate!
+
+    // MARK: Picker Components Enum
     private enum PickerComponents: Int, CaseIterable {
         case hours
         case hoursLabel
@@ -62,12 +70,14 @@ class AddNewTimerVC: UIViewController {
         }
     }
     
+    // MARK: View Controller Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewController()
         configureTextLabel()
         configureTimePicker()
         configureConfirmButtons()
+        configureDismissButton()
         selectPickerRows()
     }
     
@@ -76,6 +86,7 @@ class AddNewTimerVC: UIViewController {
         updateUI()
     }
     
+    // MARK: AddNewTimerVC Functions
     private func getFormattedTextForDisplay() -> String {
         hours = timePicker.selectedRow(inComponent: PickerComponents.hours.rawValue)
         minutes = timePicker.selectedRow(inComponent: PickerComponents.minutes.rawValue)
@@ -208,6 +219,9 @@ extension AddNewTimerVC: UIPickerViewDataSource {
 }
 
 
+#warning("Landscape and ipad mode has UI issues that need to be addressed.")
+#warning("we need to set the configue functions to return an array what will be appended to the struct.")
+
 
 // MARK: - Configuration
 
@@ -229,19 +243,26 @@ extension AddNewTimerVC {
         textLabel.adjustsFontSizeToFitWidth = true
         textLabel.minimumScaleFactor = 0.8
         textLabel.lineBreakMode = .byWordWrapping
-        textLabel.text = "Lots of text. So much text it spans tow rows!"
         textLabel.layer.cornerRadius = 16
         textLabel.layer.borderWidth = 2
         textLabel.layer.borderColor = UIColor.white.cgColor
         textLabel.clipsToBounds = true
         
+        configureTextLabelConstraints()
+    }
+    
+    private func configureTextLabelConstraints() {
         let padding: CGFloat = 20
-        NSLayoutConstraint.activate([
+        let iPhonePortraitConstraints = [
             textLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             textLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             textLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
             textLabel.heightAnchor.constraint(equalToConstant: 100)
-        ])
+        ]
+        #warning("FIX HERE")
+        constraints.iPhonePortrait.append(contentsOf: iPhonePortraitConstraints)
+        //NSLayoutConstraint.activate(iPhonePortraitConstraints)
+        constraints.activate(.iPhonePortrait)
     }
     
     private func configureTimePicker() {
@@ -263,7 +284,13 @@ extension AddNewTimerVC {
             timePicker.heightAnchor.constraint(equalToConstant: 200)
         ])
     }
-    
+}
+
+
+
+// MARK: - Configuration: Action Buttons
+
+extension AddNewTimerVC {
     private func configureConfirmButtons() {
         confirmBarButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(confirmButtonTapped))
         navigationItem.rightBarButtonItem = confirmBarButton
@@ -281,9 +308,44 @@ extension AddNewTimerVC {
         ])
     }
     
+    private func configureDismissButton() {
+        let dismissButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissButtonTapped))
+        navigationItem.leftBarButtonItem = dismissButton
+    }
+    
+    @objc private func dismissButtonTapped() {
+        dismiss(animated: true)
+    }
+    
     @objc private func confirmButtonTapped() {
         let time = TimerTask.getUnixTimeFromTimeComponents(hours: hours, minutes: minutes, seconds: seconds)
-        timersList.timers.append(time)
-        navigationController?.popViewController(animated: true)
+        if let delegate = delegate {
+            timersList.timers.append(time)
+            delegate.didDismissAddNewTimerVC()
+            dismiss(animated: true)
+        } else {
+            print("Delegate for AddNewTimerVCDelegate has not been set.")
+        }
     }
 }
+
+#warning("Some notes for autolayout")
+
+// NOTES
+// adaptive layouts
+//    override var shouldAutorotate: Bool {
+//        return false
+//    }
+//
+//    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+//        return .portrait
+//    }
+//
+//    override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation {
+//        return .portrait
+//    }
+//}
+
+// trailtcollection
+//https://theswiftdev.com/2018/06/14/mastering-ios-auto-layout-anchors-programmatically-from-swift/
+//https://stackoverflow.com/questions/48207621/adaptive-layout-with-trait-collection-in-swift-ios

@@ -49,6 +49,7 @@ class TimersListVC: UIViewController {
     private var dataSource: UICollectionViewDiffableDataSource<Section, TimeInterval>!
     private var snapshot: NSDiffableDataSourceSnapshot<Section, TimeInterval>!
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewController()
@@ -139,7 +140,7 @@ extension TimersListVC: UICollectionViewDelegate {
 
 
 
-// MARK: - Initial configuration & setup
+// MARK: - Configuration
 
 extension TimersListVC {
     private func configureViewController() {
@@ -154,15 +155,22 @@ extension TimersListVC {
         let plusImage = UIImage(systemName: "plus", withConfiguration: config)
 
         let settingsBarButton = UIBarButtonItem(image: settingsImage, style: .plain, target: self, action: #selector(settingsButtonTapped))
-        let plusBarButton = UIBarButtonItem(image: plusImage, style: .plain, target: self, action: #selector(plusButtonTapped))
+        let plusBarButton = UIBarButtonItem(image: plusImage, style: .plain, target: self, action: #selector(plusButtonTapped(sender:)))
 
         navigationItem.rightBarButtonItems = [plusBarButton]
         navigationItem.leftBarButtonItems = [settingsBarButton]
     }
     
-    @objc private func plusButtonTapped() {
+    @objc private func plusButtonTapped(sender: Any) {
+        guard let sender = sender as? UIBarButtonItem else { return }
         let addNewTimerVC = AddNewTimerVC()
-        navigationController?.pushViewController(addNewTimerVC, animated: true)
+        addNewTimerVC.delegate = self
+        let navCon = UINavigationController(rootViewController: addNewTimerVC)
+        navCon.modalPresentationStyle = .popover
+        let popOver = navCon.popoverPresentationController!
+        popOver.barButtonItem = sender
+        popOver.sourceView = self.view
+        present(navCon, animated: true)
     }
     
     @objc private func settingsButtonTapped() {
@@ -170,9 +178,13 @@ extension TimersListVC {
     }
 }
 
-extension TimersListVC: TimerCellButtonActionDelegate {
+
+
+// MARK: - TimerCellDelegate
+
+extension TimersListVC: TimerCellDelegate {
     
-    func performDelegatedAction(identifier: Any) {
+    func didTapDeleteButton(identifier: Any) {
         guard let identifier = identifier as? TimeInterval else { return }
         deleteButtonTapped(identifier: identifier)
     }
@@ -185,9 +197,19 @@ extension TimersListVC: TimerCellButtonActionDelegate {
             guard let self = self else { return }
             let index = self.timersList.timers.firstIndex(of: identifier)!
             self.timersList.timers.remove(at: index)
-            self.updateUI()
+            self.didDismissAddNewTimerVC()
         }
         UIHelpers.displayDefaultAlert(title: title, message: message, actions: [deleteAction, cancelAction])
+    }
+}
+
+
+
+// MARK: - AddNewTimerViewControllerDelegate
+
+extension TimersListVC: AddNewTimerViewControllerDelegate {
+    func didDismissAddNewTimerVC() {
+        updateUI()
     }
 }
 
