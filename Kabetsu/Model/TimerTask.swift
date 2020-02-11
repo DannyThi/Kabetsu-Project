@@ -16,12 +16,14 @@ enum TimerState {
     case running, paused, ended
 }
 
+
 extension Notification.Name {
     static let TimerDidEnd = Notification.Name("timerDidEnd")
     static let TimerDidUpdate = Notification.Name("timerDidUpdate")
     static let TimerStateDidChange = Notification.Name("timerStateDidChange")
     //static let LabelsDidChangeNotification = Notification.Name("LabelsDidChangeNotification")
 }
+
 
 class TimerTask {
     
@@ -102,25 +104,27 @@ class TimerTask {
 
 
 extension TimerTask {
-    static func getUnixTimeFromTimeComponents(hours: Int, minutes: Int, seconds: Int) -> TimeInterval {
+    static func getTimeIntervalFromTimeComponents(hours: Int, minutes: Int, seconds: Int) -> TimeInterval {
         let h = hours * 60 * 60
         let m = minutes * 60
         let s = seconds
         return Double(h + m + s)
     }
     
-    static func getFormattedTimeFromUnixTime(time: TimeInterval, usingMilliseconds milliseconds: Bool = true) -> String {
-        let timeAsInt = Int(time)
-        let seconds = timeAsInt % 60
-        let minutes = (timeAsInt / 60) % 60
-        let hours = timeAsInt / 3600
-
-        var formattedString = String(format: "%02i:%02i:%02i", hours, minutes, seconds)
-        if milliseconds {
+    static func getFormattedTimeFromTimeInterval(time: TimeInterval,
+                                                 style: DateComponentsFormatter.UnitsStyle,
+                                                 usingMilliseconds milliseconds: Bool = true) -> String
+    {
+        let formatter = DateComponentsFormatter()
+        formatter.unitsStyle = style
+        formatter.zeroFormattingBehavior = formatter.unitsStyle == .positional ? .pad : .default
+        formatter.allowedUnits = [.hour, .minute, .second]
+        var formattedTime = formatter.string(from: time)!
+        if style == .positional && milliseconds {
             let milliseconds = Int(time.truncatingRemainder(dividingBy: 1) * 100)
-            formattedString += String(format: ":%02i", milliseconds)
+            formattedTime += String(format: ":%02i", milliseconds)
         }
-        return formattedString
+        return formattedTime
     }
 }
 

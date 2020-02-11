@@ -11,12 +11,11 @@ import UIKit
 class KBTDigitalDisplayLabel: UILabel {
         
     func setTime(usingRawTime time: TimeInterval, usingMilliseconds milliseconds: Bool = false) {
-        let timeAsInt = Int(time)
-        let seconds = timeAsInt % 60
-        let minutes = (timeAsInt / 60) % 60
-        let hours = timeAsInt / 3600
-        
-        var formattedTime = String(format: "%02i:%02i:%02i", hours, minutes, seconds)
+        let formatter = DateComponentsFormatter()
+        formatter.unitsStyle = .positional
+        formatter.zeroFormattingBehavior = .pad
+        formatter.allowedUnits = [.hour, .minute, .second]
+        var formattedTime = formatter.string(from: time)!
         if milliseconds {
             let milliseconds = Int(time.truncatingRemainder(dividingBy: 1) * 100)
             formattedTime += String(format: ":%02i", milliseconds)

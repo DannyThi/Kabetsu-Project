@@ -8,11 +8,9 @@
 
 import UIKit
 
-
-
 class KBTButton: UIButton {
     
-    public init(withSFSymbolName symbolName: String, pointSize: CGFloat, weight: UIImage.SymbolWeight? = nil) {
+    init(withSFSymbolName symbolName: String, pointSize: CGFloat, weight: UIImage.SymbolWeight? = nil) {
         super.init(frame: .zero)
         
         let config = UIImage.SymbolConfiguration(pointSize: pointSize, weight: weight ?? .regular)
@@ -23,7 +21,7 @@ class KBTButton: UIButton {
         configure()
     }
     
-    public init(withTitle title: String) {
+    init(withTitle title: String) {
         super.init(frame: .zero)
         backgroundColor = .systemGreen
         setTitle(title, for: .normal)
@@ -47,7 +45,7 @@ class KBTButton: UIButton {
     }
     
     public func configure() {
-        layer.cornerRadius = 10
+        layer.cornerRadius = 20
         layer.borderColor = UIColor.secondarySystemGroupedBackground.cgColor
         layer.borderWidth = 2
         clipsToBounds = true

@@ -43,7 +43,7 @@ class TimerCell: UICollectionViewCell {
 }
 
 
-// MARK: - Configuration & Setup
+// MARK: - Configuration
 
 extension TimerCell {
     

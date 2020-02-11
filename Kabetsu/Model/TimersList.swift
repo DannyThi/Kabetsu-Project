@@ -8,10 +8,6 @@
 
 import Foundation
 
-extension Notification.Name {
-    static let TimersListDidUpdate = Notification.Name("TimersListDidUpdate")
-}
-
 final class TimersList {
     
     static let shared = TimersList()

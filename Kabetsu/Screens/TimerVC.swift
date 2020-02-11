@@ -8,6 +8,10 @@
 
 import UIKit
 
+extension Notification.Name {
+    static let TimersListDidUpdate = Notification.Name("TimersListDidUpdate")
+}
+
 class TimerVC: UIViewController {
     
     private(set) var task: TimerTask!

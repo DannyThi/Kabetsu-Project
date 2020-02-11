@@ -8,16 +8,12 @@
 
 import UIKit
 
-extension DateInterval {
-    static var timeInSecondsFor24hours: TimeInterval = 86400
-}
-
 protocol AddNewTimerViewControllerDelegate: class {
     func didDismissAddNewTimerVC()
 }
 
 class AddNewTimerVC: UIViewController {
-    
+        
     private var hours = 0
     private var minutes = 0
     private var seconds = 0
@@ -79,6 +75,11 @@ class AddNewTimerVC: UIViewController {
         configureConfirmButtons()
         configureDismissButton()
         selectPickerRows()
+        
+        // Constraints
+        configureConstraintsForRegular()
+        configureConstraintsForVerticallyCompact()
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -92,7 +93,7 @@ class AddNewTimerVC: UIViewController {
         minutes = timePicker.selectedRow(inComponent: PickerComponents.minutes.rawValue)
         seconds = timePicker.selectedRow(inComponent: PickerComponents.seconds.rawValue) * 5
         
-        let rawTime = TimerTask.getUnixTimeFromTimeComponents(hours: hours, minutes: minutes, seconds: seconds)
+        let rawTime = TimerTask.getTimeIntervalFromTimeComponents(hours: hours, minutes: minutes, seconds: seconds)
         var formattedTextForDisplay = ""
         
         if timersList.timers.firstIndex(of: rawTime) == nil, rawTime != 0.0 {
@@ -145,7 +146,7 @@ class AddNewTimerVC: UIViewController {
 
 
 
-// MARK: - Find a unique time in timersList
+// MARK: - Get unique time
 
 extension AddNewTimerVC {
     private func getUniqueTimeForPicker(time: TimeInterval) -> TimeInterval {
@@ -219,9 +220,6 @@ extension AddNewTimerVC: UIPickerViewDataSource {
 }
 
 
-#warning("Landscape and ipad mode has UI issues that need to be addressed.")
-#warning("we need to set the configue functions to return an array what will be appended to the struct.")
-
 
 // MARK: - Configuration
 
@@ -247,22 +245,6 @@ extension AddNewTimerVC {
         textLabel.layer.borderWidth = 2
         textLabel.layer.borderColor = UIColor.white.cgColor
         textLabel.clipsToBounds = true
-        
-        configureTextLabelConstraints()
-    }
-    
-    private func configureTextLabelConstraints() {
-        let padding: CGFloat = 20
-        let iPhonePortraitConstraints = [
-            textLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            textLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-            textLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            textLabel.heightAnchor.constraint(equalToConstant: 100)
-        ]
-        #warning("FIX HERE")
-        constraints.iPhonePortrait.append(contentsOf: iPhonePortraitConstraints)
-        //NSLayoutConstraint.activate(iPhonePortraitConstraints)
-        constraints.activate(.iPhonePortrait)
     }
     
     private func configureTimePicker() {
@@ -275,22 +257,8 @@ extension AddNewTimerVC {
         timePicker.clipsToBounds = true
         timePicker.delegate = self
         timePicker.dataSource = self
-        
-        let padding: CGFloat = 20
-        NSLayoutConstraint.activate([
-            timePicker.topAnchor.constraint(equalTo: textLabel.bottomAnchor, constant: 10),
-            timePicker.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant:  padding),
-            timePicker.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            timePicker.heightAnchor.constraint(equalToConstant: 200)
-        ])
     }
-}
-
-
-
-// MARK: - Configuration: Action Buttons
-
-extension AddNewTimerVC {
+    
     private func configureConfirmButtons() {
         confirmBarButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(confirmButtonTapped))
         navigationItem.rightBarButtonItem = confirmBarButton
@@ -298,27 +266,26 @@ extension AddNewTimerVC {
         confirmButton = KBTButton(withTitle: "Add Timer")
         confirmButton.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
         view.addSubview(confirmButton)
-        
-        let padding: CGFloat = 20
-        NSLayoutConstraint.activate([
-            confirmButton.topAnchor.constraint(equalTo: timePicker.bottomAnchor, constant: padding),
-            confirmButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-            confirmButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            confirmButton.heightAnchor.constraint(equalToConstant: 50)
-        ])
     }
     
     private func configureDismissButton() {
         let dismissButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissButtonTapped))
         navigationItem.leftBarButtonItem = dismissButton
     }
+}
+
+
+
+// MARK: - Button Actions
+
+extension AddNewTimerVC {
     
     @objc private func dismissButtonTapped() {
         dismiss(animated: true)
     }
     
     @objc private func confirmButtonTapped() {
-        let time = TimerTask.getUnixTimeFromTimeComponents(hours: hours, minutes: minutes, seconds: seconds)
+        let time = TimerTask.getTimeIntervalFromTimeComponents(hours: hours, minutes: minutes, seconds: seconds)
         if let delegate = delegate {
             timersList.timers.append(time)
             delegate.didDismissAddNewTimerVC()
@@ -329,23 +296,76 @@ extension AddNewTimerVC {
     }
 }
 
-#warning("Some notes for autolayout")
 
-// NOTES
-// adaptive layouts
-//    override var shouldAutorotate: Bool {
-//        return false
-//    }
-//
-//    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-//        return .portrait
-//    }
-//
-//    override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation {
-//        return .portrait
-//    }
-//}
+/*
+ We need to think about how to properly do this. We can use UITraitCollection.device, however this can cause
+ issues when a view is present that does not span the full width on the screen (e.g. ipads using popover controller
+ or split view controller.
+ 
+ A better way to do this is to use size classes. The documentation for UITraitCollection states various size classes what can
+ be used to determine the width/height of the window/view.
+ https://developer.apple.com/documentation/uikit/uitraitcollection
+ 
+ We can access specific trait values using the horizontalSizeClass, verticalSizeClass, displayScale,
+ and userInterfaceIdiom properties.
+ */
 
-// trailtcollection
-//https://theswiftdev.com/2018/06/14/mastering-ios-auto-layout-anchors-programmatically-from-swift/
-//https://stackoverflow.com/questions/48207621/adaptive-layout-with-trait-collection-in-swift-ios
+
+// MARK: - Constraints
+
+extension AddNewTimerVC {
+    
+    private var padding: CGFloat { return 20 }
+    private var thickerPadding: CGFloat { return 40 }
+    private var buttonHeight: CGFloat { return 70 }
+    
+    private func configureConstraintsForRegular() {
+        let regularConstraints: [NSLayoutConstraint] = [
+            textLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            textLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+            textLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+            textLabel.heightAnchor.constraint(equalToConstant: 100),
+            
+            timePicker.topAnchor.constraint(equalTo: textLabel.bottomAnchor, constant: 10),
+            timePicker.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant:  padding),
+            timePicker.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+            timePicker.heightAnchor.constraint(equalToConstant: 200),
+            
+            confirmButton.topAnchor.constraint(equalTo: timePicker.bottomAnchor, constant: padding),
+            confirmButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+            confirmButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+            confirmButton.heightAnchor.constraint(equalToConstant: buttonHeight),
+        ]
+        //constraints.regular = regularConstraints
+    }
+    
+    private func configureConstraintsForVerticallyCompact() {
+        let verticallyCompactConstraints: [NSLayoutConstraint] = [
+            timePicker.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: padding),
+            timePicker.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: padding),
+            timePicker.trailingAnchor.constraint(equalTo: view.centerXAnchor, constant: -padding),
+            timePicker.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -padding),
+        
+            textLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: thickerPadding),
+            textLabel.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: padding),
+            textLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -padding),
+            textLabel.bottomAnchor.constraint(equalTo: confirmButton.topAnchor, constant: -padding),
+            
+            confirmButton.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: padding),
+            confirmButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -padding),
+            confirmButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -thickerPadding),
+            confirmButton.heightAnchor.constraint(equalToConstant: buttonHeight)
+        ]
+        constraints.verticallyCompact = verticallyCompactConstraints
+    }
+    
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if traitCollection.verticalSizeClass == .compact {
+            constraints.activate(.verticallyCompact)
+            return
+        }
+        constraints.activate(.regular)
+    }
+}
