@@ -103,6 +103,8 @@ class TimerTask {
 }
 
 
+// MARK: - Time Conversion
+
 extension TimerTask {
     static func getTimeIntervalFromTimeComponents(hours: Int, minutes: Int, seconds: Int) -> TimeInterval {
         let h = hours * 60 * 60

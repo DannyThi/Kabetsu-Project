@@ -336,7 +336,7 @@ extension AddNewTimerVC {
             confirmButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
             confirmButton.heightAnchor.constraint(equalToConstant: buttonHeight),
         ]
-        //constraints.regular = regularConstraints
+        constraints.regular = regularConstraints
     }
     
     private func configureConstraintsForVerticallyCompact() {
