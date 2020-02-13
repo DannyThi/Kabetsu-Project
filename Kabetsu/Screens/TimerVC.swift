@@ -29,7 +29,7 @@ class TimerVC: UIViewController {
     
     private let buttonImagePointSize: CGFloat = 100
 
-
+    
     private struct ImageKeys {
         static let play = "play.circle"
         static let pause = "pause.circle"
@@ -160,6 +160,7 @@ extension TimerVC {
         configureProjectButton()
         
         configureConstraintsForRegular()
+        configureConstraintsForVerticallyCompact()
         updateConstraints()
         
         updateUI()
@@ -189,11 +190,12 @@ extension TimerVC {
         center.addObserver(forName: .timerDidEnd, object: nil, queue: nil) { _ in self.handleTimerDidEnd() }
     }
     private func configureDigitalDisplayLabel() {
-        digitalDisplayLabel = KBTDigitalDisplayLabel(withFontSize: 50, fontWeight: .bold, textAlignment: .center)
+        #warning("TODO: - Scalable Font depending on screen size.")
+        digitalDisplayLabel = KBTDigitalDisplayLabel(withFontSize: 100, fontWeight: .bold, textAlignment: .center)
         view.addSubview(digitalDisplayLabel)
     }
     private func configureSecondaryDigitalDisplayLabel() {
-        secondaryDigitalDisplaylabel = KBTDigitalDisplayLabel(withFontSize: 30, fontWeight: .bold, textAlignment: .center)
+        secondaryDigitalDisplaylabel = KBTDigitalDisplayLabel(withFontSize: 80, fontWeight: .bold, textAlignment: .center)
         secondaryDigitalDisplaylabel.textColor = .tertiaryLabel
         view.addSubview(secondaryDigitalDisplaylabel)
     }
@@ -227,9 +229,6 @@ extension TimerVC {
         adjustIntervalControl.addTarget(self, action: #selector(adjustIntervalControlTapped(_:)), for: .valueChanged)
         toolBar.addSubview(adjustIntervalControl)
     }
-    
-    
-    
     private func configureDismissButton() {
         let config = UIHelpers.symbolConfig
         let dismissImage = UIImage(systemName: ImageKeys.dismiss, withConfiguration: config)
@@ -245,25 +244,27 @@ extension TimerVC {
 }
 
 
+
 // MARK: - Constraints
 
 extension TimerVC {
-    
-    private var padding: CGFloat { return 20 }
-    private var paddingThin: CGFloat { return 8 }
-    private var paddingThick: CGFloat { return 50 }
-    
+
     private func configureConstraintsForRegular() {
+        
+        var padding: CGFloat { return 20 }
+        var paddingThin: CGFloat { return 8 }
+        var paddingThick: CGFloat { return 50 }
+        
         var regularConstraints: [NSLayoutConstraint] = [
-            digitalDisplayLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
-            digitalDisplayLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-            digitalDisplayLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            digitalDisplayLabel.heightAnchor.constraint(equalToConstant: 50),
+            digitalDisplayLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40),
+            digitalDisplayLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: paddingThick),
+            digitalDisplayLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -paddingThick),
+            digitalDisplayLabel.heightAnchor.constraint(equalToConstant: 60),
             
             secondaryDigitalDisplaylabel.topAnchor.constraint(equalTo: digitalDisplayLabel.bottomAnchor, constant: 10),
-            secondaryDigitalDisplaylabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-            secondaryDigitalDisplaylabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            secondaryDigitalDisplaylabel.heightAnchor.constraint(equalToConstant: 30),
+            secondaryDigitalDisplaylabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: paddingThick * 2),
+            secondaryDigitalDisplaylabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -paddingThick * 2),
+            secondaryDigitalDisplaylabel.heightAnchor.constraint(equalToConstant: 40),
             
             primaryActionButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             primaryActionButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
@@ -275,7 +276,7 @@ extension TimerVC {
             resetButton.heightAnchor.constraint(equalTo: resetButton.widthAnchor),
             resetButton.heightAnchor.constraint(equalToConstant: 75),
 
-            buttonContainer.bottomAnchor.constraint(equalTo: toolBar.topAnchor),
+            buttonContainer.bottomAnchor.constraint(equalTo: toolBar.topAnchor, constant: -paddingThick),
             buttonContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             toolBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
@@ -295,16 +296,51 @@ extension TimerVC {
         constraints.regular = regularConstraints
     }
 
+    private func configureConstraintsForVerticallyCompact() {
+        struct ConstraintConstants {
+            let padding20: CGFloat = 20
+        }
+        var padding: CGFloat { return 20 }
+        var paddingThin: CGFloat { return 8 }
+        var paddingThick: CGFloat { return 75 }
+        
+        let verticallyCompactConstraints: [NSLayoutConstraint] = [
+            digitalDisplayLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            digitalDisplayLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: paddingThick),
+            digitalDisplayLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -paddingThick),
+            digitalDisplayLabel.heightAnchor.constraint(equalToConstant: 100),
+            
+            secondaryDigitalDisplaylabel.topAnchor.constraint(equalTo: digitalDisplayLabel.bottomAnchor, constant: 0),
+            secondaryDigitalDisplaylabel.centerXAnchor.constraint(equalTo: digitalDisplayLabel.centerXAnchor),
+            secondaryDigitalDisplaylabel.widthAnchor.constraint(equalTo: digitalDisplayLabel.widthAnchor, multiplier: 0.4),
+            secondaryDigitalDisplaylabel.heightAnchor.constraint(equalToConstant: 70),
+            
+            primaryActionButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -padding),
+            primaryActionButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -padding),
+            primaryActionButton.heightAnchor.constraint(equalTo: primaryActionButton.widthAnchor),
+            primaryActionButton.widthAnchor.constraint(equalToConstant: 100),
+            
+            decrementButton.heightAnchor.constraint(equalTo: decrementButton.widthAnchor),
+            incrementButton.heightAnchor.constraint(equalTo: incrementButton.widthAnchor),
+            resetButton.heightAnchor.constraint(equalTo: resetButton.widthAnchor),
+            resetButton.heightAnchor.constraint(equalToConstant: 75),
+
+            buttonContainer.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: padding),
+            buttonContainer.centerYAnchor.constraint(equalTo: primaryActionButton.centerYAnchor),
+        ]
+        constraints.verticallyCompact = verticallyCompactConstraints
+    }
+
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         updateConstraints()
     }
     private func updateConstraints() {
-//        if traitCollection.verticalSizeClass == .compact {
-//            constraints.activate(.verticallyCompact)
-//            return
-//        }
+        if traitCollection.verticalSizeClass == .compact {
+            constraints.activate(.verticallyCompact)
+            return
+        }
         constraints.activate(.regular)
     }
 }

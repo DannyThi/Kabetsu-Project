@@ -60,6 +60,7 @@ class TimersListVC: UIViewController {
         configureBarButtonItems()
         configureCollectionView()
         configureDataSource()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {

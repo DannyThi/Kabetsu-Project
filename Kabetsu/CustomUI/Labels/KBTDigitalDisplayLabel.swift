@@ -44,9 +44,16 @@ class KBTDigitalDisplayLabel: UILabel {
     
     private func configureLabel() {
         textColor = .label
+        baselineAdjustment = .alignCenters
         adjustsFontSizeToFitWidth = true
-        minimumScaleFactor = 0.7
+        minimumScaleFactor = 0.001
         lineBreakMode = .byTruncatingTail
         translatesAutoresizingMaskIntoConstraints = false
+        //debugMode()
+    }
+    
+    private func debugMode() {
+        layer.borderColor = UIColor.black.cgColor
+        layer.borderWidth = 1
     }
 }
