@@ -11,28 +11,25 @@ import Foundation
 class Settings: Codable {
     
     static let shared = Settings()
-
     private enum Keys {
-        static let selectedSegment = "selectedSegment"
+        static let adjustIntervalSegConSelectedIndex = "adjustIntervalSegConSelectedIndex"
     }
     
-    private var timeIncrementsForTimer: [Double] = [10, 15, 30, 60]
-    
-    var timeIncrement: Double {
-        return timeIncrementsForTimer[selectedSegmentIndexForTimer]
+    var adjustIntervalSegConIncrements: [TimeInterval] = [10, 15, 30, 60]
+    var adjustIntervalSegConCurrentIncrementValue: Double {
+        return adjustIntervalSegConIncrements[adjustIntervalSegConSelectedIndex]
     }
     
-    var selectedSegmentIndexForTimer: Int {
+    var adjustIntervalSegConSelectedIndex: Int {
         get {
-            if let index = UserDefaults.standard.object(forKey: Keys.selectedSegment) as? Int {
-                return index
-            } else {
-                UserDefaults.standard.set(2, forKey: Keys.selectedSegment)
+            guard let index = UserDefaults.standard.object(forKey: Keys.adjustIntervalSegConSelectedIndex) as? Int else {
+                UserDefaults.standard.set(2, forKey: Keys.adjustIntervalSegConSelectedIndex)
                 return 2
             }
+            return index
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: Keys.selectedSegment)
+            UserDefaults.standard.set(newValue, forKey: Keys.adjustIntervalSegConSelectedIndex)
         }
     }
     

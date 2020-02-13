@@ -8,12 +8,11 @@
 
 import UIKit
 
-
-
 class TimerVC: UIViewController {
     
     private var task: TimerTask!
     private var constraints: Constraints!
+    private let settings = Settings.shared
     
     private var digitalDisplayLabel: KBTDigitalDisplayLabel!
     private var secondaryDigitalDisplaylabel: KBTDigitalDisplayLabel!
@@ -24,7 +23,12 @@ class TimerVC: UIViewController {
     private var resetButton: KBTButton!
     
     private var buttonContainer: UIStackView!
+    
+    private var toolBar: UIToolbar!
+    private var adjustIntervalControl: UISegmentedControl!
+    
     private let buttonImagePointSize: CGFloat = 100
+
 
     private struct ImageKeys {
         static let play = "play.circle"
@@ -50,6 +54,11 @@ class TimerVC: UIViewController {
         secondaryDigitalDisplaylabel.setTime(usingRawTime: task.adjustedCountdownTime, usingMilliseconds: true)
     }
     
+    private func updateButtonLabels(timeInterval: Double) {
+        decrementButton.setTitle("-\(Int(timeInterval))s", for: .normal)
+        incrementButton.setTitle("+\(Int(timeInterval))s", for: .normal)
+    }
+    
     private func reset() {
         task = TimerTask(withTotalTime: task.originalCountdownTime)
         updateUI()
@@ -71,6 +80,67 @@ class TimerVC: UIViewController {
         primaryActionButton.setImage(image, for: .normal)
     }
     
+    private func handleTimerDidEnd() {
+        print("Handle TimerDidEnd")
+        #warning("FIX ME - Handle Timer did End")
+    }
+    
+}
+
+
+
+// MARK: - Button Actions
+
+extension TimerVC {
+    @objc private func dismissController() {
+        dismiss(animated: true)
+    }
+    @objc private func projectScreen() {
+        print("ProjectScreen button tapped")
+        #warning("TODO - Project Screen Button")
+        
+        /*  We want to do two things when we project.
+            we need to present a controller VC onto the device and a seperate projectorVC for the external screen
+            we can present modally over another modal provided by setting the modalstyle to overfullscreen.
+            
+         */
+    }
+    
+    @objc func actionButtonTapped() {
+        switch task.timerState {
+        case .running:
+            task.timerState = .paused
+        case .paused:
+            task.timerState = .running
+        case .ended:
+            reset()
+        }
+    }
+    
+    @objc private func incrementButtonTapped() {
+        let timeInterval = Settings.shared.adjustIntervalSegConCurrentIncrementValue
+        task.adjustCountdownTime(modifier: .increment, value: timeInterval) { [weak self] in
+            guard let self = self else { return }
+            self.updateButtonLabels(timeInterval: timeInterval)
+            self.updateUI()
+        }
+    }
+    @objc private func decrementButtonTapped() {
+        let timeInterval = Settings.shared.adjustIntervalSegConCurrentIncrementValue
+        task.adjustCountdownTime(modifier: .decrement, value: timeInterval) { [weak self] in
+            guard let self = self else { return }
+            self.updateButtonLabels(timeInterval: timeInterval)
+            self.updateUI()
+        }
+    }
+    @objc private func resetButtonTapped() {
+        reset()
+    }
+    @objc private func adjustIntervalControlTapped(_ segmentedControl: UISegmentedControl) {
+        let index = segmentedControl.selectedSegmentIndex
+        settings.adjustIntervalSegConSelectedIndex = index
+        updateButtonLabels(timeInterval: settings.adjustIntervalSegConCurrentIncrementValue)
+    }
 }
 
 
@@ -79,25 +149,25 @@ class TimerVC: UIViewController {
 extension TimerVC {
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Configuration
         configureViewController()
         configureNotificationListeners()
         configureDigitalDisplayLabel()
         configureSecondaryDigitalDisplayLabel()
         configurePrimaryActionButton()
         configureStackViewButtons()
+        configureAdjustIntervalControl()
         configureDismissButton()
         configureProjectButton()
-
-        // Constraints
+        
         configureConstraintsForRegular()
+        updateConstraints()
         
         updateUI()
+        
     }
-    
-    
 }
+
+
 
 //MARK: - Configuration
 
@@ -105,12 +175,18 @@ extension TimerVC {
     private func configureViewController() {
         view.backgroundColor = .systemBackground
         isModalInPresentation = true
+        
+        toolBar = UIToolbar()
+        toolBar.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(toolBar)
+        
         constraints = Constraints()
     }
     private func configureNotificationListeners() {
         let center = NotificationCenter.default
-        center.addObserver(forName: .TimerDidUpdate, object: nil, queue: .main) { _ in self.updateUI() }
-        center.addObserver(forName: .TimerStateDidChange, object: nil, queue: .main) { _ in self.timerStateDidChange() }
+        center.addObserver(forName: .timerDidUpdate, object: nil, queue: .main) { _ in self.updateUI() }
+        center.addObserver(forName: .timerStateDidChange, object: nil, queue: .main) { _ in self.timerStateDidChange() }
+        center.addObserver(forName: .timerDidEnd, object: nil, queue: nil) { _ in self.handleTimerDidEnd() }
     }
     private func configureDigitalDisplayLabel() {
         digitalDisplayLabel = KBTDigitalDisplayLabel(withFontSize: 50, fontWeight: .bold, textAlignment: .center)
@@ -128,10 +204,10 @@ extension TimerVC {
         view.addSubview(primaryActionButton)
     }
     private func configureStackViewButtons() {
-        decrementButton = KBTButton(withTitle: "-\(Int(Settings.shared.timeIncrement))s")
+        decrementButton = KBTButton(withTitle: "-\(Int(Settings.shared.adjustIntervalSegConCurrentIncrementValue))s")
         decrementButton.addTarget(self, action: #selector(decrementButtonTapped), for: .touchUpInside)
 
-        incrementButton = KBTButton(withTitle: "+\(Int(Settings.shared.timeIncrement))s")
+        incrementButton = KBTButton(withTitle: "+\(Int(Settings.shared.adjustIntervalSegConCurrentIncrementValue))s")
         incrementButton.addTarget(self, action: #selector(incrementButtonTapped), for: .touchUpInside)
 
         resetButton = KBTButton(withSFSymbolName: ImageKeys.reset, pointSize: 40)
@@ -144,6 +220,16 @@ extension TimerVC {
         buttonContainer.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(buttonContainer)
     }
+    private func configureAdjustIntervalControl() {
+        adjustIntervalControl = UISegmentedControl(items: settings.adjustIntervalSegConIncrements.map { "\($0)" })
+        adjustIntervalControl.selectedSegmentIndex = settings.adjustIntervalSegConSelectedIndex
+        adjustIntervalControl.translatesAutoresizingMaskIntoConstraints = false
+        adjustIntervalControl.addTarget(self, action: #selector(adjustIntervalControlTapped(_:)), for: .valueChanged)
+        toolBar.addSubview(adjustIntervalControl)
+    }
+    
+    
+    
     private func configureDismissButton() {
         let config = UIHelpers.symbolConfig
         let dismissImage = UIImage(systemName: ImageKeys.dismiss, withConfiguration: config)
@@ -159,66 +245,16 @@ extension TimerVC {
 }
 
 
-
-// MARK: - Button Actions
-
-extension TimerVC {
-    @objc private func dismissController() {
-        dismiss(animated: true)
-    }
-    @objc private func projectScreen() {
-        print("ProjectScreen button tapped")
-        #warning("TODO - Project Screen Button")
-    }
-    
-    @objc func actionButtonTapped() {
-        switch task.timerState {
-        case .running:
-            task.timerState = .paused
-        case .paused:
-            task.timerState = .running
-        case .ended:
-            reset()
-        }
-    }
-    
-    @objc private func incrementButtonTapped() {
-        let timeInterval = Settings.shared.timeIncrement
-        task.adjustCountdownTime(modifier: .increment, value: timeInterval) { [weak self] in
-            guard let self = self else { return }
-            self.updateButtonLabels(timeInterval: timeInterval)
-            self.updateUI()
-        }
-    }
-    @objc private func decrementButtonTapped() {
-        let timeInterval = Settings.shared.timeIncrement
-        task.adjustCountdownTime(modifier: .decrement, value: timeInterval) { [weak self] in
-            guard let self = self else { return }
-            self.updateButtonLabels(timeInterval: timeInterval)
-            self.updateUI()
-        }
-    }
-    private func updateButtonLabels(timeInterval: Double) {
-        decrementButton.setTitle("-\(Int(timeInterval))s", for: .normal)
-        incrementButton.setTitle("+\(Int(timeInterval))s", for: .normal)
-    }
-    
-    @objc private func resetButtonTapped() {
-        reset()
-    }
-}
-
-
-
 // MARK: - Constraints
 
 extension TimerVC {
     
     private var padding: CGFloat { return 20 }
+    private var paddingThin: CGFloat { return 8 }
+    private var paddingThick: CGFloat { return 50 }
     
     private func configureConstraintsForRegular() {
-        
-        let regularConstraints: [NSLayoutConstraint] = [
+        var regularConstraints: [NSLayoutConstraint] = [
             digitalDisplayLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
             digitalDisplayLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             digitalDisplayLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
@@ -237,20 +273,34 @@ extension TimerVC {
             decrementButton.heightAnchor.constraint(equalTo: decrementButton.widthAnchor),
             incrementButton.heightAnchor.constraint(equalTo: incrementButton.widthAnchor),
             resetButton.heightAnchor.constraint(equalTo: resetButton.widthAnchor),
-            
-            buttonContainer.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            resetButton.heightAnchor.constraint(equalToConstant: 75),
+
+            buttonContainer.bottomAnchor.constraint(equalTo: toolBar.topAnchor),
             buttonContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            decrementButton.heightAnchor.constraint(equalToConstant: 75),
             
+            toolBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            toolBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            toolBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
-            
+            adjustIntervalControl.topAnchor.constraint(equalTo: toolBar.topAnchor, constant: paddingThin),
+            adjustIntervalControl.bottomAnchor.constraint(equalTo: toolBar.bottomAnchor, constant: -paddingThin),
+            adjustIntervalControl.leadingAnchor.constraint(greaterThanOrEqualTo: toolBar.leadingAnchor, constant: padding),
+            adjustIntervalControl.trailingAnchor.constraint(lessThanOrEqualTo: toolBar.trailingAnchor, constant: -padding),
+            adjustIntervalControl.centerXAnchor.constraint(equalTo: toolBar.centerXAnchor),
         ]
-        
+        let adjustIntervalControlWidthConstraint = adjustIntervalControl.widthAnchor.constraint(equalToConstant: 800)
+        adjustIntervalControlWidthConstraint.priority = .defaultHigh
+        regularConstraints.append(adjustIntervalControlWidthConstraint)
+
         constraints.regular = regularConstraints
     }
+
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
+        updateConstraints()
+    }
+    private func updateConstraints() {
 //        if traitCollection.verticalSizeClass == .compact {
 //            constraints.activate(.verticallyCompact)
 //            return

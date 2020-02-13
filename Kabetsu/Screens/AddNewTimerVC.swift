@@ -337,6 +337,7 @@ extension AddNewTimerVC {
             confirmButton.heightAnchor.constraint(equalToConstant: buttonHeight),
         ]
         constraints.regular = regularConstraints
+        constraints.activate(.regular)
     }
     
     private func configureConstraintsForVerticallyCompact() {
@@ -358,7 +359,6 @@ extension AddNewTimerVC {
         ]
         constraints.verticallyCompact = verticallyCompactConstraints
     }
-    
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)

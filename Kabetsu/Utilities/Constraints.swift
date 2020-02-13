@@ -15,12 +15,12 @@ class Constraints {
     
     /** The constraints for sizeClass: Compact width and Regular height. For example: iPhones in portrait mode.*/
     var regular: [NSLayoutConstraint]
-    
     /** The constraints for sizeClass: Compact width and Compact height. For example: iPhones in landscape mode.*/
     var horizontallyCompact: [NSLayoutConstraint]
-    
     /** The constraints for sizeClass: Regular width and Regular height. For example: iPads in portrait or landscape  mode.*/
     var verticallyCompact: [NSLayoutConstraint]
+    
+    private var activeConstraints: [NSLayoutConstraint]?
     
     init(regular: [NSLayoutConstraint]? = nil, horizontallyCompact: [NSLayoutConstraint]? = nil,
          verticallyCompact: [NSLayoutConstraint]? = nil)
@@ -36,12 +36,24 @@ class Constraints {
         self.verticallyCompact = []
     }
     
+    func append(forSizeClass sizerClass: Constraints.Key, constraints: [NSLayoutConstraint]) {
+        switch sizerClass {
+        case .regular:
+            constraints.forEach { regular.append($0) }
+        case .horizontallyCompact:
+            constraints.forEach { horizontallyCompact.append($0) }
+        case .verticallyCompact:
+            constraints.forEach { verticallyCompact.append($0) }
+        }
+    }
+    func append(forSizeClass sizerClass: Constraints.Key, constraints: NSLayoutConstraint...) {
+        append(forSizeClass: sizerClass, constraints: constraints)
+    }
+    
     func activate(_ constraintsType: Key) {
-        NSLayoutConstraint.deactivate(regular)
-        NSLayoutConstraint.deactivate(horizontallyCompact)
-        NSLayoutConstraint.deactivate(verticallyCompact)
-        
-        var selectedConstraints: [NSLayoutConstraint] = []
+        if let activeConstraints = activeConstraints {
+            NSLayoutConstraint.deactivate(activeConstraints)
+        }
         
         switch constraintsType {
         case .regular:
@@ -49,24 +61,24 @@ class Constraints {
                 print(KBTError.constraintsNotSet(.regular).formatted)
                 return
             }
-            selectedConstraints = regular
+            activeConstraints = regular
             
         case .horizontallyCompact:
             guard !horizontallyCompact.isEmpty else {
                 print(KBTError.constraintsNotSet(.horizontallyCompact).formatted)
                 return
             }
-            selectedConstraints = horizontallyCompact
+            activeConstraints = horizontallyCompact
             
         case .verticallyCompact:
             guard !verticallyCompact.isEmpty else {
                 print(KBTError.constraintsNotSet(.verticallyCompact).formatted)
                 return
             }
-            selectedConstraints = verticallyCompact
+            activeConstraints = verticallyCompact
         }
         
-        NSLayoutConstraint.activate(selectedConstraints)
+        NSLayoutConstraint.activate(activeConstraints!)
     }
 }
 

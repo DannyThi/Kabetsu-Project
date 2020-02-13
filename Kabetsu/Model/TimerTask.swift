@@ -16,14 +16,11 @@ enum TimerState {
     case running, paused, ended
 }
 
-
 extension Notification.Name {
-    static let TimerDidEnd = Notification.Name("timerDidEnd")
-    static let TimerDidUpdate = Notification.Name("timerDidUpdate")
-    static let TimerStateDidChange = Notification.Name("timerStateDidChange")
-    //static let LabelsDidChangeNotification = Notification.Name("LabelsDidChangeNotification")
+    static let timerDidEnd = Notification.Name("timerDidEnd")
+    static let timerDidUpdate = Notification.Name("timerDidUpdate")
+    static let timerStateDidChange = Notification.Name("timerStateDidChange")
 }
-
 
 class TimerTask {
     
@@ -58,7 +55,7 @@ class TimerTask {
                 deltaTime = Date()
                 updateTimer = Timer.scheduledTimer(withTimeInterval: 0.04, repeats: true) { (timer) in
                     self.updateTime()
-                    NotificationCenter.default.post(Notification(name: .TimerDidUpdate))
+                    NotificationCenter.default.post(Notification(name: .timerDidUpdate))
                 }
                 updateTimer!.tolerance = 0.01
                 RunLoop.current.add(updateTimer!, forMode: .common)
@@ -71,10 +68,10 @@ class TimerTask {
             case .ended:
                 print("TimerState: Ended")
                 updateTimer?.invalidate()
-                NotificationCenter.default.post(Notification(name: .TimerDidEnd))
+                NotificationCenter.default.post(Notification(name: .timerDidEnd))
             }
             
-            NotificationCenter.default.post(Notification(name: .TimerStateDidChange))
+            NotificationCenter.default.post(Notification(name: .timerStateDidChange))
         }
     }
     

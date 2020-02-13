@@ -45,7 +45,7 @@ class KBTButton: UIButton {
     }
     
     public func configure() {
-        layer.cornerRadius = 20
+        layer.cornerRadius = 25
         layer.borderColor = UIColor.secondarySystemGroupedBackground.cgColor
         layer.borderWidth = 2
         clipsToBounds = true
