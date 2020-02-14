@@ -10,8 +10,10 @@ import UIKit
 
 class Constraints {
     enum Key: String {
-        case iPhonePortrait, iPhoneLandscapeRegular, iPhoneLandscapeCompact, iPadAndExternalDisplays
+        case universal, iPhonePortrait, iPhoneLandscapeRegular, iPhoneLandscapeCompact, iPadAndExternalDisplays
     }
+    /** Constraints that apply to all sizeClasses*/
+    var universal: [NSLayoutConstraint]
     /** The constraints for all iPhones in portrait mode (compact width, regular height).*/
     var iPhonePortrait: [NSLayoutConstraint]
     /** The constraints for larger iPhones in landscape mode (regular width and compact height). For example: iPhone Xs Max or iPhone 8+.*/
@@ -23,9 +25,10 @@ class Constraints {
     
     private var activeConstraints: [NSLayoutConstraint]?
     
-    init(iPhonePortrait: [NSLayoutConstraint]? = nil, iPhoneLandscapeRegular: [NSLayoutConstraint]? = nil,
+    init(universal: [NSLayoutConstraint]? = nil,  iPhonePortrait: [NSLayoutConstraint]? = nil, iPhoneLandscapeRegular: [NSLayoutConstraint]? = nil,
          iPhoneLandscapeCompact: [NSLayoutConstraint]? = nil, iPadAndExternalDisplays: [NSLayoutConstraint]? = nil)
     {
+        self.universal = universal ?? []
         self.iPhonePortrait = iPhonePortrait ?? []
         self.iPhoneLandscapeRegular = iPhoneLandscapeRegular ?? []
         self.iPhoneLandscapeCompact = iPhoneLandscapeCompact ?? []
@@ -33,6 +36,7 @@ class Constraints {
     }
     
     private init() {
+        self.universal = []
         self.iPhonePortrait = []
         self.iPhoneLandscapeRegular = []
         self.iPhoneLandscapeCompact = []
@@ -41,6 +45,8 @@ class Constraints {
     
     func append(forSizeClass sizerClass: Constraints.Key, constraints: [NSLayoutConstraint]) {
         switch sizerClass {
+        case .universal:
+            constraints.forEach { universal.append($0) }
         case .iPhonePortrait:
             constraints.forEach { iPhonePortrait.append($0) }
         case .iPhoneLandscapeRegular:
@@ -61,6 +67,13 @@ class Constraints {
         }
         
         switch constraintsType {
+        case .universal:
+            guard !universal.isEmpty else {
+                print(KBTError.constraintsNotSet(.universal).formatted)
+                return
+            }
+            activeConstraints = universal
+            
         case .iPhonePortrait:
             guard !iPhonePortrait.isEmpty else {
                 print(KBTError.constraintsNotSet(.iPhonePortrait).formatted)

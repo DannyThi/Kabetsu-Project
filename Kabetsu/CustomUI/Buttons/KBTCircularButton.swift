@@ -18,9 +18,8 @@ class KBTCircularButton: KBTButton {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func configure() {
-        super.configure()
+    override func layoutSubviews() {
+        super.layoutSubviews()
         layer.cornerRadius = bounds.width / 2
-        //layer.masksToBounds = true
     }
 }

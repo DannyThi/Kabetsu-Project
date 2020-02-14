@@ -15,6 +15,10 @@ protocol TimerCellDelegate: class {
 class TimerCell: UICollectionViewCell {
     
     static let reuseId = "CountdownTimerCell"
+    
+    private struct ImageKeys {
+        static let remove = "trash.circle.fill"
+    }
 
     private var countdownLabel: KBTDigitalDisplayLabel!
     private var removeButton = UIButton()
@@ -67,14 +71,14 @@ extension TimerCell {
             countdownLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             countdownLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
             countdownLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
-            countdownLabel.heightAnchor.constraint(equalToConstant: 35)
+            countdownLabel.heightAnchor.constraint(equalTo: countdownLabel.widthAnchor, multiplier: UIHelpers.textLabelHeightToWidthRatio)
         ])
     }
     
     private func configureRemoveButton() {
         let config = UIImage.SymbolConfiguration(pointSize: 30, weight: .medium)
         
-        let removeImage = UIImage(systemName: "trash.circle.fill", withConfiguration: config)!
+        let removeImage = UIImage(systemName: ImageKeys.remove, withConfiguration: config)!
         removeButton.setImage(removeImage, for: .normal)
         removeButton.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(removeButton)
