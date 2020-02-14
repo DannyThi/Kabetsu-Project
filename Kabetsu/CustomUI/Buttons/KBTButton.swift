@@ -12,7 +12,6 @@ class KBTButton: UIButton {
     
     init(withSFSymbolName symbolName: String, pointSize: CGFloat, weight: UIImage.SymbolWeight? = nil) {
         super.init(frame: .zero)
-        
         let config = UIImage.SymbolConfiguration(pointSize: pointSize, weight: weight ?? .regular)
         let image = UIImage(systemName: symbolName, withConfiguration: config)
         if image != nil {
@@ -27,10 +26,8 @@ class KBTButton: UIButton {
         setTitle(title, for: .normal)
         titleLabel?.font = UIFont.systemFont(ofSize: 25, weight: .bold)
         titleLabel?.textColor = .secondaryLabel
-        
         titleLabel?.adjustsFontSizeToFitWidth = true
         titleLabel?.minimumScaleFactor = 0.7
-
         translatesAutoresizingMaskIntoConstraints = false
         configure()
     }

@@ -17,7 +17,7 @@ class TimerVC: UIViewController {
     private var digitalDisplayLabel: KBTDigitalDisplayLabel!
     private var secondaryDigitalDisplaylabel: KBTDigitalDisplayLabel!
     
-    private var primaryActionButton: KBTCircularButton!
+    private var primaryActionButton: KBTButton!
     private var decrementButton: KBTButton!
     private var incrementButton: KBTButton!
     private var resetButton: KBTButton!
@@ -27,7 +27,7 @@ class TimerVC: UIViewController {
     private var toolBar: UIToolbar!
     private var adjustIntervalControl: UISegmentedControl!
     
-    private let buttonImagePointSize: CGFloat = 100
+    private let buttonImagePointSize: CGFloat = 80
 
     
     private struct ImageKeys {
@@ -161,6 +161,7 @@ extension TimerVC {
         
         configureConstraintsForRegular()
         configureConstraintsForVerticallyCompact()
+        //configureUniversalConstraints()
         updateConstraints()
         
         updateUI()
@@ -176,11 +177,9 @@ extension TimerVC {
     private func configureViewController() {
         view.backgroundColor = .systemBackground
         isModalInPresentation = true
-        
         toolBar = UIToolbar()
         toolBar.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(toolBar)
-        
         constraints = Constraints()
     }
     private func configureNotificationListeners() {
@@ -190,7 +189,6 @@ extension TimerVC {
         center.addObserver(forName: .timerDidEnd, object: nil, queue: nil) { _ in self.handleTimerDidEnd() }
     }
     private func configureDigitalDisplayLabel() {
-        #warning("TODO: - Scalable Font depending on screen size.")
         digitalDisplayLabel = KBTDigitalDisplayLabel(withFontSize: 100, fontWeight: .bold, textAlignment: .center)
         view.addSubview(digitalDisplayLabel)
     }
@@ -201,7 +199,10 @@ extension TimerVC {
     }
     
     private func configurePrimaryActionButton() {
-        primaryActionButton = KBTCircularButton(withSFSymbolName: ImageKeys.play, pointSize: buttonImagePointSize)
+        primaryActionButton = KBTButton(withSFSymbolName: ImageKeys.play, pointSize: buttonImagePointSize)
+        primaryActionButton.backgroundColor = .systemGreen
+        primaryActionButton.tintColor = .white
+        primaryActionButton.layer.cornerRadius = 50
         primaryActionButton.addTarget(self, action: #selector(actionButtonTapped), for: .touchUpInside)
         view.addSubview(primaryActionButton)
     }
@@ -223,7 +224,7 @@ extension TimerVC {
         view.addSubview(buttonContainer)
     }
     private func configureAdjustIntervalControl() {
-        adjustIntervalControl = UISegmentedControl(items: settings.adjustIntervalSegConIncrements.map { "\($0)" })
+        adjustIntervalControl = UISegmentedControl(items: settings.adjustIntervalSegConIncrements.map { "\(Int($0))s" })
         adjustIntervalControl.selectedSegmentIndex = settings.adjustIntervalSegConSelectedIndex
         adjustIntervalControl.translatesAutoresizingMaskIntoConstraints = false
         adjustIntervalControl.addTarget(self, action: #selector(adjustIntervalControlTapped(_:)), for: .valueChanged)
@@ -248,14 +249,14 @@ extension TimerVC {
 // MARK: - Constraints
 
 extension TimerVC {
-
+    
     private func configureConstraintsForRegular() {
         
         var padding: CGFloat { return 20 }
         var paddingThin: CGFloat { return 8 }
         var paddingThick: CGFloat { return 50 }
         
-        var regularConstraints: [NSLayoutConstraint] = [
+        let regularConstraints: [NSLayoutConstraint] = [
             digitalDisplayLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40),
             digitalDisplayLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: paddingThick),
             digitalDisplayLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -paddingThick),
@@ -288,18 +289,12 @@ extension TimerVC {
             adjustIntervalControl.leadingAnchor.constraint(greaterThanOrEqualTo: toolBar.leadingAnchor, constant: padding),
             adjustIntervalControl.trailingAnchor.constraint(lessThanOrEqualTo: toolBar.trailingAnchor, constant: -padding),
             adjustIntervalControl.centerXAnchor.constraint(equalTo: toolBar.centerXAnchor),
+            adjustIntervalControl.widthAnchor.constraint(equalToConstant: 800).withPriority(.defaultHigh)
         ]
-        let adjustIntervalControlWidthConstraint = adjustIntervalControl.widthAnchor.constraint(equalToConstant: 800)
-        adjustIntervalControlWidthConstraint.priority = .defaultHigh
-        regularConstraints.append(adjustIntervalControlWidthConstraint)
-
-        constraints.regular = regularConstraints
+        constraints.iPhonePortrait = regularConstraints
     }
 
     private func configureConstraintsForVerticallyCompact() {
-        struct ConstraintConstants {
-            let padding20: CGFloat = 20
-        }
         var padding: CGFloat { return 20 }
         var paddingThin: CGFloat { return 8 }
         var paddingThick: CGFloat { return 75 }
@@ -315,8 +310,8 @@ extension TimerVC {
             secondaryDigitalDisplaylabel.widthAnchor.constraint(equalTo: digitalDisplayLabel.widthAnchor, multiplier: 0.4),
             secondaryDigitalDisplaylabel.heightAnchor.constraint(equalToConstant: 70),
             
-            primaryActionButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -padding),
-            primaryActionButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -padding),
+            primaryActionButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -paddingThick),
+            primaryActionButton.bottomAnchor.constraint(equalTo: toolBar.topAnchor, constant: -padding),
             primaryActionButton.heightAnchor.constraint(equalTo: primaryActionButton.widthAnchor),
             primaryActionButton.widthAnchor.constraint(equalToConstant: 100),
             
@@ -327,8 +322,19 @@ extension TimerVC {
 
             buttonContainer.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: padding),
             buttonContainer.centerYAnchor.constraint(equalTo: primaryActionButton.centerYAnchor),
+            
+            toolBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            toolBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            toolBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            adjustIntervalControl.topAnchor.constraint(equalTo: toolBar.topAnchor, constant: paddingThin),
+            adjustIntervalControl.bottomAnchor.constraint(equalTo: toolBar.bottomAnchor, constant: -paddingThin),
+            adjustIntervalControl.leadingAnchor.constraint(greaterThanOrEqualTo: toolBar.leadingAnchor, constant: paddingThick),
+            adjustIntervalControl.trailingAnchor.constraint(lessThanOrEqualTo: toolBar.trailingAnchor, constant: -paddingThick),
+            adjustIntervalControl.centerXAnchor.constraint(equalTo: toolBar.centerXAnchor),
+            adjustIntervalControl.widthAnchor.constraint(equalToConstant: 800).withPriority(.defaultHigh)
         ]
-        constraints.verticallyCompact = verticallyCompactConstraints
+        constraints.iPhoneLandscapeRegular = verticallyCompactConstraints
     }
 
     
@@ -336,11 +342,12 @@ extension TimerVC {
         super.traitCollectionDidChange(previousTraitCollection)
         updateConstraints()
     }
+    
     private func updateConstraints() {
         if traitCollection.verticalSizeClass == .compact {
-            constraints.activate(.verticallyCompact)
+            constraints.activate(.iPhoneLandscapeRegular)
             return
         }
-        constraints.activate(.regular)
+        constraints.activate(.iPhonePortrait)
     }
 }

@@ -11,6 +11,8 @@ import UIKit
 class UIHelpers {
     
     static let symbolConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .medium)
+    static let cornerRadius: CGFloat = 25
+    static let borderWidth: CGFloat = 2
     
     static func displayDefaultAlert(title: String? = nil, message: String? = nil, actions: [UIAlertAction], completed: (() ->Void)? = nil) {
         let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)

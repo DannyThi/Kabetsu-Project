@@ -10,40 +10,45 @@ import UIKit
 
 class Constraints {
     enum Key: String {
-        case regular, horizontallyCompact, verticallyCompact
+        case iPhonePortrait, iPhoneLandscapeRegular, iPhoneLandscapeCompact, iPadAndExternalDisplays
     }
-    
-    /** The constraints for sizeClass: Compact width and Regular height. For example: iPhones in portrait mode.*/
-    var regular: [NSLayoutConstraint]
-    /** The constraints for sizeClass: Compact width and Compact height. For example: iPhones in landscape mode.*/
-    var horizontallyCompact: [NSLayoutConstraint]
-    /** The constraints for sizeClass: Regular width and Regular height. For example: iPads in portrait or landscape  mode.*/
-    var verticallyCompact: [NSLayoutConstraint]
+    /** The constraints for all iPhones in portrait mode (compact width, regular height).*/
+    var iPhonePortrait: [NSLayoutConstraint]
+    /** The constraints for larger iPhones in landscape mode (regular width and compact height). For example: iPhone Xs Max or iPhone 8+.*/
+    var iPhoneLandscapeRegular: [NSLayoutConstraint]
+    /** The constraints for smaller iPhones in landscape (compact width and compact height). For example: iPhone Xs or iPhone 8.*/
+    var iPhoneLandscapeCompact: [NSLayoutConstraint]
+    /** The constraints for iPad (regular width, regular height) and external displays.*/
+    var iPadAndExternalDisplays: [NSLayoutConstraint]
     
     private var activeConstraints: [NSLayoutConstraint]?
     
-    init(regular: [NSLayoutConstraint]? = nil, horizontallyCompact: [NSLayoutConstraint]? = nil,
-         verticallyCompact: [NSLayoutConstraint]? = nil)
+    init(iPhonePortrait: [NSLayoutConstraint]? = nil, iPhoneLandscapeRegular: [NSLayoutConstraint]? = nil,
+         iPhoneLandscapeCompact: [NSLayoutConstraint]? = nil, iPadAndExternalDisplays: [NSLayoutConstraint]? = nil)
     {
-        self.regular = regular ?? []
-        self.horizontallyCompact = horizontallyCompact ?? []
-        self.verticallyCompact = verticallyCompact ?? []
+        self.iPhonePortrait = iPhonePortrait ?? []
+        self.iPhoneLandscapeRegular = iPhoneLandscapeRegular ?? []
+        self.iPhoneLandscapeCompact = iPhoneLandscapeCompact ?? []
+        self.iPadAndExternalDisplays = iPadAndExternalDisplays ?? []
     }
     
     private init() {
-        self.regular = []
-        self.horizontallyCompact = []
-        self.verticallyCompact = []
+        self.iPhonePortrait = []
+        self.iPhoneLandscapeRegular = []
+        self.iPhoneLandscapeCompact = []
+        self.iPadAndExternalDisplays = []
     }
     
     func append(forSizeClass sizerClass: Constraints.Key, constraints: [NSLayoutConstraint]) {
         switch sizerClass {
-        case .regular:
-            constraints.forEach { regular.append($0) }
-        case .horizontallyCompact:
-            constraints.forEach { horizontallyCompact.append($0) }
-        case .verticallyCompact:
-            constraints.forEach { verticallyCompact.append($0) }
+        case .iPhonePortrait:
+            constraints.forEach { iPhonePortrait.append($0) }
+        case .iPhoneLandscapeRegular:
+            constraints.forEach { iPhoneLandscapeRegular.append($0) }
+        case .iPhoneLandscapeCompact:
+            constraints.forEach { iPhoneLandscapeCompact.append($0) }
+        case .iPadAndExternalDisplays:
+            constraints.forEach { iPadAndExternalDisplays.append($0)}
         }
     }
     func append(forSizeClass sizerClass: Constraints.Key, constraints: NSLayoutConstraint...) {
@@ -56,28 +61,34 @@ class Constraints {
         }
         
         switch constraintsType {
-        case .regular:
-            guard !regular.isEmpty else {
-                print(KBTError.constraintsNotSet(.regular).formatted)
+        case .iPhonePortrait:
+            guard !iPhonePortrait.isEmpty else {
+                print(KBTError.constraintsNotSet(.iPhonePortrait).formatted)
                 return
             }
-            activeConstraints = regular
+            activeConstraints = iPhonePortrait
             
-        case .horizontallyCompact:
-            guard !horizontallyCompact.isEmpty else {
-                print(KBTError.constraintsNotSet(.horizontallyCompact).formatted)
+        case .iPhoneLandscapeRegular:
+            guard !iPhoneLandscapeRegular.isEmpty else {
+                print(KBTError.constraintsNotSet(.iPhoneLandscapeRegular).formatted)
                 return
             }
-            activeConstraints = horizontallyCompact
+            activeConstraints = iPhoneLandscapeRegular
             
-        case .verticallyCompact:
-            guard !verticallyCompact.isEmpty else {
-                print(KBTError.constraintsNotSet(.verticallyCompact).formatted)
+        case .iPhoneLandscapeCompact:
+            guard !iPhoneLandscapeCompact.isEmpty else {
+                print(KBTError.constraintsNotSet(.iPhoneLandscapeCompact).formatted)
                 return
             }
-            activeConstraints = verticallyCompact
+            activeConstraints = iPhoneLandscapeCompact
+            
+        case .iPadAndExternalDisplays:
+            guard !iPadAndExternalDisplays.isEmpty else {
+                print(KBTError.constraintsNotSet(.iPadAndExternalDisplays).formatted)
+                return
+            }
+            activeConstraints = iPadAndExternalDisplays
         }
-        
         NSLayoutConstraint.activate(activeConstraints!)
     }
 }

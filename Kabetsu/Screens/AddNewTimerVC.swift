@@ -77,8 +77,10 @@ class AddNewTimerVC: UIViewController {
         selectPickerRows()
         
         // Constraints
-        configureConstraintsForRegular()
-        configureConstraintsForVerticallyCompact()
+        configureIPhonePortraitConstraints()
+        configureIPhoneLandscapeRegularConstraints()
+        
+        updateConstraints()
 
     }
     
@@ -229,7 +231,6 @@ extension AddNewTimerVC {
         view.backgroundColor = .systemBackground
         title = "Add New Timer"
     }
-    
     private func configureTextLabel() {
         view.addSubview(textLabel)
         textLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -241,8 +242,8 @@ extension AddNewTimerVC {
         textLabel.adjustsFontSizeToFitWidth = true
         textLabel.minimumScaleFactor = 0.8
         textLabel.lineBreakMode = .byWordWrapping
-        textLabel.layer.cornerRadius = 16
-        textLabel.layer.borderWidth = 2
+        textLabel.layer.cornerRadius = UIHelpers.cornerRadius
+        textLabel.layer.borderWidth = UIHelpers.borderWidth
         textLabel.layer.borderColor = UIColor.white.cgColor
         textLabel.clipsToBounds = true
     }
@@ -251,8 +252,8 @@ extension AddNewTimerVC {
         view.addSubview(timePicker)
         timePicker.translatesAutoresizingMaskIntoConstraints = false
         timePicker.backgroundColor = .secondarySystemBackground
-        timePicker.layer.cornerRadius = 16
-        timePicker.layer.borderWidth = 2
+        timePicker.layer.cornerRadius = UIHelpers.cornerRadius
+        timePicker.layer.borderWidth = UIHelpers.borderWidth
         timePicker.layer.borderColor = UIColor.white.cgColor
         timePicker.clipsToBounds = true
         timePicker.delegate = self
@@ -297,75 +298,73 @@ extension AddNewTimerVC {
 }
 
 
-/*
- We need to think about how to properly do this. We can use UITraitCollection.device, however this can cause
- issues when a view is present that does not span the full width on the screen (e.g. ipads using popover controller
- or split view controller.
- 
- A better way to do this is to use size classes. The documentation for UITraitCollection states various size classes what can
- be used to determine the width/height of the window/view.
- https://developer.apple.com/documentation/uikit/uitraitcollection
- 
- We can access specific trait values using the horizontalSizeClass, verticalSizeClass, displayScale,
- and userInterfaceIdiom properties.
- */
-
 
 // MARK: - Constraints
 
 extension AddNewTimerVC {
     
-    private var padding: CGFloat { return 20 }
-    private var thickerPadding: CGFloat { return 40 }
-    private var buttonHeight: CGFloat { return 70 }
-    
-    private func configureConstraintsForRegular() {
-        let regularConstraints: [NSLayoutConstraint] = [
-            textLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            textLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-            textLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+//    private var padding: CGFloat { return 20 }
+//    private var thickerPadding: CGFloat { return 40 }
+//    private var buttonHeight: CGFloat { return 70 }
+//
+    private func configureIPhonePortraitConstraints() {
+        let verticalPadding: CGFloat = 15
+        let horizontalPadding: CGFloat = 20
+        let buttonHeight: CGFloat = 50
+        
+        let iPhonePortraitConstraints: [NSLayoutConstraint] = [
+            textLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: verticalPadding),
+            textLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: horizontalPadding),
+            textLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -horizontalPadding),
             textLabel.heightAnchor.constraint(equalToConstant: 100),
             
             timePicker.topAnchor.constraint(equalTo: textLabel.bottomAnchor, constant: 10),
-            timePicker.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant:  padding),
-            timePicker.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+            timePicker.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant:  horizontalPadding),
+            timePicker.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -horizontalPadding),
             timePicker.heightAnchor.constraint(equalToConstant: 200),
             
-            confirmButton.topAnchor.constraint(equalTo: timePicker.bottomAnchor, constant: padding),
-            confirmButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-            confirmButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+            confirmButton.topAnchor.constraint(equalTo: timePicker.bottomAnchor, constant: verticalPadding),
+            confirmButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: horizontalPadding),
+            confirmButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -horizontalPadding),
             confirmButton.heightAnchor.constraint(equalToConstant: buttonHeight),
         ]
-        constraints.regular = regularConstraints
-        constraints.activate(.regular)
+        constraints.iPhonePortrait = iPhonePortraitConstraints
     }
     
-    private func configureConstraintsForVerticallyCompact() {
-        let verticallyCompactConstraints: [NSLayoutConstraint] = [
-            timePicker.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: padding),
-            timePicker.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: padding),
-            timePicker.trailingAnchor.constraint(equalTo: view.centerXAnchor, constant: -padding),
-            timePicker.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -padding),
+    private func configureIPhoneLandscapeRegularConstraints() {
+        let verticalPadding: CGFloat = 30
+        let horizontalPadding: CGFloat = 10
+        let buttonHeight: CGFloat = 50
         
-            textLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: thickerPadding),
-            textLabel.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: padding),
-            textLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -padding),
-            textLabel.bottomAnchor.constraint(equalTo: confirmButton.topAnchor, constant: -padding),
-            
-            confirmButton.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: padding),
-            confirmButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -padding),
-            confirmButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -thickerPadding),
+        let iPhoneLandscapeRegularConstraints: [NSLayoutConstraint] = [
+            timePicker.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: verticalPadding),
+            timePicker.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: horizontalPadding),
+            timePicker.trailingAnchor.constraint(equalTo: view.centerXAnchor, constant: -horizontalPadding),
+            timePicker.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -verticalPadding),
+
+            textLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: verticalPadding),
+            textLabel.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: horizontalPadding),
+            textLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -horizontalPadding),
+            textLabel.bottomAnchor.constraint(equalTo: confirmButton.topAnchor, constant: -verticalPadding),
+
+            confirmButton.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: horizontalPadding),
+            confirmButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -horizontalPadding),
+            confirmButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -verticalPadding),
             confirmButton.heightAnchor.constraint(equalToConstant: buttonHeight)
         ]
-        constraints.verticallyCompact = verticallyCompactConstraints
+        constraints.iPhoneLandscapeRegular = iPhoneLandscapeRegularConstraints
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
+        updateConstraints()
+    }
+    
+    private func updateConstraints() {
         if traitCollection.verticalSizeClass == .compact {
-            constraints.activate(.verticallyCompact)
+            constraints.activate(.iPhoneLandscapeRegular)
             return
         }
-        constraints.activate(.regular)
+        constraints.activate(.iPhonePortrait)
     }
 }

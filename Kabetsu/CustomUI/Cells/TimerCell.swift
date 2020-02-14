@@ -49,7 +49,7 @@ extension TimerCell {
     
     private func configureCell() {
         contentView.backgroundColor = .systemGroupedBackground
-        layer.cornerRadius = 20
+        layer.cornerRadius = 25
         layer.borderWidth = 2
         layer.borderColor = UIColor.secondarySystemGroupedBackground.cgColor
         clipsToBounds = true

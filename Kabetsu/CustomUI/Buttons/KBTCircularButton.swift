@@ -11,6 +11,7 @@ import UIKit
 class KBTCircularButton: KBTButton {
     override init(withSFSymbolName symbolName: String, pointSize: CGFloat, weight: UIImage.SymbolWeight? = nil) {
         super.init(withSFSymbolName: symbolName, pointSize: pointSize, weight: weight)
+        configure()
     }
     
     required init?(coder: NSCoder) {
@@ -20,5 +21,6 @@ class KBTCircularButton: KBTButton {
     override func configure() {
         super.configure()
         layer.cornerRadius = bounds.width / 2
+        //layer.masksToBounds = true
     }
 }
