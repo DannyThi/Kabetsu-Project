@@ -89,6 +89,7 @@ class TimerTask {
         guard timerState != .ended else { return }
         switch modifier {
         case .increment:
+            guard value + currentCountdownTime < DateInterval.timeInSecondsFor24hours else { break }
             adjustedCountdownTime += value
         case .decrement:
             if currentCountdownTime > value {

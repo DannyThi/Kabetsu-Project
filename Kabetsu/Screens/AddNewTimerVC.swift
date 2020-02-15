@@ -261,7 +261,10 @@ extension AddNewTimerVC {
     }
     
     private func configureConfirmButtons() {
-        confirmBarButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(confirmButtonTapped))
+        confirmBarButton = UIBarButtonItem(image: GlobalImageKeys.done.image,
+                                           style: .plain,
+                                           target: self,
+                                           action: #selector(confirmButtonTapped))
         navigationItem.rightBarButtonItem = confirmBarButton
 
         confirmButton = KBTButton(withTitle: "Add Timer")
@@ -270,7 +273,10 @@ extension AddNewTimerVC {
     }
     
     private func configureDismissButton() {
-        let dismissButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissButtonTapped))
+        let dismissButton = UIBarButtonItem(image: GlobalImageKeys.dismiss.image,
+                                            style: .plain,
+                                            target: self,
+                                            action: #selector(dismissButtonTapped))
         navigationItem.leftBarButtonItem = dismissButton
     }
 }

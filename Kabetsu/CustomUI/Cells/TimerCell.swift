@@ -26,7 +26,6 @@ class TimerCell: UICollectionViewCell {
     private var identifier: TimeInterval!
     weak var delegate: TimerCellDelegate!
     
-    // MARK: - Initialization
     
     override init(frame: CGRect) {
         super.init(frame: frame)

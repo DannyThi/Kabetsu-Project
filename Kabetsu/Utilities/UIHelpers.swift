@@ -10,7 +10,6 @@ import UIKit
 
 class UIHelpers {
     
-    static let symbolConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .medium)
     static let cornerRadius: CGFloat = 25
     static let borderWidth: CGFloat = 2
     static let textLabelHeightToWidthRatio: CGFloat = 0.17
@@ -24,6 +23,19 @@ class UIHelpers {
         presentingVC?.present(ac, animated: true, completion: completed)
     }
     
+}
+
+enum GlobalImageKeys: String, CaseIterable {
+    static let symbolConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .medium)
+    typealias RawValue = String
+
+    case dismiss = "xmark.circle.fill"
+    case done = "checkmark.circle.fill"
+    case project = "tv.circle.fill"
+
+    var image: UIImage {
+        return UIImage(systemName: self.rawValue, withConfiguration: GlobalImageKeys.symbolConfig)!
+    }
 }
 
 

@@ -117,8 +117,16 @@ extension TimersListVC {
         present(navCon, animated: true)
     }
     @objc private func settingsButtonTapped(sender: Any) {
-        print("Trash button tapped")
+        guard let sender = sender as? UIBarButtonItem else { return }
+        let settingsVC = SettingsVC()
         
+        let navCon = UINavigationController(rootViewController: settingsVC)
+        navCon.modalPresentationStyle = .popover
+        let popOver = navCon.popoverPresentationController!
+        popOver.barButtonItem = sender
+        popOver.sourceView = self.view
+        present(navCon, animated: true)
+
     }
 }
 
@@ -130,7 +138,7 @@ extension TimersListVC {
         view.backgroundColor = .systemBackground
     }
     private func configureBarButtonItems() {
-        let config = UIHelpers.symbolConfig
+        let config = GlobalImageKeys.symbolConfig
         let settingsImage = UIImage(systemName: ImageKeys.settings, withConfiguration: config)
         let plusImage = UIImage(systemName: ImageKeys.addTimer, withConfiguration: config)
         let settingsBarButton = UIBarButtonItem(image: settingsImage, style: .plain, target: self, action: #selector(settingsButtonTapped))

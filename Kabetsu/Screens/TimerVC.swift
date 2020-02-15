@@ -33,8 +33,6 @@ class TimerVC: UIViewController {
         static let play = "play.circle"
         static let pause = "pause.circle"
         static let reset = "arrow.counterclockwise.circle"
-        static let dismiss = "xmark.circle.fill"
-        static let project = "tv.circle.fill"
     }
     
 
@@ -64,6 +62,7 @@ class TimerVC: UIViewController {
     private func reset() {
         task = TimerTask(withTotalTime: task.originalCountdownTime)
         updateUI()
+        updateTitle()
         timerStateDidChange()
     }
     
@@ -223,7 +222,7 @@ extension TimerVC {
         resetButton.addTarget(self, action: #selector(resetButtonTapped), for: .touchUpInside)
 
         buttonContainer = UIStackView(arrangedSubviews: [decrementButton, resetButton, incrementButton])
-        buttonContainer.spacing = 10
+        buttonContainer.spacing = 20
         buttonContainer.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(buttonContainer)
     }
@@ -235,15 +234,17 @@ extension TimerVC {
         toolBar.addSubview(adjustIntervalControl)
     }
     private func configureDismissButton() {
-        let config = UIHelpers.symbolConfig
-        let dismissImage = UIImage(systemName: ImageKeys.dismiss, withConfiguration: config)
-        let dismissButton = UIBarButtonItem(image: dismissImage, style: .plain, target: self, action: #selector(dismissController))
+        let dismissButton = UIBarButtonItem(image: GlobalImageKeys.dismiss.image,
+                                            style: .plain,
+                                            target: self,
+                                            action: #selector(dismissController))
         navigationItem.leftBarButtonItem = dismissButton
     }
     private func configureProjectButton() {
-        let config = UIHelpers.symbolConfig
-        let projectImage = UIImage(systemName: ImageKeys.project, withConfiguration: config)
-        let projectButton = UIBarButtonItem(image: projectImage, style: .plain, target: self, action: #selector(projectScreen))
+        let projectButton = UIBarButtonItem(image: GlobalImageKeys.project.image,
+                                            style: .plain,
+                                            target: self,
+                                            action: #selector(projectScreen))
         navigationItem.rightBarButtonItem = projectButton
     }
 }
@@ -388,7 +389,6 @@ extension TimerVC {
         ]
         constraints.append(forSizeClass: .iPadAndExternalDisplays, constraints: iPadAndExternalDisplayConstraints)
     }
-    
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
