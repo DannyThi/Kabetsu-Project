@@ -8,17 +8,14 @@
 
 import UIKit
 
-// Settings should display modally on iphone and pop over on ipad.
-
 class SettingsVC: UIViewController {
     
     private enum Section: Int, CaseIterable {
         case darkmode, timeIncrements
-        
         var rowCount: Int {
             switch self {
             case .darkmode:
-                return 1
+                return Settings.shared.interfaceStyleFollowsIOS ? 1 : 2
             case .timeIncrements:
                 return 1
             }
@@ -36,13 +33,11 @@ class SettingsVC: UIViewController {
             case .darkmode:
                 return "Set the theme of the app."
             case .timeIncrements:
-                return "Adjusts the number of seconds added/removed for the +/- buttons in the timer."
+                return "Adjusts the number of seconds added/removed for the +/- buttons on the timer screen."
             }
         }
     }
-    
-    
-    
+
     private var settings = Settings.shared
     private var tableView: UITableView!
     //private var dismissButton: UIBarButtonItem!
@@ -83,10 +78,27 @@ extension SettingsVC: UITableViewDataSource {
 
 extension SettingsVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // TODO
-        
-        
-        return UITableViewCell()
+        let section = Section(rawValue: indexPath.section)
+        switch section {
+        case .darkmode:
+            switch indexPath.row {
+            case 0:
+                let cell = tableView.dequeueReusableCell(withIdentifier: InterfaceStyleTVCell.reuseId) as! InterfaceStyleTVCell
+                cell.delegate = self
+                cell.set(interfaceStyleFollowsIOS: settings.interfaceStyleFollowsIOS)
+                return cell
+            case 1:
+                return UITableViewCell()
+            default:
+                fatalError("Extra cell in SettingsVC: tableview.darkmode.")
+            }
+            
+        case .timeIncrements:
+            #warning("TODO - timerIncrements")
+            return UITableViewCell()
+        case .none:
+            fatalError("Settings tableView error.")
+        }
     }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return Section(rawValue: section)?.title
@@ -104,6 +116,7 @@ extension SettingsVC {
     private func configureViewController() {
         view.backgroundColor = .systemBackground
         self.title = "Settings"
+        
     }
     private func configureDismissButton() {
         let dismissButton = UIBarButtonItem(image: GlobalImageKeys.dismiss.image,
@@ -114,9 +127,10 @@ extension SettingsVC {
     }
     private func configureTableView() {
         tableView = UITableView(frame: .zero, style: .grouped)
-        tableView.register(UserInterfaceStyleTableViewCell.self, forCellReuseIdentifier: UserInterfaceStyleTableViewCell.reuseId)
+        tableView.register(InterfaceStyleTVCell.self, forCellReuseIdentifier: InterfaceStyleTVCell.reuseId)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.allowsSelection = false
+        tableView.rowHeight = 44
         tableView.dataSource = self
         tableView.delegate = self
         view.addSubview(tableView)
@@ -138,6 +152,16 @@ extension SettingsVC {
 }
 
 
+
+// MARK: - InterfaceStyleTVCellDelegate
+
+extension SettingsVC: InterfaceStyleTVCellDelegate {
+    func interfaceFollowsIOSSwitchValueChanged(_ value: Bool) {
+        #warning("TODO InterfaceStyleTVCellDelegate - Use diffable datasource for animation")
+        settings.interfaceStyleFollowsIOS = value
+        tableView.reloadData()
+    }
+}
 
 
 

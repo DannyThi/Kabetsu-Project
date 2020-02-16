@@ -11,7 +11,8 @@
 		9753C22423F133C40035A514 /* Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9753C22323F133C40035A514 /* Constraints.swift */; };
 		9753C22623F250960035A514 /* KBTError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9753C22523F250960035A514 /* KBTError.swift */; };
 		9753C22823F663770035A514 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9753C22723F663770035A514 /* SettingsVC.swift */; };
-		9753C22C23F695F60035A514 /* UserInterfaceStyleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9753C22B23F695F60035A514 /* UserInterfaceStyleTableViewCell.swift */; };
+		9753C22C23F695F60035A514 /* InterfaceStyleTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9753C22B23F695F60035A514 /* InterfaceStyleTVCell.swift */; };
+		9753C22E23F8CB730035A514 /* ThemeTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9753C22D23F8CB730035A514 /* ThemeTVCell.swift */; };
 		975C25EA23DEBCEF005847FF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975C25E923DEBCEF005847FF /* AppDelegate.swift */; };
 		975C25EC23DEBCEF005847FF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975C25EB23DEBCEF005847FF /* SceneDelegate.swift */; };
 		975C25EE23DEBCEF005847FF /* TimersListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975C25ED23DEBCEF005847FF /* TimersListVC.swift */; };
@@ -34,7 +35,8 @@
 		9753C22323F133C40035A514 /* Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constraints.swift; sourceTree = "<group>"; };
 		9753C22523F250960035A514 /* KBTError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KBTError.swift; sourceTree = "<group>"; };
 		9753C22723F663770035A514 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
-		9753C22B23F695F60035A514 /* UserInterfaceStyleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInterfaceStyleTableViewCell.swift; sourceTree = "<group>"; };
+		9753C22B23F695F60035A514 /* InterfaceStyleTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceStyleTVCell.swift; sourceTree = "<group>"; };
+		9753C22D23F8CB730035A514 /* ThemeTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeTVCell.swift; sourceTree = "<group>"; };
 		975C25E623DEBCEF005847FF /* Kabetsu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kabetsu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		975C25E923DEBCEF005847FF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		975C25EB23DEBCEF005847FF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -119,7 +121,8 @@
 			isa = PBXGroup;
 			children = (
 				975C25FE23DEC493005847FF /* TimerCell.swift */,
-				9753C22B23F695F60035A514 /* UserInterfaceStyleTableViewCell.swift */,
+				9753C22B23F695F60035A514 /* InterfaceStyleTVCell.swift */,
+				9753C22D23F8CB730035A514 /* ThemeTVCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -247,6 +250,7 @@
 				975D92B523EBD78F000CE57D /* AddNewTimerVC.swift in Sources */,
 				975C260623DFA8C5005847FF /* TimerTask.swift in Sources */,
 				975C260123DEC493005847FF /* KBTDigitalDisplayLabel.swift in Sources */,
+				9753C22E23F8CB730035A514 /* ThemeTVCell.swift in Sources */,
 				975C260923DFBC2B005847FF /* TimersList.swift in Sources */,
 				9753C22623F250960035A514 /* KBTError.swift in Sources */,
 				975C260B23DFF6F4005847FF /* UIHelpers.swift in Sources */,
@@ -255,7 +259,7 @@
 				9753C22423F133C40035A514 /* Constraints.swift in Sources */,
 				975D92A623E401AC000CE57D /* Settings.swift in Sources */,
 				975C260023DEC493005847FF /* TimerCell.swift in Sources */,
-				9753C22C23F695F60035A514 /* UserInterfaceStyleTableViewCell.swift in Sources */,
+				9753C22C23F695F60035A514 /* InterfaceStyleTVCell.swift in Sources */,
 				975C25EA23DEBCEF005847FF /* AppDelegate.swift in Sources */,
 				975C25EC23DEBCEF005847FF /* SceneDelegate.swift in Sources */,
 				975D929E23E160EF000CE57D /* KBTButton.swift in Sources */,

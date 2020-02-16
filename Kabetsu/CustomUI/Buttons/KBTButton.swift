@@ -42,6 +42,7 @@ class KBTButton: UIButton {
     }
     
     public func configure() {
+        tintColor = .white
         layer.cornerRadius = 25
         layer.borderColor = UIColor.secondarySystemGroupedBackground.cgColor
         layer.borderWidth = 2
@@ -49,7 +50,11 @@ class KBTButton: UIButton {
         translatesAutoresizingMaskIntoConstraints = false
     }
     
-    
+//    override func layoutSubviews() {
+//        super.layoutSubviews()
+//        tintColor = traitCollection.userInterfaceStyle == .dark ? .black : .white
+//
+//    }
 }
 
 

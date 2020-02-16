@@ -25,7 +25,7 @@ class TimerVC: UIViewController {
     private var buttonContainer: UIStackView!
     
     private var toolBar: UIToolbar!
-    private var adjustIntervalControl: UISegmentedControl!
+    private var timerIncrementControl: UISegmentedControl!
     
     private let buttonImagePointSize: CGFloat = 80
 
@@ -118,7 +118,7 @@ extension TimerVC {
         }
     }
     @objc private func incrementButtonTapped() {
-        let timeInterval = Settings.shared.adjustIntervalSegConCurrentIncrementValue
+        let timeInterval = Settings.shared.timerIncrementControlSelectedValue
         task.adjustCountdownTime(modifier: .increment, value: timeInterval) { [weak self] in
             guard let self = self else { return }
             self.updateButtonLabels(timeInterval: timeInterval)
@@ -127,7 +127,7 @@ extension TimerVC {
         }
     }
     @objc private func decrementButtonTapped() {
-        let timeInterval = Settings.shared.adjustIntervalSegConCurrentIncrementValue
+        let timeInterval = Settings.shared.timerIncrementControlSelectedValue
         task.adjustCountdownTime(modifier: .decrement, value: timeInterval) { [weak self] in
             guard let self = self else { return }
             self.updateButtonLabels(timeInterval: timeInterval)
@@ -138,10 +138,10 @@ extension TimerVC {
     @objc private func resetButtonTapped() {
         reset()
     }
-    @objc private func adjustIntervalControlTapped(_ segmentedControl: UISegmentedControl) {
+    @objc private func timerIncrementControlTapped(_ segmentedControl: UISegmentedControl) {
         let index = segmentedControl.selectedSegmentIndex
-        settings.adjustIntervalSegConSelectedIndex = index
-        updateButtonLabels(timeInterval: settings.adjustIntervalSegConCurrentIncrementValue)
+        settings.timerIncrementControlSelectedIndex = index
+        updateButtonLabels(timeInterval: settings.timerIncrementControlSelectedValue)
     }
 }
 
@@ -158,7 +158,7 @@ extension TimerVC {
         configureSecondaryDigitalDisplayLabel()
         configurePrimaryActionButton()
         configureStackViewButtons()
-        configureAdjustIntervalControl()
+        configureTimerIncrementControl()
         configureDismissButton()
         configureProjectButton()
         
@@ -210,10 +210,10 @@ extension TimerVC {
         view.addSubview(primaryActionButton)
     }
     private func configureStackViewButtons() {
-        decrementButton = KBTButton(withTitle: "-\(Int(Settings.shared.adjustIntervalSegConCurrentIncrementValue))s")
+        decrementButton = KBTButton(withTitle: "-\(Int(Settings.shared.timerIncrementControlSelectedValue))s")
         decrementButton.addTarget(self, action: #selector(decrementButtonTapped), for: .touchUpInside)
 
-        incrementButton = KBTButton(withTitle: "+\(Int(Settings.shared.adjustIntervalSegConCurrentIncrementValue))s")
+        incrementButton = KBTButton(withTitle: "+\(Int(Settings.shared.timerIncrementControlSelectedValue))s")
         incrementButton.addTarget(self, action: #selector(incrementButtonTapped), for: .touchUpInside)
 
         resetButton = KBTButton(withSFSymbolName: ImageKeys.reset, pointSize: 40)
@@ -226,12 +226,12 @@ extension TimerVC {
         buttonContainer.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(buttonContainer)
     }
-    private func configureAdjustIntervalControl() {
-        adjustIntervalControl = UISegmentedControl(items: settings.adjustIntervalSegConIncrements.map { "\(Int($0))s" })
-        adjustIntervalControl.selectedSegmentIndex = settings.adjustIntervalSegConSelectedIndex
-        adjustIntervalControl.translatesAutoresizingMaskIntoConstraints = false
-        adjustIntervalControl.addTarget(self, action: #selector(adjustIntervalControlTapped(_:)), for: .valueChanged)
-        toolBar.addSubview(adjustIntervalControl)
+    private func configureTimerIncrementControl() {
+        timerIncrementControl = UISegmentedControl(items: settings.timerIncrementControlValues.map { "\(Int($0))s" })
+        timerIncrementControl.selectedSegmentIndex = settings.timerIncrementControlSelectedIndex
+        timerIncrementControl.translatesAutoresizingMaskIntoConstraints = false
+        timerIncrementControl.addTarget(self, action: #selector(timerIncrementControlTapped(_:)), for: .valueChanged)
+        toolBar.addSubview(timerIncrementControl)
     }
     private func configureDismissButton() {
         let dismissButton = UIBarButtonItem(image: GlobalImageKeys.dismiss.image,
@@ -288,12 +288,12 @@ extension TimerVC {
             toolBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             toolBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
-            adjustIntervalControl.topAnchor.constraint(equalTo: toolBar.topAnchor, constant: toolBarVerticalPadding),
-            adjustIntervalControl.bottomAnchor.constraint(equalTo: toolBar.bottomAnchor, constant: -toolBarVerticalPadding),
-            adjustIntervalControl.leadingAnchor.constraint(greaterThanOrEqualTo: toolBar.leadingAnchor, constant: horizontalPadding),
-            adjustIntervalControl.trailingAnchor.constraint(lessThanOrEqualTo: toolBar.trailingAnchor, constant: -horizontalPadding),
-            adjustIntervalControl.centerXAnchor.constraint(equalTo: toolBar.centerXAnchor),
-            adjustIntervalControl.widthAnchor.constraint(equalToConstant: 800).withPriority(.defaultHigh)
+            timerIncrementControl.topAnchor.constraint(equalTo: toolBar.topAnchor, constant: toolBarVerticalPadding),
+            timerIncrementControl.bottomAnchor.constraint(equalTo: toolBar.bottomAnchor, constant: -toolBarVerticalPadding),
+            timerIncrementControl.leadingAnchor.constraint(greaterThanOrEqualTo: toolBar.leadingAnchor, constant: horizontalPadding),
+            timerIncrementControl.trailingAnchor.constraint(lessThanOrEqualTo: toolBar.trailingAnchor, constant: -horizontalPadding),
+            timerIncrementControl.centerXAnchor.constraint(equalTo: toolBar.centerXAnchor),
+            timerIncrementControl.widthAnchor.constraint(equalToConstant: 800).withPriority(.defaultHigh)
         ]
         constraints.iPhonePortrait = iPhonePortraitConstraints
     }
@@ -335,12 +335,12 @@ extension TimerVC {
             toolBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             toolBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
-            adjustIntervalControl.topAnchor.constraint(equalTo: toolBar.topAnchor, constant: toolBarVerticalPadding),
-            adjustIntervalControl.bottomAnchor.constraint(equalTo: toolBar.bottomAnchor, constant: -toolBarVerticalPadding),
-            adjustIntervalControl.leadingAnchor.constraint(greaterThanOrEqualTo: toolBar.leadingAnchor, constant: horizontalPadding),
-            adjustIntervalControl.trailingAnchor.constraint(lessThanOrEqualTo: toolBar.trailingAnchor, constant: -horizontalPadding),
-            adjustIntervalControl.centerXAnchor.constraint(equalTo: toolBar.centerXAnchor),
-            adjustIntervalControl.widthAnchor.constraint(equalToConstant: 800).withPriority(.defaultHigh)
+            timerIncrementControl.topAnchor.constraint(equalTo: toolBar.topAnchor, constant: toolBarVerticalPadding),
+            timerIncrementControl.bottomAnchor.constraint(equalTo: toolBar.bottomAnchor, constant: -toolBarVerticalPadding),
+            timerIncrementControl.leadingAnchor.constraint(greaterThanOrEqualTo: toolBar.leadingAnchor, constant: horizontalPadding),
+            timerIncrementControl.trailingAnchor.constraint(lessThanOrEqualTo: toolBar.trailingAnchor, constant: -horizontalPadding),
+            timerIncrementControl.centerXAnchor.constraint(equalTo: toolBar.centerXAnchor),
+            timerIncrementControl.widthAnchor.constraint(equalToConstant: 800).withPriority(.defaultHigh)
         ]
         constraints.iPhoneLandscapeRegular = iPhoneLandscapeRegularConstraints
     }
@@ -380,12 +380,12 @@ extension TimerVC {
             toolBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             toolBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
-            adjustIntervalControl.topAnchor.constraint(equalTo: toolBar.topAnchor, constant: toolBarVerticalPadding),
-            adjustIntervalControl.bottomAnchor.constraint(equalTo: toolBar.bottomAnchor, constant: -toolBarVerticalPadding),
-            adjustIntervalControl.leadingAnchor.constraint(greaterThanOrEqualTo: toolBar.leadingAnchor, constant: horizontalPadding),
-            adjustIntervalControl.trailingAnchor.constraint(lessThanOrEqualTo: toolBar.trailingAnchor, constant: -horizontalPadding),
-            adjustIntervalControl.centerXAnchor.constraint(equalTo: toolBar.centerXAnchor),
-            adjustIntervalControl.widthAnchor.constraint(equalToConstant: 800).withPriority(.defaultHigh)
+            timerIncrementControl.topAnchor.constraint(equalTo: toolBar.topAnchor, constant: toolBarVerticalPadding),
+            timerIncrementControl.bottomAnchor.constraint(equalTo: toolBar.bottomAnchor, constant: -toolBarVerticalPadding),
+            timerIncrementControl.leadingAnchor.constraint(greaterThanOrEqualTo: toolBar.leadingAnchor, constant: horizontalPadding),
+            timerIncrementControl.trailingAnchor.constraint(lessThanOrEqualTo: toolBar.trailingAnchor, constant: -horizontalPadding),
+            timerIncrementControl.centerXAnchor.constraint(equalTo: toolBar.centerXAnchor),
+            timerIncrementControl.widthAnchor.constraint(equalToConstant: 800).withPriority(.defaultHigh)
         ]
         constraints.append(forSizeClass: .iPadAndExternalDisplays, constraints: iPadAndExternalDisplayConstraints)
     }

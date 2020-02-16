@@ -212,8 +212,8 @@ extension TimersListVC: TimerCellDelegate {
         deleteButtonTapped(identifier: identifier)
     }
     private func deleteButtonTapped(identifier: TimeInterval) {
-        let title = "Remove this timer?"
-        let message = "Do you want to remove timer: \(identifier)?"
+        let title = "Remove Timer?"
+        let message = "Would you like to remove this \(TimerTask.getFormattedTimeFromTimeInterval(time: identifier, style: .brief)) timer?"
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         let deleteAction = UIAlertAction(title: "OK", style: .destructive) { [weak self] _ in
             guard let self = self else { return }
