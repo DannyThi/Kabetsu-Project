@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol InterfaceStyleTVCellDelegate {
+protocol InterfaceStyleTVCellDelegate: class {
     func interfaceFollowsIOSSwitchValueChanged(_ value: Bool)
 }
 
@@ -23,7 +23,7 @@ class InterfaceStyleTVCell: UITableViewCell {
     private var titleLabel: UILabel!
     private var interfaceFollowsIOSSwitch: UISwitch!
     
-    var delegate: InterfaceStyleTVCellDelegate?
+    weak var delegate: InterfaceStyleTVCellDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

@@ -21,7 +21,7 @@ class ThemeTVCell: UITableViewCell {
     
     private var symbolImageView: UIImageView!
     private var themeSegmentControl: UISegmentedControl!
-    var delegate: ThemeTVCellDelegate?
+    weak var delegate: ThemeTVCellDelegate?
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

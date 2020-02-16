@@ -98,8 +98,9 @@ extension SettingsVC: UITableViewDelegate {
             }
             
         case .timeIncrements:
-            #warning("TODO - timerIncrements")
-            return UITableViewCell()
+            let cell = tableView.dequeueReusableCell(withIdentifier: TimerIncrementsTVCell.reuseId) as! TimerIncrementsTVCell
+            return cell
+            
         case .none:
             fatalError("Settings tableView error.")
         }
@@ -132,6 +133,7 @@ extension SettingsVC {
         tableView = UITableView(frame: .zero, style: .grouped)
         tableView.register(InterfaceStyleTVCell.self, forCellReuseIdentifier: InterfaceStyleTVCell.reuseId)
         tableView.register(ThemeTVCell.self, forCellReuseIdentifier: ThemeTVCell.reuseId)
+        tableView.register(TimerIncrementsTVCell.self, forCellReuseIdentifier: TimerIncrementsTVCell.reuseId)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.allowsSelection = false
         tableView.rowHeight = 50

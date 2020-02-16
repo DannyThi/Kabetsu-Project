@@ -54,7 +54,7 @@ extension TimerCell {
         contentView.backgroundColor = .systemGroupedBackground
         layer.cornerRadius = 25
         layer.borderWidth = 2
-        layer.borderColor = UIColor.secondarySystemGroupedBackground.cgColor
+        layer.borderColor = UIColor.white.cgColor
         clipsToBounds = true
     }
     
