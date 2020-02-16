@@ -11,10 +11,10 @@ import UIKit
 class SettingsVC: UIViewController {
     
     private enum Section: Int, CaseIterable {
-        case darkmode, timeIncrements
+        case interfaceStyle, timeIncrements
         var rowCount: Int {
             switch self {
-            case .darkmode:
+            case .interfaceStyle:
                 return Settings.shared.interfaceStyleFollowsIOS ? 1 : 2
             case .timeIncrements:
                 return 1
@@ -22,7 +22,7 @@ class SettingsVC: UIViewController {
         }
         var title: String {
             switch self {
-            case .darkmode:
+            case .interfaceStyle:
                 return "dark mode"
             case .timeIncrements:
                 return "time increments for timer"
@@ -30,7 +30,7 @@ class SettingsVC: UIViewController {
         }
         var description: String {
             switch self {
-            case .darkmode:
+            case .interfaceStyle:
                 return "Set the theme of the app."
             case .timeIncrements:
                 return "Adjusts the number of seconds added/removed for the +/- buttons on the timer screen."
@@ -80,7 +80,8 @@ extension SettingsVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let section = Section(rawValue: indexPath.section)
         switch section {
-        case .darkmode:
+            
+        case .interfaceStyle:
             switch indexPath.row {
             case 0:
                 let cell = tableView.dequeueReusableCell(withIdentifier: InterfaceStyleTVCell.reuseId) as! InterfaceStyleTVCell
@@ -88,7 +89,10 @@ extension SettingsVC: UITableViewDelegate {
                 cell.set(interfaceStyleFollowsIOS: settings.interfaceStyleFollowsIOS)
                 return cell
             case 1:
-                return UITableViewCell()
+                let cell = tableView.dequeueReusableCell(withIdentifier: ThemeTVCell.reuseId) as! ThemeTVCell
+                cell.set(selectedSegmentIndex: settings.interfaceStyle.rawValue)
+                cell.delegate = self
+                return cell
             default:
                 fatalError("Extra cell in SettingsVC: tableview.darkmode.")
             }
@@ -109,8 +113,7 @@ extension SettingsVC: UITableViewDelegate {
 }
 
 
-
-// MARK: - Configuration
+// MARK: - CONFIGURATION
 
 extension SettingsVC {
     private func configureViewController() {
@@ -128,16 +131,18 @@ extension SettingsVC {
     private func configureTableView() {
         tableView = UITableView(frame: .zero, style: .grouped)
         tableView.register(InterfaceStyleTVCell.self, forCellReuseIdentifier: InterfaceStyleTVCell.reuseId)
+        tableView.register(ThemeTVCell.self, forCellReuseIdentifier: ThemeTVCell.reuseId)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.allowsSelection = false
-        tableView.rowHeight = 44
+        tableView.rowHeight = 50
         tableView.dataSource = self
         tableView.delegate = self
         view.addSubview(tableView)
     }
 }
 
-// MARK: - Constraints
+
+// MARK: - CONSTRAINTS
 
 extension SettingsVC {
     private func configureConstraintsForUniversal() {
@@ -152,14 +157,23 @@ extension SettingsVC {
 }
 
 
+// MARK: - INTERFACE STYLE TABLE VIEW CELL DELEGATE
 
-// MARK: - InterfaceStyleTVCellDelegate
-
+#warning("TODO: Use diffable datasource for animation")
 extension SettingsVC: InterfaceStyleTVCellDelegate {
     func interfaceFollowsIOSSwitchValueChanged(_ value: Bool) {
-        #warning("TODO InterfaceStyleTVCellDelegate - Use diffable datasource for animation")
         settings.interfaceStyleFollowsIOS = value
         tableView.reloadData()
+    }
+}
+
+
+
+// MARK: - THEME TABLE VIEW CELL DELEGATE
+
+extension SettingsVC: ThemeTVCellDelegate {
+    func themeSegmentControlValueChanged(_ segmentIndex: Int) {        
+        settings.interfaceStyle = InterfaceStyle(rawValue: segmentIndex)
     }
 }
 

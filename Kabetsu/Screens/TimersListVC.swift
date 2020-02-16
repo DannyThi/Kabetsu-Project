@@ -138,7 +138,7 @@ extension TimersListVC {
         view.backgroundColor = .systemBackground
     }
     private func configureBarButtonItems() {
-        let config = GlobalImageKeys.symbolConfig
+        let config = GlobalImageKeys.symbolConfig()
         let settingsImage = UIImage(systemName: ImageKeys.settings, withConfiguration: config)
         let plusImage = UIImage(systemName: ImageKeys.addTimer, withConfiguration: config)
         let settingsBarButton = UIBarButtonItem(image: settingsImage, style: .plain, target: self, action: #selector(settingsButtonTapped))

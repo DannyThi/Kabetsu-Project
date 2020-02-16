@@ -23,6 +23,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = windowScene
         window?.rootViewController = createTabBarController()
         window?.makeKeyAndVisible()
+        
+        setUserInterfaceStyle()
     }
     
     private func setGlobalAppTint(_ tint: UIColor) {
@@ -48,13 +50,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         return navCon
     }
     
-//    private func createNavigationController(forRootController rootVC: UIViewController, tabBarImage: UIImage? = nil) -> UINavigationController {
-//        let navCon = UINavigationController(rootViewController: rootVC)
-//        navCon.title = rootVC.title
-//        navCon.tabBarItem = UITabBarItem(tabBarSystemItem: .more, tag: tabItemCount)
-//        tabItemCount += 1
-//        return navCon
-//    }
+    private func setUserInterfaceStyle() {
+        let settings = Settings.shared
+        settings.updateUserInterfaceStyle(settings.interfaceStyle)
+    }
 
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.

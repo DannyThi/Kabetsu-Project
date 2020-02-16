@@ -9,12 +9,21 @@
 import Foundation
 import UIKit
 
-enum InterfaceStyle: String, Codable {
+enum InterfaceStyle: Int, CaseIterable, Codable {
     case iOSLightMode, iOSDarkMode
+    var title: String {
+        switch self {
+        case .iOSLightMode:
+            return "Light mode"
+        case .iOSDarkMode:
+            return "Dark mode"
+        }
+    }
 }
 
+
+
 class Settings: Codable {
-    
     static let shared = Settings()
     
     private enum Keys {
@@ -23,8 +32,14 @@ class Settings: Codable {
         static let interfaceStyle = "interfaceStyle"
     }
     
-    // TIMER INCREMENT CONTROL
-    var timerIncrementControlValues: [TimeInterval] = [10, 15, 30, 60]
+}
+
+
+
+// MARK: - TIMER INCREMENT CONTROL
+
+extension Settings {
+    var timerIncrementControlValues: [TimeInterval] { return [10, 15, 30, 60] }
     var timerIncrementControlSelectedValue: Double {
         return timerIncrementControlValues[timerIncrementControlSelectedIndex]
     }
@@ -40,10 +55,8 @@ class Settings: Codable {
             UserDefaults.standard.set(newValue, forKey: Keys.timerIncrementControlSelectedIndexKey)
         }
     }
-    
-
-    
 }
+
 
 
 // MARK: - USER INTERFACE STYLE
@@ -64,19 +77,20 @@ extension Settings {
     }
     var interfaceStyle: InterfaceStyle! {
         get {
-            guard let style = UserDefaults.standard.object(forKey: Keys.interfaceStyle) as? InterfaceStyle else {
+            guard let value = UserDefaults.standard.object(forKey: Keys.interfaceStyle) as? Int else {
                 UserDefaults.standard.set(InterfaceStyle.iOSLightMode.rawValue, forKey: Keys.interfaceStyle)
                 return InterfaceStyle.iOSLightMode
             }
+            let style = InterfaceStyle(rawValue: value)!
             return style
         }
-        set (interfaceStyle){
-            UserDefaults.standard.set(interfaceStyle, forKey: Keys.interfaceStyle)
-            updateUserInterfaceStyle(interfaceStyle)
+        set (style) {
+            UserDefaults.standard.set(style!.rawValue, forKey: Keys.interfaceStyle)
+            updateUserInterfaceStyle(style)
         }
     }
-    private func updateUserInterfaceStyle(_ newInterfaceStyle: InterfaceStyle) {
-        if interfaceStyleFollowsIOS {
+    func updateUserInterfaceStyle(_ newInterfaceStyle: InterfaceStyle) {
+        if !interfaceStyleFollowsIOS {
             var iOSInterfaceStyle: UIUserInterfaceStyle
             switch newInterfaceStyle {
             case .iOSLightMode:
@@ -84,11 +98,9 @@ extension Settings {
             case .iOSDarkMode:
                 iOSInterfaceStyle = .dark
             }
-            print(iOSInterfaceStyle.rawValue)
             UIApplication.shared.windows.forEach { window in window.overrideUserInterfaceStyle = iOSInterfaceStyle }
         } else {
-            // set it to default
+            UIApplication.shared.windows.forEach { window in window.overrideUserInterfaceStyle = .unspecified }
         }
     }
-    
 }

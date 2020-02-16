@@ -16,7 +16,7 @@ class InterfaceStyleTVCell: UITableViewCell {
     static let reuseId = "userStyleTableViewCell"
     
     private struct ImageKeys {
-        static let darkModeSymbol = "circle.lefthalf.fill"
+        static let cellSymbol = "circle.lefthalf.fill"
     }
     
     private var symbolImageView: UIImageView!
@@ -62,7 +62,7 @@ extension InterfaceStyleTVCell {
 
 extension InterfaceStyleTVCell {
     private func configureSymbolImageView() {
-        let image = UIImage(systemName: ImageKeys.darkModeSymbol , withConfiguration: GlobalImageKeys.symbolConfig)
+        let image = UIImage(systemName: ImageKeys.cellSymbol , withConfiguration: GlobalImageKeys.symbolConfig())
         symbolImageView = UIImageView(image: image)
         symbolImageView.tintColor = .systemGreen
         symbolImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -77,7 +77,6 @@ extension InterfaceStyleTVCell {
     }
     private func configureInterfaceFollowsIOSSwitch() {
         interfaceFollowsIOSSwitch = UISwitch()
-        //interfaceFollowsIOSSwitch.setOn(true, animated: false)
         interfaceFollowsIOSSwitch.translatesAutoresizingMaskIntoConstraints = false
         interfaceFollowsIOSSwitch.addTarget(self, action: #selector(interfaceFollowsIOSSwitchTapped), for: .valueChanged)
         addSubview(interfaceFollowsIOSSwitch)

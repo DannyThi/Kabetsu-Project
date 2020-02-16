@@ -26,15 +26,17 @@ class UIHelpers {
 }
 
 enum GlobalImageKeys: String, CaseIterable {
-    static let symbolConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .medium)
     typealias RawValue = String
+    static func symbolConfig(pointSize: CGFloat? = 20) -> UIImage.SymbolConfiguration {
+        return UIImage.SymbolConfiguration(pointSize: pointSize!, weight: .medium)
+    }
 
     case dismiss = "xmark.circle.fill"
     case done = "checkmark.circle.fill"
     case project = "tv.circle.fill"
 
     var image: UIImage {
-        return UIImage(systemName: self.rawValue, withConfiguration: GlobalImageKeys.symbolConfig)!
+        return UIImage(systemName: self.rawValue, withConfiguration: GlobalImageKeys.symbolConfig())!
     }
 }
 
