@@ -51,7 +51,7 @@ class InterfaceStyleTVCell: UITableViewCell {
 extension InterfaceStyleTVCell {
     @objc private func interfaceFollowsIOSSwitchTapped(_ sender: UISwitch) {
         guard let delegate = delegate else {
-            print("Delegate has not been set for InterfaceStyleTVCell.interfaceFollowsIOSSwitchTapped(_:)")
+            print(KBTError.delegateNotSet("InterfaceStyleTVCell").formatted)
             return
         }
         delegate.interfaceFollowsIOSSwitchValueChanged(sender.isOn)

@@ -99,6 +99,8 @@ extension SettingsVC: UITableViewDelegate {
             
         case .timeIncrements:
             let cell = tableView.dequeueReusableCell(withIdentifier: TimerIncrementsTVCell.reuseId) as! TimerIncrementsTVCell
+            cell.set(timeIncrements: settings.timerIncrementControlValues, selectedIndex: settings.timerIncrementControlSelectedIndex)
+            cell.delegate = self
             return cell
             
         case .none:
@@ -179,5 +181,13 @@ extension SettingsVC: ThemeTVCellDelegate {
     }
 }
 
+
+// MARK: - TIMER INCREMENTS TABLE VIEW CELL DELEGATE
+
+extension SettingsVC: TimerIncrementsTVCellDelegate {
+    func timerIncrementsSegmentControlValueChanged(value: Int) {
+        settings.timerIncrementControlSelectedIndex = value
+    }
+}
 
 

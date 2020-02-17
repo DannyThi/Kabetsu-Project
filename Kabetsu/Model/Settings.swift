@@ -31,7 +31,6 @@ class Settings: Codable {
         static let interfaceStyleFollowsIOS = "interfaceStyleFollowsIOS"
         static let interfaceStyle = "interfaceStyle"
     }
-    
 }
 
 

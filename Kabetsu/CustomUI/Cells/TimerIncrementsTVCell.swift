@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol TimerIncrementsTVCellDelegate: class {
+    func timerIncrementsSegmentControlValueChanged(value: Int)
+}
+
 class TimerIncrementsTVCell: UITableViewCell {
     static let reuseId = "timerIncrementsTVCell"
     
@@ -16,19 +20,30 @@ class TimerIncrementsTVCell: UITableViewCell {
     }
     
     private var symbolImageView: UIImageView!
+    private var timerIncrementSegmentControl: UISegmentedControl!
+    
+    weak var delegate: TimerIncrementsTVCellDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureTableViewCell()
         configureSymbolImageView()
+        configureTimerIncrementSegmentControl()
         
         configureSymbolImageViewConstraints()
-        
-        
+        configureTimerIncrementsSegmentedControlConstraints()
     }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func set(timeIncrements: [TimeInterval], selectedIndex: Int) {
+        if timerIncrementSegmentControl.numberOfSegments == 0 {
+            for (index, time) in timeIncrements.enumerated() {
+                self.timerIncrementSegmentControl.insertSegment(withTitle: "\(Int(time))s", at: index, animated: false)
+            }
+        }
+        timerIncrementSegmentControl.selectedSegmentIndex = selectedIndex
     }
 }
 
@@ -37,7 +52,13 @@ class TimerIncrementsTVCell: UITableViewCell {
 // MARK: - ACTIONS
 
 extension TimerIncrementsTVCell {
-    
+    @objc private func timerIncrementsSegmentControlValueChanged(_ sender: UISegmentedControl) {
+        guard let delegate = delegate else {
+            print(KBTError.delegateNotSet("TimerIncrementsTVCell").formatted)
+            return
+        }
+        delegate.timerIncrementsSegmentControlValueChanged(value: timerIncrementSegmentControl.selectedSegmentIndex)
+    }
 }
 
 
@@ -54,6 +75,13 @@ extension TimerIncrementsTVCell {
         symbolImageView.tintColor = .systemGreen
         symbolImageView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(symbolImageView)
+    }
+    
+    private func configureTimerIncrementSegmentControl() {
+        timerIncrementSegmentControl = UISegmentedControl()
+        timerIncrementSegmentControl.translatesAutoresizingMaskIntoConstraints = false
+        timerIncrementSegmentControl.addTarget(self, action: #selector(timerIncrementsSegmentControlValueChanged(_:)), for: .valueChanged)
+        addSubview(timerIncrementSegmentControl)
     }
     
 }
@@ -73,6 +101,14 @@ extension TimerIncrementsTVCell {
             symbolImageView.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -verticalPadding),
             symbolImageView.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor, constant: horizontalPadding),
             symbolImageView.widthAnchor.constraint(equalTo: symbolImageView.heightAnchor),
+        ])
+    }
+    private func configureTimerIncrementsSegmentedControlConstraints() {
+        NSLayoutConstraint.activate([
+            timerIncrementSegmentControl.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: verticalPadding),
+            timerIncrementSegmentControl.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -verticalPadding),
+            timerIncrementSegmentControl.leadingAnchor.constraint(equalTo: symbolImageView.trailingAnchor, constant: 8),
+            timerIncrementSegmentControl.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor, constant: -horizontalPadding),
         ])
     }
     

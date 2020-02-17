@@ -49,7 +49,7 @@ extension ThemeTVCell {
     @objc private func themeSegmentControlValueChanged(_ sender: UISegmentedControl) {
         let selectedIndex = sender.selectedSegmentIndex
         guard let delegate = delegate else {
-            print("Delegate not set for ThemeTVCell.themeSegmentControl.")
+            print(KBTError.delegateNotSet("ThemeTVCell").formatted)
             return
         }
         delegate.themeSegmentControlValueChanged(selectedIndex)

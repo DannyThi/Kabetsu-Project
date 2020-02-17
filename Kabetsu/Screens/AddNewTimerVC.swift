@@ -298,7 +298,7 @@ extension AddNewTimerVC {
             delegate.didDismissAddNewTimerVC()
             dismiss(animated: true)
         } else {
-            print("Delegate for AddNewTimerVCDelegate has not been set.")
+            print(KBTError.delegateNotSet("AddNewTimerVC").formatted)
         }
     }
 }
@@ -309,10 +309,6 @@ extension AddNewTimerVC {
 
 extension AddNewTimerVC {
     
-//    private var padding: CGFloat { return 20 }
-//    private var thickerPadding: CGFloat { return 40 }
-//    private var buttonHeight: CGFloat { return 70 }
-//
     private func configureIPhonePortraitConstraints() {
         let verticalPadding: CGFloat = 15
         let horizontalPadding: CGFloat = 20

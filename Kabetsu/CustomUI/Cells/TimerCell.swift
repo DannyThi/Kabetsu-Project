@@ -93,7 +93,7 @@ extension TimerCell {
     
     @objc private func deleteButtonTapped() {
         guard let delegate = delegate else {
-            print("No delegate set for cell.")
+            print(KBTError.delegateNotSet("TimerCell").formatted)
             return
         }
         delegate.didTapDeleteButton(identifier: identifier!)
