@@ -9,7 +9,7 @@
 import Foundation
 
 enum KBTError {
-    case constraintsNotSet(Constraints.Key)
+    case constraintsNotSet(KBTConstraints.Key)
     case delegateNotSet(String)
     
     var formatted: String {

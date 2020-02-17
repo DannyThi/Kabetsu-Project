@@ -8,14 +8,14 @@
 
 import UIKit
 
-// MARK: Date Interval
+// MARK: DATE INTERVAL
 
 extension DateInterval {
     static var timeInSecondsFor24hours: TimeInterval = 86400
 }
 
 
-// MARK: - NSlayoutConstraint
+// MARK: - LAYOUT CONSTRAINTs
 
 extension NSLayoutConstraint {
     func withPriority(_ priority: UILayoutPriority) -> NSLayoutConstraint {

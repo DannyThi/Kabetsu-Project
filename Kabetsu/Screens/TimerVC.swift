@@ -11,8 +11,9 @@ import UIKit
 class TimerVC: UIViewController {
     
     private var task: TimerTask!
-    private var constraints = Constraints()
+    private var constraints = KBTConstraints()
     private let settings = Settings.shared
+    private let alertHandler = AlertHandler.shared
     
     private var digitalDisplayLabel: KBTDigitalDisplayLabel!
     private var secondaryDigitalDisplaylabel: KBTDigitalDisplayLabel!
@@ -21,7 +22,6 @@ class TimerVC: UIViewController {
     private var decrementButton: KBTButton!
     private var incrementButton: KBTButton!
     private var resetButton: KBTButton!
-    
     private var buttonContainer: UIStackView!
     
     private var toolBar: UIToolbar!
@@ -45,26 +45,6 @@ class TimerVC: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func updateTitle() {
-        let style = view.bounds.width > 500 ? DateComponentsFormatter.UnitsStyle.full : DateComponentsFormatter.UnitsStyle.short
-        self.title = TimerTask.getFormattedTimeFromTimeInterval(time: self.task.adjustedCountdownTime, style: style)
-    }
-    private func updateUI() {
-        digitalDisplayLabel.setTime(usingRawTime: task.currentCountdownTime, usingMilliseconds: true)
-        secondaryDigitalDisplaylabel.setTime(usingRawTime: task.adjustedCountdownTime, usingMilliseconds: true)
-    }
-    
-    private func updateButtonLabels(timeInterval: Double) {
-        decrementButton.setTitle("-\(Int(timeInterval))s", for: .normal)
-        incrementButton.setTitle("+\(Int(timeInterval))s", for: .normal)
-    }
-    
-    private func reset() {
-        task = TimerTask(withTotalTime: task.originalCountdownTime)
-        updateUI()
-        updateTitle()
-        timerStateDidChange()
-    }
     
     private func timerStateDidChange() {
         var imageString = ""
@@ -80,17 +60,41 @@ class TimerVC: UIViewController {
         let image = UIImage(systemName: imageString, withConfiguration: config)
         primaryActionButton.setImage(image, for: .normal)
     }
-    
-    private func handleTimerDidEnd() {
-        print("Handle TimerDidEnd")
-        #warning("FIX ME - Handle Timer did End")
+    private func reset() {
+        task = TimerTask(withTotalTime: task.originalCountdownTime)
+        updateUI()
+        updateTitle()
+        timerStateDidChange()
     }
+
+    #warning("FIX ME - Handle Timer did End")
+    private func handleTimerDidEnd() {
+        alertHandler.fireAlert(onViewController: self)
+    }
+
     
+}
+
+// MARK: - UI UPDATES
+
+extension TimerVC {
+    private func updateTitle() {
+        let style = view.bounds.width > 500 ? DateComponentsFormatter.UnitsStyle.full : DateComponentsFormatter.UnitsStyle.short
+        self.title = TimerTask.getFormattedTimeFromTimeInterval(time: self.task.adjustedCountdownTime, style: style)
+    }
+    private func updateUI() {
+        digitalDisplayLabel.setTime(usingRawTime: task.currentCountdownTime, usingMilliseconds: true)
+        secondaryDigitalDisplaylabel.setTime(usingRawTime: task.adjustedCountdownTime, usingMilliseconds: true)
+    }
+    private func updateButtonLabels(timeInterval: Double) {
+        decrementButton.setTitle("-\(Int(timeInterval))s", for: .normal)
+        incrementButton.setTitle("+\(Int(timeInterval))s", for: .normal)
+    }
 }
 
 
 
-// MARK: - Button Actions
+// MARK: - ACTIONS
 
 extension TimerVC {
     @objc private func dismissController() {
@@ -147,7 +151,8 @@ extension TimerVC {
 
 
 
-// MARK: - View Controller Lifecycle
+// MARK: - VIEW CONTROLLER LIFECYCLE
+
 extension TimerVC {
     override func viewDidLoad() {
         super.viewDidLoad()

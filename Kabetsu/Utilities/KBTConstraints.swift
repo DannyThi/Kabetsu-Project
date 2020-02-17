@@ -1,5 +1,5 @@
 //
-//  Constraints.swift
+//  KBTConstraints.swift
 //  Kabetsu
 //
 //  Created by Hai Long Danny Thi on 2020/02/10.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Constraints {
+class KBTConstraints {
     enum Key: String {
         case universal, iPhonePortrait, iPhoneLandscapeRegular, iPhoneLandscapeCompact, iPadAndExternalDisplays
     }
@@ -43,7 +43,7 @@ class Constraints {
         self.iPadAndExternalDisplays = []
     }
     
-    func append(forSizeClass sizerClass: Constraints.Key, constraints: [NSLayoutConstraint]) {
+    func append(forSizeClass sizerClass: KBTConstraints.Key, constraints: [NSLayoutConstraint]) {
         switch sizerClass {
         case .universal:
             constraints.forEach { universal.append($0) }
@@ -57,7 +57,7 @@ class Constraints {
             constraints.forEach { iPadAndExternalDisplays.append($0)}
         }
     }
-    func append(forSizeClass sizerClass: Constraints.Key, constraints: NSLayoutConstraint...) {
+    func append(forSizeClass sizerClass: KBTConstraints.Key, constraints: NSLayoutConstraint...) {
         append(forSizeClass: sizerClass, constraints: constraints)
     }
     

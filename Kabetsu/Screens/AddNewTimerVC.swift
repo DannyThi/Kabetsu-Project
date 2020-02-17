@@ -24,11 +24,11 @@ class AddNewTimerVC: UIViewController {
     private var confirmButton: KBTButton!
     
     private let timersList = TimersList.shared
-    private var constraints = Constraints()
+    private var constraints = KBTConstraints()
 
     weak var delegate: AddNewTimerViewControllerDelegate!
 
-    // MARK: Picker Components Enum
+    // MARK: PICKER COMPONENTS ENUM
     private enum PickerComponents: Int, CaseIterable {
         case hours
         case hoursLabel
@@ -65,31 +65,27 @@ class AddNewTimerVC: UIViewController {
             }
         }
     }
-    
-    // MARK: View Controller Lifecycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        configureViewController()
-        configureTextLabel()
-        configureTimePicker()
-        configureConfirmButtons()
-        configureDismissButton()
-        selectPickerRows()
-        
-        // Constraints
-        configureIPhonePortraitConstraints()
-        configureIPhoneLandscapeRegularConstraints()
-        
-        updateConstraints()
+}
 
-    }
+// MARK: - UI UPDATES
+extension AddNewTimerVC {
     
-    override func viewWillAppear(_ animated: Bool) {
-        navigationController?.navigationBar.prefersLargeTitles = false
-        updateUI()
+    private func updateUI() {
+        textLabel.text = getFormattedTextForDisplay()
     }
+    private func updateConstraints() {
+        if traitCollection.verticalSizeClass == .compact {
+            constraints.activate(.iPhoneLandscapeRegular)
+            return
+        }
+        constraints.activate(.iPhonePortrait)
+    }
+}
+
+// MARK: - TEXT FORMATTING
+
+extension AddNewTimerVC {
     
-    // MARK: AddNewTimerVC Functions
     private func getFormattedTextForDisplay() -> String {
         hours = timePicker.selectedRow(inComponent: PickerComponents.hours.rawValue)
         minutes = timePicker.selectedRow(inComponent: PickerComponents.minutes.rawValue)
@@ -111,7 +107,6 @@ class AddNewTimerVC: UIViewController {
         }
         return formattedTextForDisplay
     }
-    
     private func getTimeFromPicker() -> String {
         hours = timePicker.selectedRow(inComponent: PickerComponents.hours.rawValue)
         minutes = timePicker.selectedRow(inComponent: PickerComponents.minutes.rawValue)
@@ -140,17 +135,41 @@ class AddNewTimerVC: UIViewController {
         }
         return displayText
     }
-    
-    private func updateUI() {
-        textLabel.text = getFormattedTextForDisplay()
+}
+
+
+// MARK: - VIEW CONTROLLER LIFECYCLE
+
+extension AddNewTimerVC {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureViewController()
+        configureTextLabel()
+        configureTimePicker()
+        configureConfirmButtons()
+        configureDismissButton()
+        configureIPhonePortraitConstraints()
+        configureIPhoneLandscapeRegularConstraints()
+        
+        selectPickerRows()
+        updateConstraints()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.prefersLargeTitles = false
+        updateUI()
+    }
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        updateConstraints()
     }
 }
 
 
 
-// MARK: - Get unique time
+// MARK: - TIME PICKER METHODS
 
 extension AddNewTimerVC {
+    
     private func getUniqueTimeForPicker(time: TimeInterval) -> TimeInterval {
         guard time < DateInterval.timeInSecondsFor24hours - 60 else { return time }
         var time = time
@@ -159,7 +178,6 @@ extension AddNewTimerVC {
         }
         return time
     }
-    
     private func convertUnixTimeToTimeComponents(time: TimeInterval) -> String {
         let formatter = DateComponentsFormatter()
         formatter.unitsStyle = .positional
@@ -167,7 +185,6 @@ extension AddNewTimerVC {
         formatter.allowedUnits = [.hour, .minute, .second]
         return formatter.string(from: time)!
     }
-    
     private func selectPickerRows() {
         let uniqueTime = getUniqueTimeForPicker(time: timersList.timers.last ?? 60)
         let timeString = convertUnixTimeToTimeComponents(time: uniqueTime)
@@ -189,14 +206,13 @@ extension AddNewTimerVC {
 }
 
 
-
-// MARK: - UIPickerView Delegate
+// MARK: - UIPICKERVIEW DELEGATE
 
 extension AddNewTimerVC: UIPickerViewDelegate {
+    
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         updateUI()
     }
-    
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
         let pickerComponent = PickerComponents(rawValue: component)!
         let title = pickerComponent.rowTitle(forRow: row)
@@ -206,15 +222,13 @@ extension AddNewTimerVC: UIPickerViewDelegate {
 }
 
 
-
-// MARK: - UIPickerView Datasource
+// MARK: - UIPICKERVIEW DATASOURCE
 
 extension AddNewTimerVC: UIPickerViewDataSource {
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return PickerComponents.allCases.count
     }
-    
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         let pickerComponent = PickerComponents(rawValue: component)!
         return pickerComponent.rowCount
@@ -222,8 +236,7 @@ extension AddNewTimerVC: UIPickerViewDataSource {
 }
 
 
-
-// MARK: - Configuration
+// MARK: - CONFIGURATION
 
 extension AddNewTimerVC {
     
@@ -247,7 +260,6 @@ extension AddNewTimerVC {
         textLabel.layer.borderColor = UIColor.white.cgColor
         textLabel.clipsToBounds = true
     }
-    
     private func configureTimePicker() {
         view.addSubview(timePicker)
         timePicker.translatesAutoresizingMaskIntoConstraints = false
@@ -259,7 +271,6 @@ extension AddNewTimerVC {
         timePicker.delegate = self
         timePicker.dataSource = self
     }
-    
     private func configureConfirmButtons() {
         confirmBarButton = UIBarButtonItem(image: GlobalImageKeys.done.image,
                                            style: .plain,
@@ -271,7 +282,6 @@ extension AddNewTimerVC {
         confirmButton.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
         view.addSubview(confirmButton)
     }
-    
     private func configureDismissButton() {
         let dismissButton = UIBarButtonItem(image: GlobalImageKeys.dismiss.image,
                                             style: .plain,
@@ -282,15 +292,13 @@ extension AddNewTimerVC {
 }
 
 
-
-// MARK: - Button Actions
+// MARK: - ACTIONS
 
 extension AddNewTimerVC {
     
     @objc private func dismissButtonTapped() {
         dismiss(animated: true)
     }
-    
     @objc private func confirmButtonTapped() {
         let time = TimerTask.getTimeIntervalFromTimeComponents(hours: hours, minutes: minutes, seconds: seconds)
         if let delegate = delegate {
@@ -304,8 +312,7 @@ extension AddNewTimerVC {
 }
 
 
-
-// MARK: - Constraints
+// MARK: - CONSTRAINTS
 
 extension AddNewTimerVC {
     
@@ -332,7 +339,6 @@ extension AddNewTimerVC {
         ]
         constraints.iPhonePortrait = iPhonePortraitConstraints
     }
-    
     private func configureIPhoneLandscapeRegularConstraints() {
         let verticalPadding: CGFloat = 30
         let horizontalPadding: CGFloat = 10
@@ -355,18 +361,5 @@ extension AddNewTimerVC {
             confirmButton.heightAnchor.constraint(equalToConstant: buttonHeight)
         ]
         constraints.iPhoneLandscapeRegular = iPhoneLandscapeRegularConstraints
-    }
-    
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        updateConstraints()
-    }
-    
-    private func updateConstraints() {
-        if traitCollection.verticalSizeClass == .compact {
-            constraints.activate(.iPhoneLandscapeRegular)
-            return
-        }
-        constraints.activate(.iPhonePortrait)
     }
 }
