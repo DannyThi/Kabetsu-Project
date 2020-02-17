@@ -1,5 +1,5 @@
 //
-//  KBTTitleLabel.swift
+//  KBTBodyLabel.swift
 //  Kabetsu
 //
 //  Created by Hai Long Danny Thi on 2020/02/17.
@@ -8,13 +8,13 @@
 
 import UIKit
 
-class KBTTitleLabel: UILabel {
+class KBTBodyLabel: UILabel {
     
-    init(text: String, textAlignment: NSTextAlignment, fontSize: CGFloat? = nil) {
+    init(text: String, fontSize: CGFloat? = nil) {
         super.init(frame: .zero)
         self.text = text
-        self.font = UIFont.systemFont(ofSize: fontSize ?? 300, weight: .black)
-        self.textAlignment = textAlignment
+        self.font = fontSize != nil ?
+            UIFont.systemFont(ofSize: fontSize!, weight: .regular) : UIFont.preferredFont(forTextStyle: .body)
         configureLabel()
     }
     override init(frame: CGRect) {
@@ -26,11 +26,13 @@ class KBTTitleLabel: UILabel {
     }
     
     private func configureLabel() {
-        textColor = .label
-        baselineAdjustment = .alignCenters
+        textColor = .secondaryLabel
+        textAlignment = .justified
+        baselineAdjustment = .alignBaselines
         adjustsFontSizeToFitWidth = true
         minimumScaleFactor = 0.001
-        lineBreakMode = .byTruncatingTail
+        lineBreakMode = .byWordWrapping
+        numberOfLines = 4
         translatesAutoresizingMaskIntoConstraints = false
     }
 }

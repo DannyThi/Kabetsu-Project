@@ -20,6 +20,8 @@ class AlertHandler {
     
     private init() {}
     
+    
+    #warning("Might be best to let the view controllers handle alerts. this handler can just broadcast, and all listeners can tune in")
     func fireAlert(onViewController viewController: UIViewController) {
         let alert = KBTAlertController(withTitle: "TEST", message: "Message")
         viewController.present(alert, animated: true)

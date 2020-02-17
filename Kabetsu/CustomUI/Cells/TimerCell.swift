@@ -70,7 +70,7 @@ extension TimerCell {
             countdownLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             countdownLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
             countdownLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
-            countdownLabel.heightAnchor.constraint(equalTo: countdownLabel.widthAnchor, multiplier: UIHelpers.textLabelHeightToWidthRatio)
+            countdownLabel.heightAnchor.constraint(equalTo: countdownLabel.widthAnchor, multiplier: UIHelpers.digitalDisplayFontHeightToWidthRatio)
         ])
     }
     
