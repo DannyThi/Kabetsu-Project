@@ -8,6 +8,8 @@
 
 import UIKit
 
+#warning("Convert to Collection View with Diffable Datasource")
+
 class SettingsVC: UIViewController {
     
     private enum Section: Int, CaseIterable {

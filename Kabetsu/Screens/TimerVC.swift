@@ -69,6 +69,7 @@ class TimerVC: UIViewController {
 
     #warning("FIX ME - Handle Timer did End")
     private func handleTimerDidEnd() {
+        print("handleTimerDidEnd")
         alertHandler.fireAlert(onViewController: self)
     }
 
@@ -193,9 +194,9 @@ extension TimerVC {
     }
     private func configureNotificationListeners() {
         let center = NotificationCenter.default
-        center.addObserver(forName: .timerDidUpdate, object: nil, queue: .main) { _ in self.updateUI() }
-        center.addObserver(forName: .timerStateDidChange, object: nil, queue: .main) { _ in self.timerStateDidChange() }
-        center.addObserver(forName: .timerDidEnd, object: nil, queue: nil) { _ in self.handleTimerDidEnd() }
+        center.addObserver(forName: .timerDidUpdate, object: nil, queue: .main) { [weak self] _ in self?.updateUI() }
+        center.addObserver(forName: .timerStateDidChange, object: nil, queue: .main) { [weak self] _ in self?.timerStateDidChange() }
+        center.addObserver(forName: .timerDidEnd, object: nil, queue: nil) { [weak self] _ in self?.handleTimerDidEnd() }
     }
     private func configureDigitalDisplayLabel() {
         digitalDisplayLabel = KBTDigitalDisplayLabel(withFontSize: 500, fontWeight: .bold, textAlignment: .center)
