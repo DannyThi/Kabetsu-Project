@@ -8,11 +8,15 @@
 
 import UIKit
 
-// We need to display an alert on all screens
-// sound the alarm
-// buzz when not displaying.
+#warning("TODO: - VIBRATE ON ALERT")
+#warning("TODO: - PROJECT SCREEN")
+#warning("TODO: - BLUR BACKGROUND ON ALERT")
+#warning("TODO: - SOUND ON ALERT")
+#warning("TODO: - ")
 
-// alerts need to be set up on individual screens?
+
+// auxilary alert should be dismissed via notificaitons
+
 
 class AlertHandler {
     
@@ -23,8 +27,12 @@ class AlertHandler {
     
     //#warning("Might be best to let the view controllers handle alerts. this handler can just broadcast, and all listeners can tune in")
     func fireAlert(onViewController viewController: UIViewController) {
-        let alert = KBTAlertController(withTitle: "TIME UP!")
+        let alert = KBTAlertController(withTitle: "TIME UP!", message: "Timer completed.")
         viewController.present(alert, animated: true)
+    }
+    
+    private func fireAuxilaryAlert() {
+        
     }
 }
 
@@ -41,7 +49,9 @@ extension AlertHandler {
 // MARK: - CONFIGURATION
 
 extension AlertHandler {
-    
+    private func configureNotificationHandlers() {
+        
+    }
     
 }
 

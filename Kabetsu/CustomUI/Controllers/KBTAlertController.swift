@@ -8,6 +8,11 @@
 
 import UIKit
 
+#warning("DO DROP SHADOW NEXT. ALSO BLUR THE SCREEN BEHIND THE ALERT")
+extension Notification.Name {
+    static let alertDidDismiss = Notification.Name("alertDidDismiss")
+}
+
 class KBTAlertController: UIViewController {
     
     private var alertContainer: UIView!
@@ -18,6 +23,7 @@ class KBTAlertController: UIViewController {
     private var actionButtonDismissHandler: (() -> Void)?
     
     var prefersActionButtonHidden: Bool = false
+    var tapBackgroundViewToDismiss: Bool = false
     
     private var constraints = KBTConstraints()
     
@@ -50,16 +56,20 @@ extension KBTAlertController {
         configureUniversalConstraints()
         updateConstraints()
     }
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        updateConstraints()
-    }
+//    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+//        super.traitCollectionDidChange(previousTraitCollection)
+//        updateConstraints()
+//    }
 }
 
 
 // MARK: - ACTIONS
 
 extension KBTAlertController {
+    @objc private func alertBackgroundViewTapped() {
+        guard tapBackgroundViewToDismiss else { return }
+        dismissController()
+    }
     @objc private func dismissController() {
         if let actionButtonDismissHandler = actionButtonDismissHandler {
             actionButtonDismissHandler()
@@ -73,7 +83,6 @@ extension KBTAlertController {
 
 extension KBTAlertController {
     private func updateConstraints() {
-        #warning("FIX CONSTRAINTS UPDATE LATER")
         constraints.activate(.universal)
     }
 }
@@ -84,7 +93,7 @@ extension KBTAlertController {
 extension KBTAlertController {
     private func configureViewController() {
         view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.75)
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissController)))
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(alertBackgroundViewTapped)))
     }
     private func configureAlertContainer() {
         alertContainer = UIView(frame: .zero)
@@ -101,6 +110,7 @@ extension KBTAlertController {
     }
     private func configureMessageLabel() {
         guard let messageLabel = messageLabel else { return }
+        messageLabel.textAlignment = .center
         alertContainer.addSubview(messageLabel)
     }
     private func configureActionButton() {
@@ -123,13 +133,6 @@ extension KBTAlertController {
         
         let containerWidth = CGFloat.minimum(CGFloat.minimum(view.bounds.width, view.bounds.height) * 0.8, 500)
             
-        // Set a width and height based on the size on the screen.
-        // set the width to be x% of the height of the device bounds.
-        // set the height to be x% of the width.
-        // this way, regardless of the orientation, the width of thr alert will be longer than the height.
-        
-        // we can leave out constraints for the container because we are animating it in and out.
-        // for now we add it so we can test
         var universalConstraints: [NSLayoutConstraint] = [
             alertContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             alertContainer.centerYAnchor.constraint(equalTo: view.centerYAnchor),

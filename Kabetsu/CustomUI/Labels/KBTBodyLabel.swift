@@ -7,7 +7,7 @@
 //
 
 import UIKit
-#warning("FONT SCALE BY DEVICE (IPAD/IPHONE)")
+
 class KBTBodyLabel: UILabel {
     
     init(text: String, fontSize: CGFloat? = nil) {

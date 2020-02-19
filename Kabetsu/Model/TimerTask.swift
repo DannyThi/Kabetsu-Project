@@ -111,7 +111,7 @@ extension TimerTask {
         return Double(h + m + s)
     }
     
-    static func getFormattedTimeFromTimeInterval(time: TimeInterval,
+    static func formattedTimeFrom(timeInterval: TimeInterval,
                                                  style: DateComponentsFormatter.UnitsStyle,
                                                  usingMilliseconds milliseconds: Bool = true) -> String
     {
@@ -119,9 +119,9 @@ extension TimerTask {
         formatter.unitsStyle = style
         formatter.zeroFormattingBehavior = formatter.unitsStyle == .positional ? .pad : .default
         formatter.allowedUnits = [.hour, .minute, .second]
-        var formattedTime = formatter.string(from: time)!
+        var formattedTime = formatter.string(from: timeInterval)!
         if style == .positional && milliseconds {
-            let milliseconds = Int(time.truncatingRemainder(dividingBy: 1) * 100)
+            let milliseconds = Int(timeInterval.truncatingRemainder(dividingBy: 1) * 100)
             formattedTime += String(format: ":%02i", milliseconds)
         }
         return formattedTime

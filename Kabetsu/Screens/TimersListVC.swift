@@ -68,7 +68,7 @@ class TimersListVC: UIViewController {
 
 
 
-// MARK: - View controller life cycle
+// MARK: - VIEW CONTROLLER LIFECYCLE
 
 extension TimersListVC {
     override func viewDidLoad() {
@@ -213,7 +213,7 @@ extension TimersListVC: TimerCellDelegate {
     }
     private func deleteButtonTapped(identifier: TimeInterval) {
         let title = "Remove Timer?"
-        let message = "Would you like to remove this \(TimerTask.getFormattedTimeFromTimeInterval(time: identifier, style: .brief)) timer?"
+        let message = "Would you like to remove this \(TimerTask.formattedTimeFrom(timeInterval: identifier, style: .brief)) timer?"
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         let deleteAction = UIAlertAction(title: "OK", style: .destructive) { [weak self] _ in
             guard let self = self else { return }

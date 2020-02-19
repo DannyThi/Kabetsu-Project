@@ -44,8 +44,13 @@ class TimerVC: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
+}
+
+
+
+// MARK: - TIMER STATE
+
+extension TimerVC {
     private func timerStateDidChange() {
         var imageString = ""
         switch task.timerState {
@@ -66,22 +71,16 @@ class TimerVC: UIViewController {
         updateTitle()
         timerStateDidChange()
     }
-
-    #warning("FIX ME - Handle Timer did End")
-    private func handleTimerDidEnd() {
-        print("handleTimerDidEnd")
-        alertHandler.fireAlert(onViewController: self)
-    }
-
-    
 }
+
+
 
 // MARK: - UI UPDATES
 
 extension TimerVC {
     private func updateTitle() {
         let style = view.bounds.width > 500 ? DateComponentsFormatter.UnitsStyle.full : DateComponentsFormatter.UnitsStyle.short
-        self.title = TimerTask.getFormattedTimeFromTimeInterval(time: self.task.adjustedCountdownTime, style: style)
+        self.title = TimerTask.formattedTimeFrom(timeInterval: self.task.adjustedCountdownTime, style: style)
     }
     private func updateUI() {
         digitalDisplayLabel.setTime(usingRawTime: task.currentCountdownTime, usingMilliseconds: true)
@@ -90,6 +89,18 @@ extension TimerVC {
     private func updateButtonLabels(timeInterval: Double) {
         decrementButton.setTitle("-\(Int(timeInterval))s", for: .normal)
         incrementButton.setTitle("+\(Int(timeInterval))s", for: .normal)
+    }
+    private func updateConstraints() {
+        if (traitCollection.verticalSizeClass == .regular && traitCollection.horizontalSizeClass == .regular) ||
+            (traitCollection.verticalSizeClass == .unspecified && traitCollection.horizontalSizeClass == .unspecified) {
+            constraints.activate(.iPadAndExternalDisplays)
+            return
+        }
+        if traitCollection.verticalSizeClass == .compact {
+            constraints.activate(.iPhoneLandscapeRegular)
+            return
+        }
+        constraints.activate(.iPhonePortrait)
     }
 }
 
@@ -111,7 +122,6 @@ extension TimerVC {
             
          */
     }
-    
     @objc func actionButtonTapped() {
         switch task.timerState {
         case .running:
@@ -148,8 +158,15 @@ extension TimerVC {
         settings.timerIncrementControlSelectedIndex = index
         updateButtonLabels(timeInterval: settings.timerIncrementControlSelectedValue)
     }
+    private func handleTimerDidEnd() {
+        let formattedTime = TimerTask.formattedTimeFrom(timeInterval: task.adjustedCountdownTime, style: .brief)
+        let alert = KBTAlertController(withTitle: "TIME UP!", message: "Your \(formattedTime) timer completed.") {
+            print("Dismissing Alert")
+            NotificationCenter.default.post(Notification.init(name: .alertDidDismiss))
+        }
+        present(alert, animated: true)
+    }
 }
-
 
 
 // MARK: - VIEW CONTROLLER LIFECYCLE
@@ -176,11 +193,15 @@ extension TimerVC {
         updateUI()
         updateTitle()
     }
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        updateConstraints()
+        updateTitle()
+    }
 }
 
 
-
-//MARK: - Configuration
+//MARK: - CONFIGURATION
 
 extension TimerVC {
     private func configureViewController() {
@@ -207,7 +228,6 @@ extension TimerVC {
         secondaryDigitalDisplaylabel.textColor = .tertiaryLabel
         view.addSubview(secondaryDigitalDisplaylabel)
     }
-    
     private func configurePrimaryActionButton() {
         primaryActionButton = KBTCircularButton(withSFSymbolName: ImageKeys.play, pointSize: buttonImagePointSize)
         primaryActionButton.backgroundColor = .systemGreen
@@ -256,11 +276,9 @@ extension TimerVC {
 }
 
 
-
-// MARK: - Constraints
+// MARK: - CONSTRAINTS
 
 extension TimerVC {
-    
     private func configureIPhonePortraitConstraints() {
         let verticalPadding: CGFloat = 20
         let horizontalPadding: CGFloat = 50
@@ -303,7 +321,7 @@ extension TimerVC {
         ]
         constraints.iPhonePortrait = iPhonePortraitConstraints
     }
-
+    
     private func configureIPhoneLandscapeRegularConstraints() {
         let verticalPadding: CGFloat = 10
         let horizontalPadding: CGFloat = 75
@@ -394,25 +412,5 @@ extension TimerVC {
             timerIncrementControl.widthAnchor.constraint(equalToConstant: 800).withPriority(.defaultHigh)
         ]
         constraints.append(forSizeClass: .iPadAndExternalDisplays, constraints: iPadAndExternalDisplayConstraints)
-    }
-    
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        updateConstraints()
-        updateTitle()
-    }
-    
-    private func updateConstraints() {
-        if (traitCollection.verticalSizeClass == .regular && traitCollection.horizontalSizeClass == .regular) ||
-            (traitCollection.verticalSizeClass == .unspecified && traitCollection.horizontalSizeClass == .unspecified) {
-            constraints.activate(.iPadAndExternalDisplays)
-            return
-        }
-        if traitCollection.verticalSizeClass == .compact {
-            constraints.activate(.iPhoneLandscapeRegular)
-            return
-        }
-
-        constraints.activate(.iPhonePortrait)
     }
 }

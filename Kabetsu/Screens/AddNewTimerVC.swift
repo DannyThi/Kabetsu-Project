@@ -67,7 +67,9 @@ class AddNewTimerVC: UIViewController {
     }
 }
 
+
 // MARK: - UI UPDATES
+
 extension AddNewTimerVC {
     
     private func updateUI() {
@@ -81,6 +83,7 @@ extension AddNewTimerVC {
         constraints.activate(.iPhonePortrait)
     }
 }
+
 
 // MARK: - TEXT FORMATTING
 
