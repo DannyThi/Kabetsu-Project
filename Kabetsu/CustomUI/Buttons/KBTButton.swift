@@ -20,7 +20,7 @@ class KBTButton: UIButton {
         configure()
     }
     
-    init(withTitle title: String) {
+    public init(withTitle title: String) {
         super.init(frame: .zero)
         backgroundColor = .systemGreen
         setTitle(title, for: .normal)
@@ -49,12 +49,6 @@ class KBTButton: UIButton {
         clipsToBounds = true
         translatesAutoresizingMaskIntoConstraints = false
     }
-    
-//    override func layoutSubviews() {
-//        super.layoutSubviews()
-//        tintColor = traitCollection.userInterfaceStyle == .dark ? .black : .white
-//
-//    }
 }
 
 

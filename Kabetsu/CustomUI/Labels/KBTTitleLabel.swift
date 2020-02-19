@@ -13,7 +13,8 @@ class KBTTitleLabel: UILabel {
     init(text: String, textAlignment: NSTextAlignment, fontSize: CGFloat? = nil) {
         super.init(frame: .zero)
         self.text = text
-        self.font = UIFont.systemFont(ofSize: fontSize ?? 300, weight: .black)
+        self.font = UIFont.systemFont(ofSize: fontSize ?? 50, weight: .black)
+            
         self.textAlignment = textAlignment
         configureLabel()
     }

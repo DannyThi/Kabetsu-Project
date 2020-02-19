@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+#warning("FONT SCALE BY DEVICE (IPAD/IPHONE)")
 class KBTBodyLabel: UILabel {
     
     init(text: String, fontSize: CGFloat? = nil) {
@@ -28,11 +28,11 @@ class KBTBodyLabel: UILabel {
     private func configureLabel() {
         textColor = .secondaryLabel
         textAlignment = .justified
-        baselineAdjustment = .alignBaselines
         adjustsFontSizeToFitWidth = true
         minimumScaleFactor = 0.001
         lineBreakMode = .byWordWrapping
-        numberOfLines = 4
+        numberOfLines = 0
+        adjustsFontForContentSizeCategory = true
         translatesAutoresizingMaskIntoConstraints = false
     }
 }
