@@ -42,7 +42,6 @@ class SettingsVC: UIViewController {
 
     private var settings = Settings.shared
     private var tableView: UITableView!
-    //private var dismissButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()

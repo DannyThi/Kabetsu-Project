@@ -26,14 +26,13 @@ class TimerCell: UICollectionViewCell {
     private var identifier: TimeInterval!
     weak var delegate: TimerCellDelegate!
     
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureCell()
         configureLabel()
         configureRemoveButton()
+        updateView(for: traitCollection.userInterfaceStyle)
     }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -46,16 +45,40 @@ class TimerCell: UICollectionViewCell {
 }
 
 
-// MARK: - Configuration
+// MARK: TRAIT COLLECTION
+
+extension TimerCell {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        updateView(for: traitCollection.userInterfaceStyle)
+    }
+    private func updateView(for userInterfaceStyle: UIUserInterfaceStyle) {
+        let userInterfaceStyle = traitCollection.userInterfaceStyle
+        switch userInterfaceStyle {
+        case .dark:
+            contentView.layer.borderWidth = 2
+            layer.shadowOpacity = 0
+        default:
+            contentView.layer.borderWidth = 0
+            layer.shadowOpacity = 0.5
+        }
+    }
+}
+
+
+// MARK: - CONFIGURATION
 
 extension TimerCell {
     
     private func configureCell() {
-        contentView.backgroundColor = .systemGroupedBackground
-        layer.cornerRadius = 25
-        layer.borderWidth = 2
-        layer.borderColor = UIColor.white.cgColor
-        clipsToBounds = true
+        contentView.backgroundColor = .secondarySystemBackground
+        contentView.layer.cornerRadius = 25
+        contentView.layer.borderColor = UIColor.white.cgColor
+        contentView.layer.masksToBounds = true
+        
+        layer.shadowColor = UIColor.lightGray.cgColor
+        layer.shadowOffset = CGSize(width: 1, height: 1)
+        layer.shadowRadius = 2
+        layer.masksToBounds = false
     }
     
     private func configureLabel() {
