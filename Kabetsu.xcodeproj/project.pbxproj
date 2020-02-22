@@ -23,6 +23,10 @@
 		9753C28223FF4BCE0035A514 /* Projector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9753C28123FF4BCE0035A514 /* Projector.swift */; };
 		9753C28423FF8B260035A514 /* TimerControlsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9753C28323FF8B260035A514 /* TimerControlsVC.swift */; };
 		9753C28623FF8BFC0035A514 /* TimerDisplayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9753C28523FF8BFC0035A514 /* TimerDisplayVC.swift */; };
+		9753C288240122FB0035A514 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9753C287240122FB0035A514 /* SoundManager.swift */; };
+		9753C28D24013B530035A514 /* Cartoon Toy Noisemaker Honk 01.wav in Resources */ = {isa = PBXBuildFile; fileRef = 9753C28A24013B530035A514 /* Cartoon Toy Noisemaker Honk 01.wav */; };
+		9753C28E24013B530035A514 /* Technology Electronic Cell Phone Ring Tone 03.wav in Resources */ = {isa = PBXBuildFile; fileRef = 9753C28B24013B530035A514 /* Technology Electronic Cell Phone Ring Tone 03.wav */; };
+		9753C28F24013B530035A514 /* Cartoon Clown Horn 01.wav in Resources */ = {isa = PBXBuildFile; fileRef = 9753C28C24013B530035A514 /* Cartoon Clown Horn 01.wav */; };
 		975C25EA23DEBCEF005847FF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975C25E923DEBCEF005847FF /* AppDelegate.swift */; };
 		975C25EC23DEBCEF005847FF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975C25EB23DEBCEF005847FF /* SceneDelegate.swift */; };
 		975C25EE23DEBCEF005847FF /* TimersListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975C25ED23DEBCEF005847FF /* TimersListVC.swift */; };
@@ -57,6 +61,10 @@
 		9753C28123FF4BCE0035A514 /* Projector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Projector.swift; sourceTree = "<group>"; };
 		9753C28323FF8B260035A514 /* TimerControlsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerControlsVC.swift; sourceTree = "<group>"; };
 		9753C28523FF8BFC0035A514 /* TimerDisplayVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerDisplayVC.swift; sourceTree = "<group>"; };
+		9753C287240122FB0035A514 /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
+		9753C28A24013B530035A514 /* Cartoon Toy Noisemaker Honk 01.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Cartoon Toy Noisemaker Honk 01.wav"; sourceTree = "<group>"; };
+		9753C28B24013B530035A514 /* Technology Electronic Cell Phone Ring Tone 03.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Technology Electronic Cell Phone Ring Tone 03.wav"; sourceTree = "<group>"; };
+		9753C28C24013B530035A514 /* Cartoon Clown Horn 01.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Cartoon Clown Horn 01.wav"; sourceTree = "<group>"; };
 		975C25E623DEBCEF005847FF /* Kabetsu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kabetsu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		975C25E923DEBCEF005847FF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		975C25EB23DEBCEF005847FF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -111,8 +119,19 @@
 				9753C28323FF8B260035A514 /* TimerControlsVC.swift */,
 				9753C28523FF8BFC0035A514 /* TimerDisplayVC.swift */,
 				9753C28123FF4BCE0035A514 /* Projector.swift */,
+				9753C287240122FB0035A514 /* SoundManager.swift */,
 			);
 			path = Managers;
+			sourceTree = "<group>";
+		};
+		9753C28924013B3F0035A514 /* SoundFiles */ = {
+			isa = PBXGroup;
+			children = (
+				9753C28C24013B530035A514 /* Cartoon Clown Horn 01.wav */,
+				9753C28A24013B530035A514 /* Cartoon Toy Noisemaker Honk 01.wav */,
+				9753C28B24013B530035A514 /* Technology Electronic Cell Phone Ring Tone 03.wav */,
+			);
+			path = SoundFiles;
 			sourceTree = "<group>";
 		};
 		975C25DD23DEBCEF005847FF = {
@@ -134,6 +153,7 @@
 		975C25E823DEBCEF005847FF /* Kabetsu */ = {
 			isa = PBXGroup;
 			children = (
+				9753C28924013B3F0035A514 /* SoundFiles */,
 				9753C23E23FA57560035A514 /* Managers */,
 				975C260C23DFF716005847FF /* Utilities */,
 				975C260723DFBBEF005847FF /* Screens */,
@@ -288,7 +308,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9753C28E24013B530035A514 /* Technology Electronic Cell Phone Ring Tone 03.wav in Resources */,
+				9753C28D24013B530035A514 /* Cartoon Toy Noisemaker Honk 01.wav in Resources */,
 				975C25F623DEBCF1005847FF /* LaunchScreen.storyboard in Resources */,
+				9753C28F24013B530035A514 /* Cartoon Clown Horn 01.wav in Resources */,
 				975C25F323DEBCF1005847FF /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -329,6 +352,7 @@
 				975D929E23E160EF000CE57D /* KBTButton.swift in Sources */,
 				975D92A223E2957C000CE57D /* KBTCircularButton.swift in Sources */,
 				9753C22223F0CC650035A514 /* Extensions.swift in Sources */,
+				9753C288240122FB0035A514 /* SoundManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

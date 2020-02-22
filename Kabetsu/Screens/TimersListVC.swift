@@ -8,10 +8,6 @@
 
 import UIKit
 
-//extension Notification.Name {
-//    static let TimersListDidUpdate = Notification.Name("TimersListDidUpdate")
-//}
-
 class TimersListVC: UIViewController {
     
     private enum Section: Int {
@@ -88,7 +84,7 @@ extension TimersListVC {
 
 
 
-// MARK: - UICollectionView Delegate
+// MARK: - UICOLLECTIONVIEW DELEGATE
 
 extension TimersListVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -103,7 +99,8 @@ extension TimersListVC: UICollectionViewDelegate {
     }
 }
 
-// MARK: - Actions
+// MARK: - ACTIONS
+
 extension TimersListVC {
     @objc private func plusButtonTapped(sender: Any) {
         guard let sender = sender as? UIBarButtonItem else { return }
@@ -119,18 +116,16 @@ extension TimersListVC {
     @objc private func settingsButtonTapped(sender: Any) {
         guard let sender = sender as? UIBarButtonItem else { return }
         let settingsVC = SettingsVC()
-        
         let navCon = UINavigationController(rootViewController: settingsVC)
         navCon.modalPresentationStyle = .popover
         let popOver = navCon.popoverPresentationController!
         popOver.barButtonItem = sender
         popOver.sourceView = self.view
         present(navCon, animated: true)
-
     }
 }
 
-// MARK: - Configuration
+// MARK: - CONFIGURATION
 
 extension TimersListVC {
     private func configureViewController() {
@@ -188,7 +183,7 @@ extension TimersListVC {
     }
 }
 
-// MARK: - Constraints
+// MARK: - CONSTRAINTS
 
 extension TimersListVC {
     private func configureUniversalConstraints() {
@@ -204,7 +199,7 @@ extension TimersListVC {
 
 
 
-// MARK: - TimerCellDelegate
+// MARK: - TIMERCELL DELEGATE
 
 extension TimersListVC: TimerCellDelegate {
     func didTapDeleteButton(identifier: Any) {
@@ -227,7 +222,7 @@ extension TimersListVC: TimerCellDelegate {
 
 
 
-// MARK: - AddNewTimerViewControllerDelegate
+// MARK: - ADDNEWTIMERVC DELEGATE
 
 extension TimersListVC: AddNewTimerViewControllerDelegate {
     func didDismissAddNewTimerVC() {

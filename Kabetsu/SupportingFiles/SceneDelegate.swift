@@ -18,6 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         setGlobalAppTint(.systemGreen)
         
+        let _ = SoundManager.shared
         //let _ = ExternalDisplayManager.shared
 
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)

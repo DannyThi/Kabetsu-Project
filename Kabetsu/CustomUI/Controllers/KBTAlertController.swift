@@ -7,8 +7,8 @@
 //
 
 import UIKit
+import AudioToolbox
 
-#warning("DO DROP SHADOW NEXT. ALSO BLUR THE SCREEN BEHIND THE ALERT")
 extension Notification.Name {
     static let alertDidDismiss = Notification.Name("alertDidDismiss")
 }
@@ -56,10 +56,6 @@ extension KBTAlertController {
         configureUniversalConstraints()
         updateConstraints()
     }
-//    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-//        super.traitCollectionDidChange(previousTraitCollection)
-//        updateConstraints()
-//    }
 }
 
 

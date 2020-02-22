@@ -13,7 +13,6 @@ class TimerVC: UIViewController {
     private var task: TimerTask!
     private var constraints = KBTConstraints()
     private let settings = Settings.shared
-    private let alertHandler = AlertHandler.shared
     
     private var digitalDisplayLabel: KBTDigitalDisplayLabel!
     private var secondaryDigitalDisplaylabel: KBTDigitalDisplayLabel!
@@ -27,7 +26,7 @@ class TimerVC: UIViewController {
     private var toolBar: UIToolbar!
     private var timerIncrementControl: UISegmentedControl!
     
-    private let buttonImagePointSize: CGFloat = 80
+    private var buttonImagePointSize: CGFloat = 80
 
     private struct ImageKeys {
         static let play = "play.circle"
@@ -35,7 +34,6 @@ class TimerVC: UIViewController {
         static let reset = "arrow.counterclockwise.circle"
     }
     
-
     init(withTask task: TimerTask) {
         super.init(nibName: nil, bundle: nil)
         self.task = task
@@ -51,25 +49,12 @@ class TimerVC: UIViewController {
 // MARK: - TIMER STATE
 
 extension TimerVC {
-    private func timerStateDidChange() {
-        var imageString = ""
-        switch task.timerState {
-        case .running:
-            imageString = ImageKeys.pause
-        case .paused:
-            imageString = ImageKeys.play
-        case .ended:
-            imageString = ImageKeys.reset
-        }
-        let config = UIImage.SymbolConfiguration(pointSize: buttonImagePointSize, weight: .regular)
-        let image = UIImage(systemName: imageString, withConfiguration: config)
-        primaryActionButton.setImage(image, for: .normal)
-    }
+
     private func reset() {
         task = TimerTask(withTotalTime: task.originalCountdownTime)
-        updateUI()
+        updateLabels()
         updateTitle()
-        timerStateDidChange()
+        updateActionButtonImage()
     }
 }
 
@@ -82,9 +67,23 @@ extension TimerVC {
         let style = view.bounds.width > 500 ? DateComponentsFormatter.UnitsStyle.full : DateComponentsFormatter.UnitsStyle.short
         self.title = TimerTask.formattedTimeFrom(timeInterval: self.task.adjustedCountdownTime, style: style)
     }
-    private func updateUI() {
+    private func updateLabels() {
         digitalDisplayLabel.setTime(usingRawTime: task.currentCountdownTime, usingMilliseconds: true)
         secondaryDigitalDisplaylabel.setTime(usingRawTime: task.adjustedCountdownTime, usingMilliseconds: true)
+    }
+    private func updateActionButtonImage() {
+        var imageString = ""
+        switch task.timerState {
+        case .running:
+            imageString = ImageKeys.pause
+        case .paused:
+            imageString = ImageKeys.play
+        case .ended:
+            imageString = ImageKeys.reset
+        }
+        let config = UIImage.SymbolConfiguration(pointSize: buttonImagePointSize, weight: .regular)
+        let image = UIImage(systemName: imageString, withConfiguration: config)
+        primaryActionButton.setImage(image, for: .normal)
     }
     private func updateButtonLabels(timeInterval: Double) {
         decrementButton.setTitle("-\(Int(timeInterval))s", for: .normal)
@@ -101,6 +100,10 @@ extension TimerVC {
             return
         }
         constraints.activate(.iPhonePortrait)
+    }
+    private func updateActionButtonImageSize() {
+        buttonImagePointSize = traitCollection.verticalSizeClass == .compact ? 80 : 300
+        updateActionButtonImage()
     }
 }
 
@@ -137,7 +140,7 @@ extension TimerVC {
         task.adjustCountdownTime(modifier: .increment, value: timeInterval) { [weak self] in
             guard let self = self else { return }
             self.updateButtonLabels(timeInterval: timeInterval)
-            self.updateUI()
+            self.updateLabels()
             self.updateTitle()
         }
     }
@@ -146,7 +149,7 @@ extension TimerVC {
         task.adjustCountdownTime(modifier: .decrement, value: timeInterval) { [weak self] in
             guard let self = self else { return }
             self.updateButtonLabels(timeInterval: timeInterval)
-            self.updateUI()
+            self.updateLabels()
             self.updateTitle()
         }
     }
@@ -161,7 +164,6 @@ extension TimerVC {
     private func handleTimerDidEnd() {
         let formattedTime = TimerTask.formattedTimeFrom(timeInterval: task.adjustedCountdownTime, style: .brief)
         let alert = KBTAlertController(withTitle: "TIME UP!", message: "Your \(formattedTime) timer completed.") {
-            print("Dismissing Alert")
             NotificationCenter.default.post(Notification.init(name: .alertDidDismiss))
         }
         present(alert, animated: true)
@@ -190,13 +192,15 @@ extension TimerVC {
         configureIPadAndExternalDispayConstraints()
         
         updateConstraints()
-        updateUI()
+        updateLabels()
         updateTitle()
+        updateActionButtonImageSize()
     }
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         updateConstraints()
         updateTitle()
+        updateActionButtonImageSize()
     }
 }
 
@@ -206,7 +210,7 @@ extension TimerVC {
 extension TimerVC {
     private func configureViewController() {
         view.backgroundColor = .systemBackground
-        isModalInPresentation = true
+        //isModalInPresentation = true
     }
     private func configureToolBar() {
         toolBar = UIToolbar()
@@ -215,8 +219,8 @@ extension TimerVC {
     }
     private func configureNotificationListeners() {
         let center = NotificationCenter.default
-        center.addObserver(forName: .timerDidUpdate, object: nil, queue: .main) { [weak self] _ in self?.updateUI() }
-        center.addObserver(forName: .timerStateDidChange, object: nil, queue: .main) { [weak self] _ in self?.timerStateDidChange() }
+        center.addObserver(forName: .timerDidUpdate, object: nil, queue: .main) { [weak self] _ in self?.updateLabels() }
+        center.addObserver(forName: .timerStateDidChange, object: nil, queue: .main) { [weak self] _ in self?.updateActionButtonImage() }
         center.addObserver(forName: .timerDidEnd, object: nil, queue: nil) { [weak self] _ in self?.handleTimerDidEnd() }
     }
     private func configureDigitalDisplayLabel() {
@@ -298,7 +302,7 @@ extension TimerVC {
             primaryActionButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             primaryActionButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             primaryActionButton.heightAnchor.constraint(equalTo: primaryActionButton.widthAnchor),
-            primaryActionButton.widthAnchor.constraint(equalToConstant: 100),
+            primaryActionButton.widthAnchor.constraint(equalToConstant: 200),
             
             decrementButton.heightAnchor.constraint(equalTo: decrementButton.widthAnchor),
             incrementButton.heightAnchor.constraint(equalTo: incrementButton.widthAnchor),
