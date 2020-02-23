@@ -10,14 +10,9 @@ import UIKit
 
 #warning("TODO: - PROJECT SCREEN")
 #warning("TODO: - SOUND ON ALERT")
-#warning("TODO: - ")
 
 
-// auxilary alert should be dismissed via notificaitons
 
-
-class AlertHandler {
-}
 
 
 

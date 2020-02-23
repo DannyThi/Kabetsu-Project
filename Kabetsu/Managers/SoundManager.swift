@@ -9,15 +9,26 @@
 //import Foundation
 import AVFoundation
 
-enum Sounds: String {
+enum SoundFileKey: String, Codable, CaseIterable {
     case clownHorn = "Cartoon Clown Horn 01"
     case cartoonHonk = "Cartoon Toy Noisemaker Honk 01"
     case phoneTone = "Technology Electronic Cell Phone Ring Tone 03"
+    var title: String {
+        switch self {
+        case .phoneTone:
+            return "Alarm"
+        case .clownHorn:
+            return "Horn"
+        case .cartoonHonk:
+            return "Honk"
+        }
+    }
 }
 
 class SoundManager {
     static let shared = SoundManager()
-    private var currentSoundEffect = Sounds.phoneTone
+    private let settings = Settings.shared
+    private var currentSoundEffect = Settings.shared.currentAlertSound
     private var audioPlayer: AVAudioPlayer?
     
     private init() {
@@ -41,7 +52,7 @@ class SoundManager {
         do {
             audioPlayer = try AVAudioPlayer(contentsOf: url)
             audioPlayer?.numberOfLoops = -1
-            
+            audioPlayer?.volume = Float(settings.volume)
             audioPlayer?.play()
         } catch {
             print("Could not play soundfile: \(currentSoundEffect)")

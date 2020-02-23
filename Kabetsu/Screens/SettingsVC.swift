@@ -13,13 +13,17 @@ import UIKit
 class SettingsVC: UIViewController {
     
     private enum Section: Int, CaseIterable {
-        case interfaceStyle, timeIncrements
+        case interfaceStyle, timeIncrements, alertVolume, alertSound
         var rowCount: Int {
             switch self {
             case .interfaceStyle:
                 return Settings.shared.interfaceStyleFollowsIOS ? 1 : 2
             case .timeIncrements:
                 return 1
+            case .alertVolume:
+                return 1
+            case .alertSound:
+                return SoundFileKey.allCases.count
             }
         }
         var title: String {
@@ -28,6 +32,10 @@ class SettingsVC: UIViewController {
                 return "dark mode"
             case .timeIncrements:
                 return "time increments for timer"
+            case .alertVolume:
+                return "alert volume for timer"
+            case .alertSound:
+                return "alert sound for timer"
             }
         }
         var description: String {
@@ -36,6 +44,10 @@ class SettingsVC: UIViewController {
                 return "Set the theme of the app."
             case .timeIncrements:
                 return "Adjusts the number of seconds added/removed for the +/- buttons on the timer screen."
+            case .alertVolume:
+                return "Adjusts the alert volume when the timer ends."
+            case .alertSound:
+                return "Choose the alert sound when the timer is complete."
             }
         }
     }
@@ -54,7 +66,7 @@ class SettingsVC: UIViewController {
 
 
 
-// MARK: - Actions
+// MARK: - ACTIONS
 
 extension SettingsVC {
     @objc private func dismissVC() {
@@ -63,7 +75,7 @@ extension SettingsVC {
 }
 
 
-// MARK: - UITableViewDatasource
+// MARK: - UITABLEVIEW DATASOURCE
 
 extension SettingsVC: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -72,10 +84,13 @@ extension SettingsVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return Section(rawValue: section)!.rowCount
     }
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
+    }
 }
 
 
-// MARK: - UITableViewDelegate
+// MARK: - UITABLEVIEW DELEGATE
 
 extension SettingsVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -103,6 +118,20 @@ extension SettingsVC: UITableViewDelegate {
             cell.set(timeIncrements: settings.timerIncrementControlValues, selectedIndex: settings.timerIncrementControlSelectedIndex)
             cell.delegate = self
             return cell
+        
+        case .alertVolume:
+            let cell = tableView.dequeueReusableCell(withIdentifier: AlertVolumeTVCell.reuseId) as! AlertVolumeTVCell
+            cell.set(volume: settings.volume)
+            cell.delegate = self
+            return cell
+            
+        case .alertSound:
+            let cell = tableView.dequeueReusableCell(withIdentifier: AlertSoundTVCell.reuseId) as! AlertSoundTVCell
+            let soundTitle = SoundFileKey.allCases[indexPath.row].title
+            //cell.set(title: title)
+            //cell.delegate = self
+            return cell
+
             
         case .none:
             fatalError("Settings tableView error.")
@@ -137,6 +166,8 @@ extension SettingsVC {
         tableView.register(InterfaceStyleTVCell.self, forCellReuseIdentifier: InterfaceStyleTVCell.reuseId)
         tableView.register(ThemeTVCell.self, forCellReuseIdentifier: ThemeTVCell.reuseId)
         tableView.register(TimerIncrementsTVCell.self, forCellReuseIdentifier: TimerIncrementsTVCell.reuseId)
+        tableView.register(AlertVolumeTVCell.self, forCellReuseIdentifier: AlertVolumeTVCell.reuseId)
+        tableView.register(AlertSoundTVCell.self, forCellReuseIdentifier: AlertSoundTVCell.reuseId)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.allowsSelection = false
         tableView.rowHeight = 50
@@ -162,9 +193,8 @@ extension SettingsVC {
 }
 
 
-// MARK: - INTERFACE STYLE TABLE VIEW CELL DELEGATE
+// MARK: - INTERFACESTYLETVCELL DELEGATE
 
-#warning("TODO: Use diffable datasource for animation")
 extension SettingsVC: InterfaceStyleTVCellDelegate {
     func interfaceFollowsIOSSwitchValueChanged(_ value: Bool) {
         settings.interfaceStyleFollowsIOS = value
@@ -173,8 +203,7 @@ extension SettingsVC: InterfaceStyleTVCellDelegate {
 }
 
 
-
-// MARK: - THEME TABLE VIEW CELL DELEGATE
+// MARK: - THEMETVCELL DELEGATE
 
 extension SettingsVC: ThemeTVCellDelegate {
     func themeSegmentControlValueChanged(_ segmentIndex: Int) {        
@@ -183,7 +212,7 @@ extension SettingsVC: ThemeTVCellDelegate {
 }
 
 
-// MARK: - TIMER INCREMENTS TABLE VIEW CELL DELEGATE
+// MARK: - TIMERINCREMENTSTVCELL DELEGATE
 
 extension SettingsVC: TimerIncrementsTVCellDelegate {
     func timerIncrementsSegmentControlValueChanged(value: Int) {
@@ -191,4 +220,18 @@ extension SettingsVC: TimerIncrementsTVCellDelegate {
     }
 }
 
+// MARK: ALERTVOLUMETVCELL DELEGATE
 
+extension SettingsVC: AlertVolumeTVCellDelegate {
+    func volumeSliderValueChanged(_ value: Double) {
+        settings.volume = value
+    }
+}
+// MARK: ALERTSOUNDTVCELL DELEGATE
+
+extension SettingsVC: AlertSoundTVCellDelegate {
+    
+    func alertSoundPickerValueChanged(value: Int) {
+        
+    }
+}

@@ -21,18 +21,17 @@ enum InterfaceStyle: Int, CaseIterable, Codable {
     }
 }
 
-
-
 class Settings: Codable {
     static let shared = Settings()
-    
     private enum Keys {
         static let timerIncrementControlSelectedIndexKey = "timerIncrementControlSelectedIndexKey"
         static let interfaceStyleFollowsIOS = "interfaceStyleFollowsIOS"
         static let interfaceStyle = "interfaceStyle"
+        static let alertSoundVolume = "alertSoundVolume"
+        static let chosenAlertSound = "chosenAlertSound"
+        
     }
 }
-
 
 
 // MARK: - TIMER INCREMENT CONTROL
@@ -55,7 +54,6 @@ extension Settings {
         }
     }
 }
-
 
 
 // MARK: - USER INTERFACE STYLE
@@ -100,6 +98,37 @@ extension Settings {
             UIApplication.shared.windows.forEach { window in window.overrideUserInterfaceStyle = iOSInterfaceStyle }
         } else {
             UIApplication.shared.windows.forEach { window in window.overrideUserInterfaceStyle = .unspecified }
+        }
+    }
+}
+
+
+// MARK: ALERT SOUND
+
+extension Settings {
+    var volume: Double {
+        get {
+            guard let storedVolume = UserDefaults.standard.object(forKey: Keys.alertSoundVolume) as? Double else {
+                UserDefaults.standard.set(0.4, forKey: Keys.alertSoundVolume)
+                return 0.4
+            }
+            return storedVolume
+        }
+        set (volume) {
+            let normalized = Double.maximum(Double.minimum(volume, 1), 0)
+            UserDefaults.standard.set(normalized, forKey: Keys.alertSoundVolume)
+        }
+    }
+    var currentAlertSound: SoundFileKey {
+        get {
+            guard let fileName = UserDefaults.standard.object(forKey: Keys.chosenAlertSound) as? String else {
+                UserDefaults.standard.set(SoundFileKey.phoneTone.rawValue, forKey: Keys.chosenAlertSound)
+                return SoundFileKey.phoneTone
+            }
+            return SoundFileKey(rawValue: fileName)!
+        }
+        set (alertSound) {
+            UserDefaults.standard.set(alertSound.rawValue, forKey: Keys.chosenAlertSound)
         }
     }
 }

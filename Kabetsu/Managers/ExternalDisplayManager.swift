@@ -29,7 +29,13 @@ class ExternalDisplayManager: UIViewController {
     }
     
     
-
+    private func presentOnExternalScreen() {
+        
+    }
+    
+    private func endPresenting() {
+        
+    }
     
     
     
@@ -55,12 +61,12 @@ class ExternalDisplayManager: UIViewController {
     }
     
     private func configureExternalDisplay(screen: UIScreen) {
-        print("Got a screen")
-        var window = UIWindow(frame: screen.bounds)
-        
-        window.screen = screen
-        window.rootViewController = self
-        window.isHidden = false
+//        print("Got a screen")
+//        var window = UIWindow(frame: screen.bounds)
+//        
+//        window.screen = screen
+//        window.rootViewController = self
+//        window.isHidden = false
     }
 }
 

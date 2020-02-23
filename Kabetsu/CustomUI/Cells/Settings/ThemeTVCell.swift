@@ -12,25 +12,22 @@ protocol ThemeTVCellDelegate: class {
     func themeSegmentControlValueChanged(_ segmentIndex: Int)
 }
 
-class ThemeTVCell: UITableViewCell {
+class ThemeTVCell: KBTSettingsBaseTVCell {
     static let reuseId = "themeTVCell"
     
-    private struct ImageKeys {
+    struct ImageKey {
         static let cellSymbol = "chevron.right.2"
     }
     
-    private var symbolImageView: UIImageView!
+    override var symbolImageInset: UIEdgeInsets { return UIEdgeInsets(top: 16, left: 40, bottom: 16, right: 0) }
     private var themeSegmentControl: UISegmentedControl!
     weak var delegate: ThemeTVCellDelegate?
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        configureSymbolImageView()
+        configureCell()
         configureThemeSegementControl()
-        
-        configureSymbolImageViewConstraints()
         configureThemeSegmentControlConstraints()
-
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -40,7 +37,6 @@ class ThemeTVCell: UITableViewCell {
         themeSegmentControl.selectedSegmentIndex = index
     }
 }
-
 
 
 // MARK: - ACTIONS
@@ -61,12 +57,9 @@ extension ThemeTVCell {
 // MARK: - CONFIGURATION
 
 extension ThemeTVCell {
-    private func configureSymbolImageView() {
-        let image = UIImage(systemName: ImageKeys.cellSymbol, withConfiguration: GlobalImageKeys.symbolConfig())
-        symbolImageView = UIImageView(image: image)
-        symbolImageView.tintColor = .systemGreen
-        symbolImageView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(symbolImageView)
+    private func configureCell() {
+        let image = UIImage(systemName: ImageKey.cellSymbol, withConfiguration: GlobalImageKeys.symbolConfig())
+        symbolImageView.image = image
     }
     private func configureThemeSegementControl() {
         themeSegmentControl = UISegmentedControl(items: InterfaceStyle.allCases.map { $0.title } )
@@ -76,28 +69,16 @@ extension ThemeTVCell {
     }
 }
 
+
 // MARK: - CONSTRAINTS
 
 extension ThemeTVCell {
-    private var verticalPadding: CGFloat { return 8 }
-    private var horizontalPadding: CGFloat { return 20 }
-    private var horizontalPaddingIndented: CGFloat { return 50 }
-    
-    private func configureSymbolImageViewConstraints() {
-        NSLayoutConstraint.activate([
-            symbolImageView.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: verticalPadding * 2),
-            symbolImageView.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -verticalPadding * 2),
-            symbolImageView.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor, constant: horizontalPaddingIndented),
-            symbolImageView.widthAnchor.constraint(equalTo: symbolImageView.heightAnchor),
-        ])
-    }
-    
     private func configureThemeSegmentControlConstraints() {
         NSLayoutConstraint.activate([
-            themeSegmentControl.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: verticalPadding),
-            themeSegmentControl.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -verticalPadding),
+            themeSegmentControl.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: verticalEdgeInset),
+            themeSegmentControl.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -verticalEdgeInset),
             themeSegmentControl.leadingAnchor.constraint(equalTo: symbolImageView.trailingAnchor, constant: 8),
-            themeSegmentControl.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor, constant: -horizontalPadding),
+            themeSegmentControl.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor, constant: -horizontalEdgeInset),
         ])
     }
 }

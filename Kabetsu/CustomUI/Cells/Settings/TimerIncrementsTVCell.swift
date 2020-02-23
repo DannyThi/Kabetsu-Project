@@ -12,25 +12,20 @@ protocol TimerIncrementsTVCellDelegate: class {
     func timerIncrementsSegmentControlValueChanged(value: Int)
 }
 
-class TimerIncrementsTVCell: UITableViewCell {
+class TimerIncrementsTVCell: KBTSettingsBaseTVCell {
     static let reuseId = "timerIncrementsTVCell"
     
-    private struct ImageKeys {
+    private struct ImageKey {
         static let cellSymbol = "timer"
     }
     
-    private var symbolImageView: UIImageView!
     private var timerIncrementSegmentControl: UISegmentedControl!
-    
     weak var delegate: TimerIncrementsTVCellDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        configureTableViewCell()
-        configureSymbolImageView()
+        configureCell()
         configureTimerIncrementSegmentControl()
-        
-        configureSymbolImageViewConstraints()
         configureTimerIncrementsSegmentedControlConstraints()
     }
     required init?(coder: NSCoder) {
@@ -48,7 +43,6 @@ class TimerIncrementsTVCell: UITableViewCell {
 }
 
 
-
 // MARK: - ACTIONS
 
 extension TimerIncrementsTVCell {
@@ -62,21 +56,13 @@ extension TimerIncrementsTVCell {
 }
 
 
-
 // MARK: - CONFIGURATION
 
 extension TimerIncrementsTVCell {
-    private func configureTableViewCell() {
-
+    private func configureCell() {
+        let image = UIImage(systemName: ImageKey.cellSymbol, withConfiguration: GlobalImageKeys.symbolConfig())
+        symbolImageView.image = image
     }
-    private func configureSymbolImageView() {
-        let image = UIImage(systemName: ImageKeys.cellSymbol, withConfiguration: GlobalImageKeys.symbolConfig())
-        symbolImageView = UIImageView(image: image)
-        symbolImageView.tintColor = .systemGreen
-        symbolImageView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(symbolImageView)
-    }
-    
     private func configureTimerIncrementSegmentControl() {
         timerIncrementSegmentControl = UISegmentedControl()
         timerIncrementSegmentControl.translatesAutoresizingMaskIntoConstraints = false
@@ -87,29 +73,15 @@ extension TimerIncrementsTVCell {
 }
 
 
-
 // MARK: - CONSTRAINTS
 
 extension TimerIncrementsTVCell {
-    private var verticalPadding: CGFloat { return 8 }
-    private var horizontalPadding: CGFloat { return 20 }
-    private var horizontalPaddingIndented: CGFloat { return 50 }
-    
-    private func configureSymbolImageViewConstraints() {
-        NSLayoutConstraint.activate([
-            symbolImageView.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: verticalPadding),
-            symbolImageView.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -verticalPadding),
-            symbolImageView.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor, constant: horizontalPadding),
-            symbolImageView.widthAnchor.constraint(equalTo: symbolImageView.heightAnchor),
-        ])
-    }
     private func configureTimerIncrementsSegmentedControlConstraints() {
         NSLayoutConstraint.activate([
-            timerIncrementSegmentControl.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: verticalPadding),
-            timerIncrementSegmentControl.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -verticalPadding),
-            timerIncrementSegmentControl.leadingAnchor.constraint(equalTo: symbolImageView.trailingAnchor, constant: 8),
-            timerIncrementSegmentControl.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor, constant: -horizontalPadding),
+            timerIncrementSegmentControl.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: verticalEdgeInset),
+            timerIncrementSegmentControl.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -verticalEdgeInset),
+            timerIncrementSegmentControl.leadingAnchor.constraint(equalTo: symbolImageView.trailingAnchor, constant: horizontalEdgeInset),
+            timerIncrementSegmentControl.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor, constant: -horizontalEdgeInset),
         ])
     }
-    
 }
