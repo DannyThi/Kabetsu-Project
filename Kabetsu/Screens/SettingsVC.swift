@@ -132,7 +132,7 @@ extension SettingsVC: UITableViewDelegate {
         case .alertSound:
             let cell = tableView.dequeueReusableCell(withIdentifier: AlertSoundTVCell.reuseId) as! AlertSoundTVCell
             let soundKey = SoundFileKey.allCases[indexPath.row]
-            if soundKey == settings.currentAlertSound { cell.setSelected(animated: false) }
+            if soundKey == settings.currentAlertSound { cell.set(selected: true, animated: false) }
             cell.set(title: soundKey.title)
             cell.delegate = self
             return cell
@@ -249,7 +249,7 @@ extension SettingsVC: AlertVolumeTVCellDelegate {
 
 extension SettingsVC: AlertSoundTVCellDelegate {
     func alertSoundTVCellTapped(_ sender: AlertSoundTVCell) {
-        sender.setSelected(animated: true)
+        sender.set(selected: true, animated: true)
         let name = sender.titleLabel.text!
         let newSound = SoundFileKey.allCases.first { $0.title == name }
         settings.currentAlertSound = newSound!

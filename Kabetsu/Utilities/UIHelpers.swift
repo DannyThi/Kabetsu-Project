@@ -11,7 +11,8 @@ import UIKit
 class UIHelpers {
     
     static let cornerRadius: CGFloat = 25
-    static let borderWidth: CGFloat = 2
+    static var borderWidth: CGFloat { return UITraitCollection.current.userInterfaceStyle == .dark ? 2 : 1 }
+    static var shadowOpacity: Float { return UITraitCollection.current.userInterfaceStyle == .dark ? 0 : 0.5 }
     static let digitalDisplayFontHeightToWidthRatio: CGFloat = 0.17
     
     static func displayDefaultAlert(title: String? = nil, message: String? = nil, actions: [UIAlertAction], completed: (() ->Void)? = nil) {
@@ -22,7 +23,6 @@ class UIHelpers {
         let presentingVC = UIApplication.shared.windows.filter { $0.isKeyWindow }.first?.rootViewController
         presentingVC?.present(ac, animated: true, completion: completed)
     }
-    
 }
 
 enum GlobalImageKeys: String, CaseIterable {

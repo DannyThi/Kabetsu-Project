@@ -31,7 +31,6 @@ class TimerCell: UICollectionViewCell {
         configureCell()
         configureLabel()
         configureRemoveButton()
-        updateView(for: traitCollection.userInterfaceStyle)
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -49,18 +48,11 @@ class TimerCell: UICollectionViewCell {
 
 extension TimerCell {
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        updateView(for: traitCollection.userInterfaceStyle)
+        updateViewAppearance()
     }
-    private func updateView(for userInterfaceStyle: UIUserInterfaceStyle) {
-        let userInterfaceStyle = traitCollection.userInterfaceStyle
-        switch userInterfaceStyle {
-        case .dark:
-            contentView.layer.borderWidth = 2
-            layer.shadowOpacity = 0
-        default:
-            contentView.layer.borderWidth = 0
-            layer.shadowOpacity = 0.5
-        }
+    private func updateViewAppearance() {
+        contentView.layer.borderWidth = UIHelpers.borderWidth
+        layer.shadowOpacity = UIHelpers.shadowOpacity
     }
 }
 
@@ -73,11 +65,13 @@ extension TimerCell {
         contentView.backgroundColor = .secondarySystemBackground
         contentView.layer.cornerRadius = 25
         contentView.layer.borderColor = UIColor.white.cgColor
+        contentView.layer.borderWidth = UIHelpers.borderWidth
         contentView.layer.masksToBounds = true
-        
+    
         layer.shadowColor = UIColor.lightGray.cgColor
         layer.shadowOffset = CGSize(width: 1, height: 1)
         layer.shadowRadius = 2
+        layer.shadowOpacity = UIHelpers.shadowOpacity
         layer.masksToBounds = false
     }
     

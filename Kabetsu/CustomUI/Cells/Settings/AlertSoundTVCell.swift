@@ -40,22 +40,31 @@ class AlertSoundTVCell: KBTSettingsBaseTVCell {
     func set(title: String) {
         titleLabel.text = title
     }
-    func setSelected(animated: Bool) {
-        guard animated else {
-            self.selectedIndicator.alpha = 1
-            return
-        }
-        UIView.animate(withDuration: 0.3) {
-            self.selectedIndicator.alpha = 1
-        }
-    }
-    private func setDeselected(animated: Bool) {
-        guard animated else {
-            self.selectedIndicator.alpha = 0
-            return
-        }
-        UIView.animate(withDuration: 0.3) {
-            self.selectedIndicator.alpha = 0
+    
+//    func setSelected(animated: Bool) {
+//        guard animated else {
+//            self.selectedIndicator.alpha = 1
+//            return
+//        }
+//        UIView.animate(withDuration: 0.1) {
+//            self.selectedIndicator.alpha = 1
+//        }
+//    }
+//    private func setDeselected(animated: Bool) {
+//        guard animated else {
+//            self.selectedIndicator.alpha = 0
+//            return
+//        }
+//        UIView.animate(withDuration: 0.1) {
+//            self.selectedIndicator.alpha = 0
+//        }
+//    }
+//    
+    func set(selected: Bool, animated: Bool) {
+        let alpha: CGFloat = selected ? 1 : 0
+        guard animated else { self.selectedIndicator.alpha = alpha; return }
+        UIView.animate(withDuration: 0.1) {
+            self.selectedIndicator.alpha = alpha
         }
     }
 
@@ -87,7 +96,7 @@ extension AlertSoundTVCell {
             [weak self] notification in
             guard let self = self else { return }
             guard self.titleLabel.text != notification.userInfo?["name"] as? String else { return }
-            self.setDeselected(animated: true)
+            self.set(selected: false, animated: true)
         }
     }
     private func configureTitleLabel() {

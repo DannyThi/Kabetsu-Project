@@ -17,7 +17,7 @@ class ExternalDisplayManager: UIViewController {
     
     static let shared = ExternalDisplayManager()
     
-    static var isCurrentlyPresenting: Bool = false
+//    static var isCurrentlyPresenting: Bool = false
     var detailViewController: UIViewController?
     
     private override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -77,6 +77,7 @@ extension ExternalDisplayManager {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("viewdidload")
+        
         view.backgroundColor = .systemRed
     }
 }

@@ -82,6 +82,12 @@ extension AddNewTimerVC {
         }
         constraints.activate(.iPhonePortrait)
     }
+    private func updateViewAppearance() {
+        textLabel.layer.borderWidth = UIHelpers.borderWidth
+        textLabel.layer.shadowOpacity = UIHelpers.shadowOpacity
+        timePicker.layer.borderWidth = UIHelpers.borderWidth
+        timePicker.layer.shadowOpacity = UIHelpers.shadowOpacity
+    }
 }
 
 
@@ -164,6 +170,7 @@ extension AddNewTimerVC {
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         updateConstraints()
+        
     }
 }
 
@@ -253,24 +260,36 @@ extension AddNewTimerVC {
         textLabel.font = UIFont.preferredFont(forTextStyle: .headline)
         textLabel.textAlignment = .center
         textLabel.textColor = .label
-        textLabel.backgroundColor = .secondarySystemBackground
         textLabel.numberOfLines = 2
         textLabel.adjustsFontSizeToFitWidth = true
         textLabel.minimumScaleFactor = 0.8
         textLabel.lineBreakMode = .byWordWrapping
+        textLabel.layer.backgroundColor = UIColor.secondarySystemBackground.cgColor
+        
         textLabel.layer.cornerRadius = UIHelpers.cornerRadius
-        textLabel.layer.borderWidth = UIHelpers.borderWidth
         textLabel.layer.borderColor = UIColor.white.cgColor
-        textLabel.clipsToBounds = true
+        textLabel.layer.borderWidth = UIHelpers.borderWidth
+        
+        textLabel.layer.shadowColor = UIColor.lightGray.cgColor
+        textLabel.layer.shadowOffset = CGSize(width: 1, height: 1)
+        textLabel.layer.shadowRadius = 2
+        textLabel.layer.shadowOpacity = UIHelpers.shadowOpacity
     }
+    
     private func configureTimePicker() {
         view.addSubview(timePicker)
         timePicker.translatesAutoresizingMaskIntoConstraints = false
-        timePicker.backgroundColor = .secondarySystemBackground
+        timePicker.layer.backgroundColor = UIColor.secondarySystemBackground.cgColor
+    
         timePicker.layer.cornerRadius = UIHelpers.cornerRadius
-        timePicker.layer.borderWidth = UIHelpers.borderWidth
         timePicker.layer.borderColor = UIColor.white.cgColor
-        timePicker.clipsToBounds = true
+        timePicker.layer.borderWidth = UIHelpers.borderWidth
+        
+        timePicker.layer.shadowColor = UIColor.lightGray.cgColor
+        timePicker.layer.shadowOffset = CGSize(width: 1, height: 1)
+        timePicker.layer.shadowRadius = 2
+        timePicker.layer.shadowOpacity = UIHelpers.shadowOpacity
+        timePicker.layer.masksToBounds = false
         timePicker.delegate = self
         timePicker.dataSource = self
     }
@@ -366,3 +385,24 @@ extension AddNewTimerVC {
         constraints.iPhoneLandscapeRegular = iPhoneLandscapeRegularConstraints
     }
 }
+
+
+//public func configureButton() {
+//    self.translatesAutoresizingMaskIntoConstraints = false
+//    self.layer.cornerRadius = 25
+//    self.layer.borderColor = UIColor.secondarySystemGroupedBackground.cgColor
+//    self.layer.shadowColor = UIColor.lightGray.cgColor
+//    self.layer.shadowOffset = CGSize(width: 1, height: 1)
+//    self.layer.shadowRadius = 2
+//}
+//
+//private func updateView(for userInterfaceStyle: UIUserInterfaceStyle) {
+//    switch userInterfaceStyle {
+//    case .dark:
+//        layer.borderWidth = 2
+//        layer.shadowOpacity = 0
+//    default:
+//        layer.borderWidth = 0
+//        layer.shadowOpacity = 0.5
+//    }
+//}

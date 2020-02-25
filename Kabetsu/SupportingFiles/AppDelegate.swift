@@ -22,11 +22,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when a new scene session is being created.
         // Use this method to select a configuration to create the new scene with.
         
-//        print(UIApplication.shared.connectedScenes)
-//        let scene = UIWindowScene(session: connectingSceneSession, connectionOptions: options)
-//        let window = UIWindow(frame: UIScreen.screens.last?.bounds ?? .zero)
+//        let externalScene = UIWindowScene(session: connectingSceneSession, connectionOptions: options)
+//        let window = UIWindow(frame: externalScene.coordinateSpace.bounds)
 //        window.rootViewController = ExternalDisplayManager.shared.self
-//        window.windowScene = scene
+//        window.windowScene = externalScene
 //        window.isHidden = false
 
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
