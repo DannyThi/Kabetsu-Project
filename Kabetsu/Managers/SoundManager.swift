@@ -10,9 +10,9 @@
 import AVFoundation
 
 enum SoundFileKey: String, Codable, CaseIterable {
+    case phoneTone = "Technology Electronic Cell Phone Ring Tone 03"
     case clownHorn = "Cartoon Clown Horn 01"
     case cartoonHonk = "Cartoon Toy Noisemaker Honk 01"
-    case phoneTone = "Technology Electronic Cell Phone Ring Tone 03"
     var title: String {
         switch self {
         case .phoneTone:

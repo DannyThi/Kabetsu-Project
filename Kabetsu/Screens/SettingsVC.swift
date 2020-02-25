@@ -10,6 +10,10 @@ import UIKit
 
 #warning("Convert to Collection View with Diffable Datasource")
 
+extension Notification.Name {
+    static let alertSoundSelected = Notification.Name("alertSoundSelected")
+}
+
 class SettingsVC: UIViewController {
     
     private enum Section: Int, CaseIterable {
@@ -127,11 +131,11 @@ extension SettingsVC: UITableViewDelegate {
             
         case .alertSound:
             let cell = tableView.dequeueReusableCell(withIdentifier: AlertSoundTVCell.reuseId) as! AlertSoundTVCell
-            let soundTitle = SoundFileKey.allCases[indexPath.row].title
-            //cell.set(title: title)
-            //cell.delegate = self
+            let soundKey = SoundFileKey.allCases[indexPath.row]
+            if soundKey == settings.currentAlertSound { cell.setSelected(animated: false) }
+            cell.set(title: soundKey.title)
+            cell.delegate = self
             return cell
-
             
         case .none:
             fatalError("Settings tableView error.")
@@ -143,6 +147,18 @@ extension SettingsVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         return Section(rawValue: section)?.description
     }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let section = Section(rawValue: indexPath.section)!
+        print(section)
+        switch section {
+        case .alertSound:
+            print(SoundFileKey.allCases[indexPath.row].title)
+            break
+        default:
+            return
+        }
+    }
 }
 
 
@@ -152,7 +168,6 @@ extension SettingsVC {
     private func configureViewController() {
         view.backgroundColor = .systemBackground
         self.title = "Settings"
-        
     }
     private func configureDismissButton() {
         let dismissButton = UIBarButtonItem(image: GlobalImageKeys.dismiss.image,
@@ -220,6 +235,7 @@ extension SettingsVC: TimerIncrementsTVCellDelegate {
     }
 }
 
+
 // MARK: ALERTVOLUMETVCELL DELEGATE
 
 extension SettingsVC: AlertVolumeTVCellDelegate {
@@ -227,11 +243,16 @@ extension SettingsVC: AlertVolumeTVCellDelegate {
         settings.volume = value
     }
 }
+
+
 // MARK: ALERTSOUNDTVCELL DELEGATE
 
 extension SettingsVC: AlertSoundTVCellDelegate {
-    
-    func alertSoundPickerValueChanged(value: Int) {
-        
+    func alertSoundTVCellTapped(_ sender: AlertSoundTVCell) {
+        sender.setSelected(animated: true)
+        let name = sender.titleLabel.text!
+        let newSound = SoundFileKey.allCases.first { $0.title == name }
+        settings.currentAlertSound = newSound!
+        NotificationCenter.default.post(Notification.init(name: .alertSoundSelected, object: self, userInfo: ["name":name]))
     }
 }

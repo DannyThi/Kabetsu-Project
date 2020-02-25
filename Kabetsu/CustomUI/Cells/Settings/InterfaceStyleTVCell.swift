@@ -65,7 +65,7 @@ extension InterfaceStyleTVCell {
     }
     private func configureTitleLabel() {
         titleLabel = UILabel()
-        titleLabel.text = "Follows iOS settings"
+        titleLabel.text = "App appearance follows iOS"
         titleLabel.font = UIFont.preferredFont(forTextStyle: .callout)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(titleLabel)

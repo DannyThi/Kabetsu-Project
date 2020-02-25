@@ -11,7 +11,7 @@ import UIKit
 class KBTSettingsBaseTVCell: UITableViewCell {
     
     var symbolImageView: UIImageView!
-    var symbolImageInset: UIEdgeInsets { return UIEdgeInsets(top: 12, left: 20, bottom: 12, right: 0) }
+    var symbolImageInset: UIEdgeInsets { return UIEdgeInsets(top: 12, left: 20, bottom: 12, right: 20) }
     var verticalEdgeInset: CGFloat { return 12 }
     var horizontalEdgeInset: CGFloat { return 20 }
     
