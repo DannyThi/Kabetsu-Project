@@ -9,5 +9,14 @@
 import UIKit
 
 class TimerDisplayVC: UIViewController {
+
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .systemBlue
+        print("TImerDisplayVC Bounds: \(self.view.bounds)")
+        
+    }
+    
     
 }

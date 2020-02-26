@@ -8,66 +8,46 @@
 
 import UIKit
 
-
-
-// this will attach itself to the externalscreen
-//
-
 class ExternalDisplayManager: UIViewController {
     
     static let shared = ExternalDisplayManager()
     
-//    static var isCurrentlyPresenting: Bool = false
-    var detailViewController: UIViewController?
+    var currentViewController: UIViewController?
     
-    private override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+    override private init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         configureNotificationListeners()
+    }
+    private init() {
+        super.init(nibName: nil, bundle: nil)
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     
-    private func presentOnExternalScreen() {
+    
+    func project(detailsViewController viewController: UIViewController) {
+        print("Projecting View Controller")
         
-    }
-    
-    private func endPresenting() {
+        // TODO: - check if already presenting
         
+        currentViewController = viewController
+        self.addChild(viewController)
+        viewController.view.alpha = 0
+        self.view.addSubview(viewController.view)
+        UIView.animate(withDuration: 0.3) {
+            viewController.view.alpha = 1
+        }
+        viewController.didMove(toParent: self)
     }
     
-    
-    
-    // screen comes before window
-    // THE UISCREEN OBJECT IS THE SCREEN OF THE DEVICE.
-    // A UIWINDOW OBJECT IS THE VIEW FOR THE SCREEN.
-//    func getExternalWindow(windowScene: UIWindowScene) {
-//        let windows = windowScene.windows
-//        guard windows.count > 1, let window = windows.last else { return }
-//
-////        let window = UIWindow(frame: screen.bounds)
-////        window.screen = screen
-////
-////        window.rootViewController = self
-////        return window
-//    }
-    
-    func displayDetailView() {
-        print("HI")
-//        self.addChild(detailViewController!)
-//        self.view = detailViewController?.view
-//
+    func endProjecting() {
+        willMove(toParent: nil)
+        currentViewController?.removeFromParent()
+        currentViewController = nil
     }
-    
-    private func configureExternalDisplay(screen: UIScreen) {
-//        print("Got a screen")
-//        var window = UIWindow(frame: screen.bounds)
-//        
-//        window.screen = screen
-//        window.rootViewController = self
-//        window.isHidden = false
-    }
+
 }
 
 
@@ -76,9 +56,7 @@ class ExternalDisplayManager: UIViewController {
 extension ExternalDisplayManager {
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("viewdidload")
-        
-        view.backgroundColor = .systemRed
+        view.backgroundColor = .systemPink
     }
 }
 
@@ -86,10 +64,8 @@ extension ExternalDisplayManager {
 
 extension ExternalDisplayManager {
     private func configureNotificationListeners() {
-        NotificationCenter.default.addObserver(forName: UIScreen.didConnectNotification, object: nil, queue: nil) {
-            [weak self] notififcation in
-            guard let screen = notififcation.object as? UIScreen else { return }
-            self?.configureExternalDisplay(screen: screen)
+        NotificationCenter.default.addObserver(forName: UIScreen.didConnectNotification, object: nil, queue: nil) { _ in
+            print("did connect")
         }
         NotificationCenter.default.addObserver(forName: UIScreen.didDisconnectNotification, object: nil, queue: nil) { _ in
             print("did disconnect")

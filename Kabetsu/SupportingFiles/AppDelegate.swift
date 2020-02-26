@@ -19,16 +19,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: UISceneSession Lifecycle
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-        // Called when a new scene session is being created.
-        // Use this method to select a configuration to create the new scene with.
-        
-//        let externalScene = UIWindowScene(session: connectingSceneSession, connectionOptions: options)
-//        let window = UIWindow(frame: externalScene.coordinateSpace.bounds)
-//        window.rootViewController = ExternalDisplayManager.shared.self
-//        window.windowScene = externalScene
-//        window.isHidden = false
 
-        return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+        var sceneName: String
+        var delegateClass: AnyClass
+        switch connectingSceneSession.role {
+        case .windowExternalDisplay:
+            sceneName = "External Configuration"
+            delegateClass = ExternalSceneDelegate.classForCoder()
+        default:
+            sceneName = "Default Configuration"
+            delegateClass = SceneDelegate.classForCoder()
+        }
+        
+        let sceneConfiguration = UISceneConfiguration(name: sceneName, sessionRole: connectingSceneSession.role)
+        sceneConfiguration.delegateClass = delegateClass
+        return sceneConfiguration
     }
 
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {

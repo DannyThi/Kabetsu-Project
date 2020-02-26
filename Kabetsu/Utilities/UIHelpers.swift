@@ -11,7 +11,7 @@ import UIKit
 class UIHelpers {
     
     static let cornerRadius: CGFloat = 25
-    static var borderWidth: CGFloat { return UITraitCollection.current.userInterfaceStyle == .dark ? 2 : 1 }
+    static var borderWidth: CGFloat { return UITraitCollection.current.userInterfaceStyle == .dark ? 2 : 0.5 }
     static var shadowOpacity: Float { return UITraitCollection.current.userInterfaceStyle == .dark ? 0 : 0.5 }
     static let digitalDisplayFontHeightToWidthRatio: CGFloat = 0.17
     

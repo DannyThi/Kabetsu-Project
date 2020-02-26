@@ -119,6 +119,17 @@ extension TimerVC {
         print("ProjectScreen button tapped")
         #warning("TODO - Project Screen Button")
         
+        
+        // initialize and present the master viewcontroller
+        // the master will set up the external display
+        
+        
+//        let externalView = UIView()
+//        ExternalDisplayManager.shared.project(viewToDisplay: externalView)
+//        
+        
+        let vc = TimerDisplayVC()
+        ExternalDisplayManager.shared.project(detailsViewController: vc)
         /*  We want to do two things when we project.
             we need to present a controller VC onto the device and a seperate projectorVC for the external screen
             we can present modally over another modal provided by setting the modalstyle to overfullscreen.

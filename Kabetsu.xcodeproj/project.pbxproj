@@ -28,6 +28,7 @@
 		9753C291240146820035A514 /* AlertSoundTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9753C290240146820035A514 /* AlertSoundTVCell.swift */; };
 		9753C2932401FAE80035A514 /* AlertVolumeTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9753C2922401FAE80035A514 /* AlertVolumeTVCell.swift */; };
 		9753C29524028DAF0035A514 /* KBTSettingsBaseTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9753C29424028DAF0035A514 /* KBTSettingsBaseTVCell.swift */; };
+		9753C2982404EDB20035A514 /* ExternalSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9753C2972404EDB20035A514 /* ExternalSceneDelegate.swift */; };
 		975C25EA23DEBCEF005847FF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975C25E923DEBCEF005847FF /* AppDelegate.swift */; };
 		975C25EC23DEBCEF005847FF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975C25EB23DEBCEF005847FF /* SceneDelegate.swift */; };
 		975C25EE23DEBCEF005847FF /* TimersListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975C25ED23DEBCEF005847FF /* TimersListVC.swift */; };
@@ -67,6 +68,7 @@
 		9753C290240146820035A514 /* AlertSoundTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertSoundTVCell.swift; sourceTree = "<group>"; };
 		9753C2922401FAE80035A514 /* AlertVolumeTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertVolumeTVCell.swift; sourceTree = "<group>"; };
 		9753C29424028DAF0035A514 /* KBTSettingsBaseTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KBTSettingsBaseTVCell.swift; sourceTree = "<group>"; };
+		9753C2972404EDB20035A514 /* ExternalSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalSceneDelegate.swift; sourceTree = "<group>"; };
 		975C25E623DEBCEF005847FF /* Kabetsu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kabetsu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		975C25E923DEBCEF005847FF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		975C25EB23DEBCEF005847FF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 				975C25F423DEBCF1005847FF /* LaunchScreen.storyboard */,
 				975C25E923DEBCEF005847FF /* AppDelegate.swift */,
 				975C25EB23DEBCEF005847FF /* SceneDelegate.swift */,
+				9753C2972404EDB20035A514 /* ExternalSceneDelegate.swift */,
 			);
 			path = SupportingFiles;
 			sourceTree = "<group>";
@@ -336,6 +339,7 @@
 			files = (
 				9753C22823F663770035A514 /* SettingsVC.swift in Sources */,
 				975D92B523EBD78F000CE57D /* AddNewTimerVC.swift in Sources */,
+				9753C2982404EDB20035A514 /* ExternalSceneDelegate.swift in Sources */,
 				9753C28623FF8BFC0035A514 /* TimerDisplayVC.swift in Sources */,
 				9753C28023FF4B900035A514 /* ExternalDisplayManager.swift in Sources */,
 				9753C28223FF4BCE0035A514 /* Projector.swift in Sources */,
