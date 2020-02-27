@@ -37,6 +37,7 @@ class TimerTask {
     /** The current elapsed time of the countdown timer.**/
     var currentCountdownTime: TimeInterval {
         let countdownTime = adjustedCountdownTime - totalElapsedTimeCounter
+        #warning("POTENTIAL BUG: If a timer of 0 calls this, we will get an endless loop")
         if countdownTime > 0 {
             return countdownTime
         } else {
@@ -70,7 +71,6 @@ class TimerTask {
                 updateTimer?.invalidate()
                 NotificationCenter.default.post(Notification(name: .timerDidEnd))
             }
-            
             NotificationCenter.default.post(Notification(name: .timerStateDidChange))
         }
     }

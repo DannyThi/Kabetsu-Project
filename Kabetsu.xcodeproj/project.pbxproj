@@ -18,7 +18,6 @@
 		9753C23D23FA4A250035A514 /* KBTTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9753C23C23FA4A250035A514 /* KBTTitleLabel.swift */; };
 		9753C24023FA6ED80035A514 /* KBTBodyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9753C23F23FA6ED80035A514 /* KBTBodyLabel.swift */; };
 		9753C28023FF4B900035A514 /* ExternalDisplayManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9753C27F23FF4B900035A514 /* ExternalDisplayManager.swift */; };
-		9753C28223FF4BCE0035A514 /* Projector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9753C28123FF4BCE0035A514 /* Projector.swift */; };
 		9753C28423FF8B260035A514 /* TimerControlsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9753C28323FF8B260035A514 /* TimerControlsVC.swift */; };
 		9753C28623FF8BFC0035A514 /* TimerDisplayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9753C28523FF8BFC0035A514 /* TimerDisplayVC.swift */; };
 		9753C288240122FB0035A514 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9753C287240122FB0035A514 /* SoundManager.swift */; };
@@ -58,7 +57,6 @@
 		9753C23C23FA4A250035A514 /* KBTTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KBTTitleLabel.swift; sourceTree = "<group>"; };
 		9753C23F23FA6ED80035A514 /* KBTBodyLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KBTBodyLabel.swift; sourceTree = "<group>"; };
 		9753C27F23FF4B900035A514 /* ExternalDisplayManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalDisplayManager.swift; sourceTree = "<group>"; };
-		9753C28123FF4BCE0035A514 /* Projector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Projector.swift; sourceTree = "<group>"; };
 		9753C28323FF8B260035A514 /* TimerControlsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerControlsVC.swift; sourceTree = "<group>"; };
 		9753C28523FF8BFC0035A514 /* TimerDisplayVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerDisplayVC.swift; sourceTree = "<group>"; };
 		9753C287240122FB0035A514 /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
@@ -120,7 +118,6 @@
 				9753C27F23FF4B900035A514 /* ExternalDisplayManager.swift */,
 				9753C28323FF8B260035A514 /* TimerControlsVC.swift */,
 				9753C28523FF8BFC0035A514 /* TimerDisplayVC.swift */,
-				9753C28123FF4BCE0035A514 /* Projector.swift */,
 				9753C287240122FB0035A514 /* SoundManager.swift */,
 			);
 			path = Managers;
@@ -342,7 +339,6 @@
 				9753C2982404EDB20035A514 /* ExternalSceneDelegate.swift in Sources */,
 				9753C28623FF8BFC0035A514 /* TimerDisplayVC.swift in Sources */,
 				9753C28023FF4B900035A514 /* ExternalDisplayManager.swift in Sources */,
-				9753C28223FF4BCE0035A514 /* Projector.swift in Sources */,
 				9753C23B23FA49960035A514 /* KBTAlertController.swift in Sources */,
 				975C260623DFA8C5005847FF /* TimerTask.swift in Sources */,
 				975C260123DEC493005847FF /* KBTDigitalDisplayLabel.swift in Sources */,

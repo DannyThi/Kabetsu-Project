@@ -15,10 +15,15 @@ class ExternalSceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
+        #warning("TODO: - DEFAULT COLORS WILL NEED TO BE SET HERE I THINK")
+        // MAY NEED TO REFACTOR AND INHERIT CODE
+        
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
         window?.rootViewController = configureExternalDisplayManager()
         window?.isHidden = false
+        
+        setUserInterfaceStyle()
     }
     
     private func configureExternalDisplayManager() -> UINavigationController {
@@ -27,5 +32,9 @@ class ExternalSceneDelegate: UIResponder, UIWindowSceneDelegate {
         return navCon
     }
     
+    private func setUserInterfaceStyle() {
+        let settings = Settings.shared
+        settings.updateUserInterfaceStyle(settings.interfaceStyle)
+    }
     
 }

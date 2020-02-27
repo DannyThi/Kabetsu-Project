@@ -8,11 +8,12 @@
 
 import UIKit
 
-class TimerVC: UIViewController {
-    
-    private var task: TimerTask!
+class TimerVC: UIViewController, TimerDisplayVCDelegate {
+        
+    var task: TimerTask!
     private var constraints = KBTConstraints()
     private let settings = Settings.shared
+    private var projectButton: UIBarButtonItem!
     
     private var digitalDisplayLabel: KBTDigitalDisplayLabel!
     private var secondaryDigitalDisplaylabel: KBTDigitalDisplayLabel!
@@ -52,7 +53,7 @@ extension TimerVC {
 
     private func reset() {
         task = TimerTask(withTotalTime: task.originalCountdownTime)
-        updateLabels()
+        updateTimeDisplayLabels()
         updateTitle()
         updateActionButtonImage()
     }
@@ -67,7 +68,7 @@ extension TimerVC {
         let style = view.bounds.width > 500 ? DateComponentsFormatter.UnitsStyle.full : DateComponentsFormatter.UnitsStyle.short
         self.title = TimerTask.formattedTimeFrom(timeInterval: self.task.adjustedCountdownTime, style: style)
     }
-    private func updateLabels() {
+    private func updateTimeDisplayLabels() {
         digitalDisplayLabel.setTime(usingRawTime: task.currentCountdownTime, usingMilliseconds: true)
         secondaryDigitalDisplaylabel.setTime(usingRawTime: task.adjustedCountdownTime, usingMilliseconds: true)
     }
@@ -119,22 +120,12 @@ extension TimerVC {
         print("ProjectScreen button tapped")
         #warning("TODO - Project Screen Button")
         
-        
-        // initialize and present the master viewcontroller
-        // the master will set up the external display
-        
-        
-//        let externalView = UIView()
-//        ExternalDisplayManager.shared.project(viewToDisplay: externalView)
-//        
-        
+        // WE NEED TO CHANGE HOW THE DISPLAY LOOKS HERE, OR JUST BUILD A CONTROLLER.
+
         let vc = TimerDisplayVC()
+        vc.delegate = self
         ExternalDisplayManager.shared.project(detailsViewController: vc)
-        /*  We want to do two things when we project.
-            we need to present a controller VC onto the device and a seperate projectorVC for the external screen
-            we can present modally over another modal provided by setting the modalstyle to overfullscreen.
-            
-         */
+
     }
     @objc func actionButtonTapped() {
         switch task.timerState {
@@ -151,7 +142,7 @@ extension TimerVC {
         task.adjustCountdownTime(modifier: .increment, value: timeInterval) { [weak self] in
             guard let self = self else { return }
             self.updateButtonLabels(timeInterval: timeInterval)
-            self.updateLabels()
+            self.updateTimeDisplayLabels()
             self.updateTitle()
         }
     }
@@ -160,7 +151,7 @@ extension TimerVC {
         task.adjustCountdownTime(modifier: .decrement, value: timeInterval) { [weak self] in
             guard let self = self else { return }
             self.updateButtonLabels(timeInterval: timeInterval)
-            self.updateLabels()
+            self.updateTimeDisplayLabels()
             self.updateTitle()
         }
     }
@@ -189,7 +180,6 @@ extension TimerVC {
         super.viewDidLoad()
         configureViewController()
         configureToolBar()
-        configureNotificationListeners()
         configureDigitalDisplayLabel()
         configureSecondaryDigitalDisplayLabel()
         configurePrimaryActionButton()
@@ -197,13 +187,14 @@ extension TimerVC {
         configureTimerIncrementControl()
         configureDismissButton()
         configureProjectButton()
-        
+        configureNotificationListeners()
+
         configureIPhonePortraitConstraints()
         configureIPhoneLandscapeRegularConstraints()
         configureIPadAndExternalDispayConstraints()
         
         updateConstraints()
-        updateLabels()
+        updateTimeDisplayLabels()
         updateTitle()
         updateActionButtonImageSize()
     }
@@ -227,12 +218,6 @@ extension TimerVC {
         toolBar = UIToolbar()
         toolBar.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(toolBar)
-    }
-    private func configureNotificationListeners() {
-        let center = NotificationCenter.default
-        center.addObserver(forName: .timerDidUpdate, object: nil, queue: .main) { [weak self] _ in self?.updateLabels() }
-        center.addObserver(forName: .timerStateDidChange, object: nil, queue: .main) { [weak self] _ in self?.updateActionButtonImage() }
-        center.addObserver(forName: .timerDidEnd, object: nil, queue: nil) { [weak self] _ in self?.handleTimerDidEnd() }
     }
     private func configureDigitalDisplayLabel() {
         digitalDisplayLabel = KBTDigitalDisplayLabel(withFontSize: 500, fontWeight: .bold, textAlignment: .center)
@@ -287,6 +272,20 @@ extension TimerVC {
                                             target: self,
                                             action: #selector(projectScreen))
         navigationItem.rightBarButtonItem = projectButton
+        self.projectButton = projectButton
+    }
+    private func configureNotificationListeners() {
+        let center = NotificationCenter.default
+        center.addObserver(forName: .timerDidUpdate, object: nil, queue: .main) { [weak self] _ in
+            self?.updateTimeDisplayLabels() }
+        center.addObserver(forName: .timerStateDidChange, object: nil, queue: .main) { [weak self] _ in
+            self?.updateActionButtonImage() }
+        center.addObserver(forName: .timerDidEnd, object: nil, queue: nil) { [weak self] _ in
+            self?.handleTimerDidEnd() }
+//        center.addObserver(forName: UIScreen.didConnectNotification, object: nil, queue: nil) { [weak self] _ in
+//            self?.projectButton.isEnabled = true }
+//        center.addObserver(forName: UIScreen.didDisconnectNotification, object: nil, queue: nil) { [weak self] _ in
+//            self?.projectButton.isEnabled = false }
     }
 }
 

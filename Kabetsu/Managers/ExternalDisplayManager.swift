@@ -11,8 +11,7 @@ import UIKit
 class ExternalDisplayManager: UIViewController {
     
     static let shared = ExternalDisplayManager()
-    
-    var currentViewController: UIViewController?
+    var rootViewController: UIViewController?
     
     override private init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -26,26 +25,27 @@ class ExternalDisplayManager: UIViewController {
     }
     
     
-    
     func project(detailsViewController viewController: UIViewController) {
         print("Projecting View Controller")
+        guard UIScreen.screens.count > 1 else { return }
+        guard rootViewController == nil else { endProjecting(); return }
         
-        // TODO: - check if already presenting
-        
-        currentViewController = viewController
+        rootViewController = viewController
         self.addChild(viewController)
+        viewController.didMove(toParent: self)
         viewController.view.alpha = 0
         self.view.addSubview(viewController.view)
         UIView.animate(withDuration: 0.3) {
             viewController.view.alpha = 1
         }
-        viewController.didMove(toParent: self)
     }
     
     func endProjecting() {
+        #warning("TODO: - ALERT WHEN RUNNING.")
+        rootViewController?.view.removeFromSuperview()
         willMove(toParent: nil)
-        currentViewController?.removeFromParent()
-        currentViewController = nil
+        rootViewController?.removeFromParent()
+        rootViewController = nil
     }
 
 }
@@ -56,7 +56,7 @@ class ExternalDisplayManager: UIViewController {
 extension ExternalDisplayManager {
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemPink
+        configureViewController()
     }
 }
 
@@ -72,7 +72,7 @@ extension ExternalDisplayManager {
         }
     }
     private func configureViewController() {
-        
+        view.backgroundColor = .systemBackground
     }
 }
 

@@ -10,13 +10,13 @@ import UIKit
 
 class TimerControlsVC: UIViewController {
     
-    private var task: TimerTask!
-    private var constraints = KBTConstraints()
+    var task: TimerTask!
+    private let constraints = KBTConstraints()
     private let settings = Settings.shared
     
-    private var digitalDisplayLabel: KBTDigitalDisplayLabel!
-    private var secondaryDigitalDisplaylabel: KBTDigitalDisplayLabel!
-    private var labelContainer: UIStackView!
+//    private var digitalDisplayLabel: KBTDigitalDisplayLabel!
+//    private var secondaryDigitalDisplaylabel: KBTDigitalDisplayLabel!
+//    private var labelContainer: UIStackView!
     
     private var primaryActionButton: KBTCircularButton!
     private var resetButton: KBTButton!
@@ -26,7 +26,6 @@ class TimerControlsVC: UIViewController {
     private var incrementButton: KBTButton!
     private var adjustmentsContainer: UIStackView!
 
-    
     private var toolBar: UIToolbar!
     private var timerIncrementControl: UISegmentedControl!
     
@@ -49,7 +48,9 @@ extension TimerControlsVC {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        // set up a link and delegate to the external display
+        
         
     }
 }

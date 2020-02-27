@@ -22,7 +22,6 @@ final class TimersList {
     private var internalTimers: [TimeInterval] {
         didSet {
             UserDefaults.standard.set(self.internalTimers, forKey: TimersList.Key)
-            //NotificationCenter.default.post(Notification(name: .TimersListDidUpdate))
         }
     }
     
