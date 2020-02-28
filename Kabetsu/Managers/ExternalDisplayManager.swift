@@ -24,9 +24,7 @@ class ExternalDisplayManager: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     func project(detailsViewController viewController: UIViewController) {
-        print("Projecting View Controller")
         guard UIScreen.screens.count > 1 else { return }
         guard rootViewController == nil else { endProjecting(); return }
         
@@ -41,7 +39,6 @@ class ExternalDisplayManager: UIViewController {
     }
     
     func endProjecting() {
-        #warning("TODO: - ALERT WHEN RUNNING.")
         rootViewController?.view.removeFromSuperview()
         willMove(toParent: nil)
         rootViewController?.removeFromParent()
@@ -59,6 +56,7 @@ extension ExternalDisplayManager {
         configureViewController()
     }
 }
+
 
 // MARK: CONFIGURATION
 

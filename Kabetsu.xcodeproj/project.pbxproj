@@ -18,8 +18,8 @@
 		9753C23D23FA4A250035A514 /* KBTTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9753C23C23FA4A250035A514 /* KBTTitleLabel.swift */; };
 		9753C24023FA6ED80035A514 /* KBTBodyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9753C23F23FA6ED80035A514 /* KBTBodyLabel.swift */; };
 		9753C28023FF4B900035A514 /* ExternalDisplayManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9753C27F23FF4B900035A514 /* ExternalDisplayManager.swift */; };
-		9753C28423FF8B260035A514 /* TimerControlsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9753C28323FF8B260035A514 /* TimerControlsVC.swift */; };
-		9753C28623FF8BFC0035A514 /* TimerDisplayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9753C28523FF8BFC0035A514 /* TimerDisplayVC.swift */; };
+		9753C28423FF8B260035A514 /* TimerExtScnMasterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9753C28323FF8B260035A514 /* TimerExtScnMasterController.swift */; };
+		9753C28623FF8BFC0035A514 /* TimerExtScnDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9753C28523FF8BFC0035A514 /* TimerExtScnDetailsController.swift */; };
 		9753C288240122FB0035A514 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9753C287240122FB0035A514 /* SoundManager.swift */; };
 		9753C28D24013B530035A514 /* Cartoon Toy Noisemaker Honk 01.wav in Resources */ = {isa = PBXBuildFile; fileRef = 9753C28A24013B530035A514 /* Cartoon Toy Noisemaker Honk 01.wav */; };
 		9753C28E24013B530035A514 /* Technology Electronic Cell Phone Ring Tone 03.wav in Resources */ = {isa = PBXBuildFile; fileRef = 9753C28B24013B530035A514 /* Technology Electronic Cell Phone Ring Tone 03.wav */; };
@@ -57,8 +57,8 @@
 		9753C23C23FA4A250035A514 /* KBTTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KBTTitleLabel.swift; sourceTree = "<group>"; };
 		9753C23F23FA6ED80035A514 /* KBTBodyLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KBTBodyLabel.swift; sourceTree = "<group>"; };
 		9753C27F23FF4B900035A514 /* ExternalDisplayManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalDisplayManager.swift; sourceTree = "<group>"; };
-		9753C28323FF8B260035A514 /* TimerControlsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerControlsVC.swift; sourceTree = "<group>"; };
-		9753C28523FF8BFC0035A514 /* TimerDisplayVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerDisplayVC.swift; sourceTree = "<group>"; };
+		9753C28323FF8B260035A514 /* TimerExtScnMasterController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerExtScnMasterController.swift; sourceTree = "<group>"; };
+		9753C28523FF8BFC0035A514 /* TimerExtScnDetailsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerExtScnDetailsController.swift; sourceTree = "<group>"; };
 		9753C287240122FB0035A514 /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
 		9753C28A24013B530035A514 /* Cartoon Toy Noisemaker Honk 01.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Cartoon Toy Noisemaker Honk 01.wav"; sourceTree = "<group>"; };
 		9753C28B24013B530035A514 /* Technology Electronic Cell Phone Ring Tone 03.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Technology Electronic Cell Phone Ring Tone 03.wav"; sourceTree = "<group>"; };
@@ -116,8 +116,6 @@
 			isa = PBXGroup;
 			children = (
 				9753C27F23FF4B900035A514 /* ExternalDisplayManager.swift */,
-				9753C28323FF8B260035A514 /* TimerControlsVC.swift */,
-				9753C28523FF8BFC0035A514 /* TimerDisplayVC.swift */,
 				9753C287240122FB0035A514 /* SoundManager.swift */,
 			);
 			path = Managers;
@@ -144,6 +142,15 @@
 				9753C290240146820035A514 /* AlertSoundTVCell.swift */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		9753C2992408866B0035A514 /* ExternalScreens+Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				9753C28323FF8B260035A514 /* TimerExtScnMasterController.swift */,
+				9753C28523FF8BFC0035A514 /* TimerExtScnDetailsController.swift */,
+			);
+			path = "ExternalScreens+Controllers";
 			sourceTree = "<group>";
 		};
 		975C25DD23DEBCEF005847FF = {
@@ -223,6 +230,7 @@
 		975C260723DFBBEF005847FF /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				9753C2992408866B0035A514 /* ExternalScreens+Controllers */,
 				975C25ED23DEBCEF005847FF /* TimersListVC.swift */,
 				975D929B23E100AD000CE57D /* TimerVC.swift */,
 				975D92B423EBD78F000CE57D /* AddNewTimerVC.swift */,
@@ -337,14 +345,14 @@
 				9753C22823F663770035A514 /* SettingsVC.swift in Sources */,
 				975D92B523EBD78F000CE57D /* AddNewTimerVC.swift in Sources */,
 				9753C2982404EDB20035A514 /* ExternalSceneDelegate.swift in Sources */,
-				9753C28623FF8BFC0035A514 /* TimerDisplayVC.swift in Sources */,
+				9753C28623FF8BFC0035A514 /* TimerExtScnDetailsController.swift in Sources */,
 				9753C28023FF4B900035A514 /* ExternalDisplayManager.swift in Sources */,
 				9753C23B23FA49960035A514 /* KBTAlertController.swift in Sources */,
 				975C260623DFA8C5005847FF /* TimerTask.swift in Sources */,
 				975C260123DEC493005847FF /* KBTDigitalDisplayLabel.swift in Sources */,
 				9753C22E23F8CB730035A514 /* ThemeTVCell.swift in Sources */,
 				9753C24023FA6ED80035A514 /* KBTBodyLabel.swift in Sources */,
-				9753C28423FF8B260035A514 /* TimerControlsVC.swift in Sources */,
+				9753C28423FF8B260035A514 /* TimerExtScnMasterController.swift in Sources */,
 				9753C291240146820035A514 /* AlertSoundTVCell.swift in Sources */,
 				975C260923DFBC2B005847FF /* TimersList.swift in Sources */,
 				9753C22623F250960035A514 /* KBTError.swift in Sources */,

@@ -9,9 +9,8 @@
 import UIKit
 
 class KBTCircularButton: KBTButton {
-    override init(withSFSymbolName symbolName: String, pointSize: CGFloat, weight: UIImage.SymbolWeight? = nil) {
-        super.init(withSFSymbolName: symbolName, pointSize: pointSize, weight: weight)
-        configureButton()
+    override init(withSFSymbolName symbolName: String, weight: UIImage.SymbolWeight? = nil) {
+        super.init(withSFSymbolName: symbolName, weight: weight)
     }
     
     override init(withTitle title: String) {

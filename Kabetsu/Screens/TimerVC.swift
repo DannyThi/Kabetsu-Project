@@ -8,9 +8,10 @@
 
 import UIKit
 
-class TimerVC: UIViewController, TimerDisplayVCDelegate {
+class TimerVC: UIViewController, TimerExtScnDetailsControllerDelegate {
         
     var task: TimerTask!
+    private let externalDisplay = ExternalDisplayManager.shared
     private var constraints = KBTConstraints()
     private let settings = Settings.shared
     private var projectButton: UIBarButtonItem!
@@ -27,17 +28,16 @@ class TimerVC: UIViewController, TimerDisplayVCDelegate {
     private var toolBar: UIToolbar!
     private var timerIncrementControl: UISegmentedControl!
     
-    private var buttonImagePointSize: CGFloat = 80
-
     private struct ImageKeys {
-        static let play = "play.circle"
-        static let pause = "pause.circle"
-        static let reset = "arrow.counterclockwise.circle"
+        static let play = "play"
+        static let pause = "pause"
+        static let reset = "arrow.counterclockwise"
     }
     
     init(withTask task: TimerTask) {
         super.init(nibName: nil, bundle: nil)
         self.task = task
+        hidesBottomBarWhenPushed = true
         modalTransitionStyle = .flipHorizontal
     }
     required init?(coder: NSCoder) {
@@ -77,14 +77,11 @@ extension TimerVC {
         switch task.timerState {
         case .running:
             imageString = ImageKeys.pause
-        case .paused:
+        case .paused, .initialized:
             imageString = ImageKeys.play
         case .ended:
             imageString = ImageKeys.reset
         }
-        let config = UIImage.SymbolConfiguration(pointSize: buttonImagePointSize, weight: .regular)
-        let image = UIImage(systemName: imageString, withConfiguration: config)
-        primaryActionButton.setImage(image, for: .normal)
     }
     private func updateButtonLabels(timeInterval: Double) {
         decrementButton.setTitle("-\(Int(timeInterval))s", for: .normal)
@@ -102,9 +99,8 @@ extension TimerVC {
         }
         constraints.activate(.iPhonePortrait)
     }
-    private func updateActionButtonImageSize() {
-        buttonImagePointSize = traitCollection.verticalSizeClass == .compact ? 80 : 300
-        updateActionButtonImage()
+    private func updateProjectButtonStatus() {
+        projectButton.isEnabled =  UIScreen.screens.count > 1 ? true : false
     }
 }
 
@@ -114,24 +110,47 @@ extension TimerVC {
 
 extension TimerVC {
     @objc private func dismissController() {
-        dismiss(animated: true)
+        if task.timerState != .initialized {
+            let ac = UIAlertController(title: "Timer is running.",
+                                       message: "Your timer is still running. Exit anyway?",
+                                       preferredStyle: .alert)
+            let ok = UIAlertAction(title: "OK", style: .destructive) { [weak self] _ in
+                self?.externalDisplay.endProjecting()
+                self?.dismiss(animated: true)
+            }
+            let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+            ac.addAction(cancel)
+            ac.addAction(ok)
+            present(ac, animated: true)
+        } else {
+            //externalDisplay.endProjecting()
+            dismiss(animated: true)
+        }
     }
+    
+    #warning("TODO - Project Screen Button")
     @objc private func projectScreen() {
-        print("ProjectScreen button tapped")
-        #warning("TODO - Project Screen Button")
+        guard UIScreen.screens.count > 1 else { return }
         
-        // WE NEED TO CHANGE HOW THE DISPLAY LOOKS HERE, OR JUST BUILD A CONTROLLER.
+//        #warning("we need to change the look of the controller")
+//        if externalDisplay.rootViewController == nil {
+//            // WE NEED TO CHANGE HOW THE DISPLAY LOOKS HERE, OR JUST BUILD A CONTROLLER.
+//            let vc = TimerDisplayVC()
+//            vc.delegate = self
+//            ExternalDisplayManager.shared.project(detailsViewController: vc)
+//            #warning("Have alert")
+//        }
+//
+        let timerExtScnMaster = TimerExtScnMasterController(withTask: self.task)
+        present(timerExtScnMaster, animated: true)
 
-        let vc = TimerDisplayVC()
-        vc.delegate = self
-        ExternalDisplayManager.shared.project(detailsViewController: vc)
 
     }
     @objc func actionButtonTapped() {
         switch task.timerState {
         case .running:
             task.timerState = .paused
-        case .paused:
+        case .paused, .initialized:
             task.timerState = .running
         case .ended:
             reset()
@@ -196,13 +215,12 @@ extension TimerVC {
         updateConstraints()
         updateTimeDisplayLabels()
         updateTitle()
-        updateActionButtonImageSize()
+        updateProjectButtonStatus()
     }
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         updateConstraints()
         updateTitle()
-        updateActionButtonImageSize()
     }
 }
 
@@ -212,7 +230,6 @@ extension TimerVC {
 extension TimerVC {
     private func configureViewController() {
         view.backgroundColor = .systemBackground
-        //isModalInPresentation = true
     }
     private func configureToolBar() {
         toolBar = UIToolbar()
@@ -229,9 +246,7 @@ extension TimerVC {
         view.addSubview(secondaryDigitalDisplaylabel)
     }
     private func configurePrimaryActionButton() {
-        primaryActionButton = KBTCircularButton(withSFSymbolName: ImageKeys.play, pointSize: buttonImagePointSize)
-        primaryActionButton.backgroundColor = .systemGreen
-        primaryActionButton.tintColor = .white
+        primaryActionButton = KBTCircularButton(withSFSymbolName: ImageKeys.play)
         primaryActionButton.addTarget(self, action: #selector(actionButtonTapped), for: .touchUpInside)
         view.addSubview(primaryActionButton)
     }
@@ -242,9 +257,7 @@ extension TimerVC {
         incrementButton = KBTButton(withTitle: "+\(Int(Settings.shared.timerIncrementControlSelectedValue))s")
         incrementButton.addTarget(self, action: #selector(incrementButtonTapped), for: .touchUpInside)
 
-        resetButton = KBTButton(withSFSymbolName: ImageKeys.reset, pointSize: 40)
-        resetButton.backgroundColor = .systemGreen
-        resetButton.tintColor = .white
+        resetButton = KBTButton(withSFSymbolName: ImageKeys.reset)
         resetButton.addTarget(self, action: #selector(resetButtonTapped), for: .touchUpInside)
 
         buttonContainer = UIStackView(arrangedSubviews: [decrementButton, resetButton, incrementButton])
@@ -260,17 +273,14 @@ extension TimerVC {
         toolBar.addSubview(timerIncrementControl)
     }
     private func configureDismissButton() {
-        let dismissButton = UIBarButtonItem(image: GlobalImageKeys.dismiss.image,
-                                            style: .plain,
-                                            target: self,
-                                            action: #selector(dismissController))
+        guard isModalInPresentation else { return }
+        let dismissButton =
+            UIBarButtonItem(image: GlobalImageKeys.dismiss.image, style: .plain, target: self, action: #selector(dismissController))
         navigationItem.leftBarButtonItem = dismissButton
     }
     private func configureProjectButton() {
-        let projectButton = UIBarButtonItem(image: GlobalImageKeys.project.image,
-                                            style: .plain,
-                                            target: self,
-                                            action: #selector(projectScreen))
+        let projectButton =
+            UIBarButtonItem(image: GlobalImageKeys.project.image, style: .plain, target: self, action: #selector(projectScreen))
         navigationItem.rightBarButtonItem = projectButton
         self.projectButton = projectButton
     }
@@ -282,10 +292,10 @@ extension TimerVC {
             self?.updateActionButtonImage() }
         center.addObserver(forName: .timerDidEnd, object: nil, queue: nil) { [weak self] _ in
             self?.handleTimerDidEnd() }
-//        center.addObserver(forName: UIScreen.didConnectNotification, object: nil, queue: nil) { [weak self] _ in
-//            self?.projectButton.isEnabled = true }
-//        center.addObserver(forName: UIScreen.didDisconnectNotification, object: nil, queue: nil) { [weak self] _ in
-//            self?.projectButton.isEnabled = false }
+        center.addObserver(forName: UIScreen.didConnectNotification, object: nil, queue: nil) { [weak self] _ in
+            self?.updateProjectButtonStatus() }
+        center.addObserver(forName: UIScreen.didDisconnectNotification, object: nil, queue: nil) { [weak self] _ in
+            self?.updateProjectButtonStatus() }
     }
 }
 

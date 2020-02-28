@@ -1,5 +1,5 @@
 //
-//  TimerDisplayVC.swift
+//  TimerExtScnDetailsController.swift
 //  Kabetsu
 //
 //  Created by Hai Long Danny Thi on 2020/02/21.
@@ -8,23 +8,23 @@
 
 import UIKit
 
-protocol TimerDisplayVCDelegate: class {
+protocol TimerExtScnDetailsControllerDelegate: class {
     var task: TimerTask! { get }
 }
 
-class TimerDisplayVC: UIViewController {
+class TimerExtScnDetailsController: UIViewController {
 
     private var digitalDisplayLabel: KBTDigitalDisplayLabel!
     private var secondaryDigitalDisplaylabel: KBTDigitalDisplayLabel!
     private var alert: KBTAlertController?
     
-    weak var delegate: TimerDisplayVCDelegate!
+    weak var delegate: TimerExtScnDetailsControllerDelegate!
 
 }
 
 // MARK: VIEW CONTROLLER LIFECYCLE
 
-extension TimerDisplayVC {
+extension TimerExtScnDetailsController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewController()
@@ -33,12 +33,14 @@ extension TimerDisplayVC {
         configureSecondaryDigitalDisplayLabel()
         
         configureConstraints()
+        
+        configureExternalScreen()
     }
 }
 
 // MARK: ACTIONS
 
-extension TimerDisplayVC {
+extension TimerExtScnDetailsController {
     private func updateDigitalDisplayLabel() {
         guard let delegate = delegate else { print(KBTError.delegateNotSet("TimerDisplayVC").formatted); return }
         digitalDisplayLabel.setTime(usingRawTime: delegate.task.currentCountdownTime, usingMilliseconds: true)
@@ -63,7 +65,7 @@ extension TimerDisplayVC {
 
 // MARK: CONFIGURATION
 
-extension TimerDisplayVC {
+extension TimerExtScnDetailsController {
     private func configureViewController() {
         view.backgroundColor = .systemBackground
     }
@@ -86,11 +88,17 @@ extension TimerDisplayVC {
         updateSecondaryDigitalDisplayLabel()
         view.addSubview(secondaryDigitalDisplaylabel)
     }
+    
+    
+    
+    private func configureExternalScreen() {
+        
+    }
 }
 
 // MARK: CONSTRAINTS
 
-extension TimerDisplayVC {
+extension TimerExtScnDetailsController {
     private func configureConstraints() {
         let verticalOffset: CGFloat = 60
         

@@ -90,12 +90,14 @@ extension TimersListVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let task = TimerTask(withTotalTime: timersList.timers[indexPath.row])
         let timerVC = TimerVC(withTask: task)
-        let navCon = UINavigationController(rootViewController: timerVC)
-        if UIDevice.current.model == "iPad" {
-            navCon.modalPresentationStyle = .fullScreen
-            navCon.modalTransitionStyle = .crossDissolve
-        }
-        present(navCon, animated: true)
+        navigationController?.pushViewController(timerVC, animated: true)
+        
+//        let navCon = UINavigationController(rootViewController: timerVC)
+//        if UIDevice.current.model == "iPad" {
+//            navCon.modalPresentationStyle = .fullScreen
+//            navCon.modalTransitionStyle = .crossDissolve
+//        }
+//        present(navCon, animated: true)
     }
 }
 

@@ -13,7 +13,7 @@ enum CountdownModifier {
 }
 
 enum TimerState {
-    case running, paused, ended
+    case initialized, running, paused, ended
 }
 
 extension Notification.Name {
@@ -37,26 +37,27 @@ class TimerTask {
     /** The current elapsed time of the countdown timer.**/
     var currentCountdownTime: TimeInterval {
         let countdownTime = adjustedCountdownTime - totalElapsedTimeCounter
-        #warning("POTENTIAL BUG: If a timer of 0 calls this, we will get an endless loop")
         if countdownTime > 0 {
             return countdownTime
         } else {
-            timerState = .ended
+            if timerState != .ended {
+                timerState = .ended
+            }
             return 0
         }
     }
     
     /** The current state of the countdown timer (running, paused, ended). **/
-    var timerState: TimerState = .paused {
+    var timerState: TimerState = .initialized {
         didSet {
             switch timerState {
-                
+            case .initialized:
+                break
             case .running:
                 print("TimerState: Running")
                 deltaTime = Date()
                 updateTimer = Timer.scheduledTimer(withTimeInterval: 0.04, repeats: true) { (timer) in
                     self.updateTime()
-                    NotificationCenter.default.post(Notification(name: .timerDidUpdate))
                 }
                 updateTimer!.tolerance = 0.01
                 RunLoop.current.add(updateTimer!, forMode: .common)
@@ -83,6 +84,7 @@ class TimerTask {
     private func updateTime() {
         totalElapsedTimeCounter += (Date().timeIntervalSince(deltaTime))
         deltaTime = Date()
+        NotificationCenter.default.post(Notification(name: .timerDidUpdate))
     }
     
     func adjustCountdownTime(modifier: CountdownModifier, value: Double = 30.0, completed: (()->Void)? = nil) {
