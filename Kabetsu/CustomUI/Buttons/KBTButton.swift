@@ -18,6 +18,7 @@ class KBTButton: UIButton {
             calculateCornerRadius()
             calculateTitleEdgeInsets()
             updateView(for: traitCollection.userInterfaceStyle)
+            applyGradient()
         }
     }
 
@@ -62,10 +63,11 @@ extension KBTButton {
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         updateView(for: traitCollection.userInterfaceStyle)
+        applyGradient()
     }
     
     private func updateView(for userInterfaceStyle: UIUserInterfaceStyle) {
-        let borderWidth = CGFloat.minimum(bounds.width, bounds.height) * 0.04
+        let borderWidth = CGFloat.minimum(bounds.width, bounds.height) * 0.03
         switch userInterfaceStyle {
         case .dark:
             layer.borderWidth = borderWidth
@@ -77,16 +79,17 @@ extension KBTButton {
     }
 }
 
+
 // MARK: CONFIGURATION
 
 extension KBTButton {
     private func configureButton() {
-        self.backgroundColor = .systemGreen
+        //self.backgroundColor = .systemGreen
         self.tintColor = .white
         self.translatesAutoresizingMaskIntoConstraints = false
         self.layer.borderColor = UIColor.white.cgColor
         self.layer.shadowColor = UIColor.lightGray.cgColor
-        self.layer.shadowOffset = CGSize(width: 1, height: 1)
+        self.layer.shadowOffset = CGSize(width: 3, height: 3)
         self.layer.shadowRadius = 1.5
     }
     private func calculateImageEdgeInsets() {
@@ -110,6 +113,9 @@ extension KBTButton {
     private func calculateCornerRadius() {
         let cornerRadius = CGFloat.minimum(bounds.width, bounds.height) * 0.3
         self.layer.cornerRadius = cornerRadius
+    }
+    private func applyGradient() {
+        self.applyGradient(colours: Constants.Gradient.green)
     }
 }
 

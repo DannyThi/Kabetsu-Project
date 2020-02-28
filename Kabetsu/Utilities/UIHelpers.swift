@@ -8,6 +8,13 @@
 
 import UIKit
 
+class Constants {
+    struct Gradient {
+        static let green = [UIColor(red: 48 / 255, green: 209 / 255, blue: 88 / 255, alpha: 1),
+                            UIColor(red: 31 / 255, green: 156 / 255, blue: 62 / 255, alpha: 1)]
+    }
+}
+
 class UIHelpers {
     
     static let cornerRadius: CGFloat = 25

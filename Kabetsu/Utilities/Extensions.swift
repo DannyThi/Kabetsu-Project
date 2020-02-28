@@ -24,4 +24,26 @@ extension NSLayoutConstraint {
     }
 }
 
+// MARK: UIVIEW
+
+extension UIView {
+    
+    @discardableResult func applyGradient(colours: [UIColor]) -> CAGradientLayer {
+        return self.applyGradient(colours: colours, locations: nil)
+    }
+    @discardableResult func applyGradient(colours: [UIColor], locations: [NSNumber]?) -> CAGradientLayer {
+        let gradient: CAGradientLayer = CAGradientLayer()
+        gradient.frame = self.bounds
+        gradient.colors = colours.map { $0.cgColor }
+        gradient.locations = locations
+        gradient.cornerRadius = self.layer.cornerRadius
+        if let oldGradient = layer.sublayers?[0] as? CAGradientLayer {
+            layer.replaceSublayer(oldGradient, with: gradient)
+        } else {
+            layer.insertSublayer(gradient, at: 0)
+        }
+        return gradient
+    }
+}
+
 

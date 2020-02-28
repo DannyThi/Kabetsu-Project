@@ -23,6 +23,7 @@ class KBTCircularButton: KBTButton {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        layer.cornerRadius = bounds.height / 2
+        self.layer.cornerRadius = bounds.height / 2
+        self.applyGradient(colours: Constants.Gradient.green)
     }
 }
