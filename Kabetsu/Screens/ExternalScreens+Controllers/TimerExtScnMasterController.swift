@@ -15,8 +15,8 @@ class TimerExtScnMasterController: UIViewController, TimerExtScnDetailsControlle
     private let constraints = KBTConstraints()
     private let settings = Settings.shared
     
-    private var digitalDisplayLabel: KBTDigitalDisplayLabel!
-    private var secondaryDigitalDisplaylabel: KBTDigitalDisplayLabel!
+    private var digitalDisplayLabel: KBTDigitDisplayLabel!
+    private var secondaryDigitalDisplaylabel: KBTDigitDisplayLabel!
     private var labelContainer: UIStackView!
     
     private var primaryActionButton: KBTCircularButton!
@@ -98,11 +98,11 @@ extension TimerExtScnMasterController {
         view.addSubview(toolBar)
     }
     private func configureDigitalDisplayLabel() {
-        digitalDisplayLabel = KBTDigitalDisplayLabel(withFontSize: 500, fontWeight: .bold, textAlignment: .center)
+        digitalDisplayLabel = KBTDigitDisplayLabel(withFontSize: 500, fontWeight: .bold, textAlignment: .center)
         view.addSubview(digitalDisplayLabel)
     }
     private func configureSecondaryDigitalDisplayLabel() {
-        secondaryDigitalDisplaylabel = KBTDigitalDisplayLabel(withFontSize: 400, fontWeight: .bold, textAlignment: .center)
+        secondaryDigitalDisplaylabel = KBTDigitDisplayLabel(withFontSize: 400, fontWeight: .bold, textAlignment: .center)
         secondaryDigitalDisplaylabel.textColor = .tertiaryLabel
         view.addSubview(secondaryDigitalDisplaylabel)
     }

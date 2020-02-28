@@ -34,7 +34,7 @@
 		975C25F323DEBCF1005847FF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 975C25F223DEBCF1005847FF /* Assets.xcassets */; };
 		975C25F623DEBCF1005847FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 975C25F423DEBCF1005847FF /* LaunchScreen.storyboard */; };
 		975C260023DEC493005847FF /* TimerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975C25FE23DEC493005847FF /* TimerCell.swift */; };
-		975C260123DEC493005847FF /* KBTDigitalDisplayLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975C25FF23DEC493005847FF /* KBTDigitalDisplayLabel.swift */; };
+		975C260123DEC493005847FF /* KBTDigitDisplayLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975C25FF23DEC493005847FF /* KBTDigitDisplayLabel.swift */; };
 		975C260623DFA8C5005847FF /* TimerTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975C260523DFA8C5005847FF /* TimerTask.swift */; };
 		975C260923DFBC2B005847FF /* TimersList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975C260823DFBC2B005847FF /* TimersList.swift */; };
 		975C260B23DFF6F4005847FF /* UIHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975C260A23DFF6F4005847FF /* UIHelpers.swift */; };
@@ -75,7 +75,7 @@
 		975C25F523DEBCF1005847FF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		975C25F723DEBCF1005847FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		975C25FE23DEC493005847FF /* TimerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerCell.swift; sourceTree = "<group>"; };
-		975C25FF23DEC493005847FF /* KBTDigitalDisplayLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KBTDigitalDisplayLabel.swift; sourceTree = "<group>"; };
+		975C25FF23DEC493005847FF /* KBTDigitDisplayLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KBTDigitDisplayLabel.swift; sourceTree = "<group>"; };
 		975C260523DFA8C5005847FF /* TimerTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerTask.swift; sourceTree = "<group>"; };
 		975C260823DFBC2B005847FF /* TimersList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimersList.swift; sourceTree = "<group>"; };
 		975C260A23DFF6F4005847FF /* UIHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelpers.swift; sourceTree = "<group>"; };
@@ -262,7 +262,7 @@
 		975D92A423E295E7000CE57D /* Labels */ = {
 			isa = PBXGroup;
 			children = (
-				975C25FF23DEC493005847FF /* KBTDigitalDisplayLabel.swift */,
+				975C25FF23DEC493005847FF /* KBTDigitDisplayLabel.swift */,
 				9753C23C23FA4A250035A514 /* KBTTitleLabel.swift */,
 				9753C23F23FA6ED80035A514 /* KBTBodyLabel.swift */,
 			);
@@ -349,7 +349,7 @@
 				9753C28023FF4B900035A514 /* ExternalDisplayManager.swift in Sources */,
 				9753C23B23FA49960035A514 /* KBTAlertController.swift in Sources */,
 				975C260623DFA8C5005847FF /* TimerTask.swift in Sources */,
-				975C260123DEC493005847FF /* KBTDigitalDisplayLabel.swift in Sources */,
+				975C260123DEC493005847FF /* KBTDigitDisplayLabel.swift in Sources */,
 				9753C22E23F8CB730035A514 /* ThemeTVCell.swift in Sources */,
 				9753C24023FA6ED80035A514 /* KBTBodyLabel.swift in Sources */,
 				9753C28423FF8B260035A514 /* TimerExtScnMasterController.swift in Sources */,

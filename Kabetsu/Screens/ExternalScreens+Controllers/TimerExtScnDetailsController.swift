@@ -14,8 +14,8 @@ protocol TimerExtScnDetailsControllerDelegate: class {
 
 class TimerExtScnDetailsController: UIViewController {
 
-    private var digitalDisplayLabel: KBTDigitalDisplayLabel!
-    private var secondaryDigitalDisplaylabel: KBTDigitalDisplayLabel!
+    private var digitalDisplayLabel: KBTDigitDisplayLabel!
+    private var secondaryDigitalDisplaylabel: KBTDigitDisplayLabel!
     private var alert: KBTAlertController?
     
     weak var delegate: TimerExtScnDetailsControllerDelegate!
@@ -78,12 +78,12 @@ extension TimerExtScnDetailsController {
         }
     }
     private func configureDigitalDisplayLabel() {
-        digitalDisplayLabel = KBTDigitalDisplayLabel(withFontSize: 500, fontWeight: .bold, textAlignment: .center)
+        digitalDisplayLabel = KBTDigitDisplayLabel(withFontSize: 500, fontWeight: .bold, textAlignment: .center)
         updateDigitalDisplayLabel()
         view.addSubview(digitalDisplayLabel)
     }
     private func configureSecondaryDigitalDisplayLabel() {
-        secondaryDigitalDisplaylabel = KBTDigitalDisplayLabel(withFontSize: 400, fontWeight: .bold, textAlignment: .center)
+        secondaryDigitalDisplaylabel = KBTDigitDisplayLabel(withFontSize: 400, fontWeight: .bold, textAlignment: .center)
         secondaryDigitalDisplaylabel.textColor = .tertiaryLabel
         updateSecondaryDigitalDisplayLabel()
         view.addSubview(secondaryDigitalDisplaylabel)

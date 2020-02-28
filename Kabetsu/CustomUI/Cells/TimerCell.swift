@@ -20,7 +20,7 @@ class TimerCell: UICollectionViewCell {
         static let remove = "trash.circle.fill"
     }
 
-    private var countdownLabel: KBTDigitalDisplayLabel!
+    private var countdownLabel: KBTDigitDisplayLabel!
     private var removeButton = UIButton()
     
     private var identifier: TimeInterval!
@@ -76,7 +76,7 @@ extension TimerCell {
     }
     
     private func configureLabel() {
-        countdownLabel = KBTDigitalDisplayLabel(withFontSize: 30, fontWeight: .bold, textAlignment: .center)
+        countdownLabel = KBTDigitDisplayLabel(withFontSize: 30, fontWeight: .bold, textAlignment: .center)
         countdownLabel.textColor = .label
         countdownLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(countdownLabel)

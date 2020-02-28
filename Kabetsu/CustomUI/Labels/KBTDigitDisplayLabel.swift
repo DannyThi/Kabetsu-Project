@@ -1,5 +1,5 @@
 //
-//  KBTDigitalDisplayLabel.swift
+//  KBTDigitDisplayLabel.swift
 //  Kabetsu
 //
 //  Created by Hai Long Danny Thi on 2020/01/27.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class KBTDigitalDisplayLabel: UILabel {
+class KBTDigitDisplayLabel: UILabel {
         
     func setTime(usingRawTime time: TimeInterval, usingMilliseconds milliseconds: Bool = false) {
         let formatter = DateComponentsFormatter()
