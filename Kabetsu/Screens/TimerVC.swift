@@ -8,11 +8,12 @@
 
 import UIKit
 
-class TimerVC: UIViewController, TimerExtScnDetailsControllerDelegate {
+class TimerVC: UIViewController, TimerExtScnMasterDelegate {
         
     var task: TimerTask!
-    private let externalDisplay = ExternalDisplayManager.shared
-    private var constraints = KBTConstraints()
+    var constraints = KBTConstraints()
+    let externalDisplay = ExternalDisplayManager.shared
+    
     private let settings = Settings.shared
     private var projectButton: UIBarButtonItem!
     
@@ -28,19 +29,20 @@ class TimerVC: UIViewController, TimerExtScnDetailsControllerDelegate {
     private var toolBar: UIToolbar!
     private var timerIncrementControl: UISegmentedControl!
     
-//    private var buttonImagePointSize: CGFloat = 80
-
     private struct ImageKeys {
         static let play = "play"
         static let pause = "pause"
         static let reset = "arrow.counterclockwise"
     }
     
-    init(withTask task: TimerTask) {
+    init(withTask task: TimerTask?) {
         super.init(nibName: nil, bundle: nil)
-        self.task = task
+        if let task = task {
+            self.task = task
+        }
         hidesBottomBarWhenPushed = true
-        modalTransitionStyle = .flipHorizontal
+        modalTransitionStyle = .crossDissolve
+        modalPresentationStyle = .overFullScreen
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -70,11 +72,11 @@ extension TimerVC {
         let style = view.bounds.width > 500 ? DateComponentsFormatter.UnitsStyle.full : DateComponentsFormatter.UnitsStyle.short
         self.title = TimerTask.formattedTimeFrom(timeInterval: self.task.adjustedCountdownTime, style: style)
     }
-    private func updateTimeDisplayLabels() {
+    func updateTimeDisplayLabels() {
         digitDisplayLabel.setTime(usingRawTime: task.currentCountdownTime, usingMilliseconds: true)
         secondaryDigitDisplaylabel.setTime(usingRawTime: task.adjustedCountdownTime, usingMilliseconds: true)
     }
-    private func updateActionButtonImage() {
+    func updateActionButtonImage() {
         var imageString = ""
         switch task.timerState {
         case .running:
@@ -112,7 +114,7 @@ extension TimerVC {
 // MARK: - ACTIONS
 
 extension TimerVC {
-    @objc private func dismissController() {
+    @objc func dismissController() {
         if task.timerState != .initialized {
             let ac = UIAlertController(title: "Timer is running.",
                                        message: "Your timer is still running. Exit anyway?",
@@ -120,35 +122,27 @@ extension TimerVC {
             let ok = UIAlertAction(title: "OK", style: .destructive) { [weak self] _ in
                 self?.externalDisplay.endProjecting()
                 self?.dismiss(animated: true)
+                self?.navigationController?.popViewController(animated: true)
             }
             let cancel = UIAlertAction(title: "Cancel", style: .cancel)
             ac.addAction(cancel)
             ac.addAction(ok)
             present(ac, animated: true)
         } else {
-            //externalDisplay.endProjecting()
+            externalDisplay.endProjecting()
             dismiss(animated: true)
+            navigationController?.popViewController(animated: true)
+
         }
     }
     
-    #warning("TODO - Project Screen Button")
     @objc private func projectScreen() {
         guard UIScreen.screens.count > 1 else { return }
-        
-//        #warning("we need to change the look of the controller")
-//        if externalDisplay.rootViewController == nil {
-//            // WE NEED TO CHANGE HOW THE DISPLAY LOOKS HERE, OR JUST BUILD A CONTROLLER.
-//            let vc = TimerDisplayVC()
-//            vc.delegate = self
-//            ExternalDisplayManager.shared.project(detailsViewController: vc)
-//            #warning("Have alert")
-//        }
-//
-        let timerExtScnMaster = TimerExtScnMasterController(withTask: self.task)
+        let timerExtScnMaster = TimerExtScnMaster(withTask: self.task)
+        timerExtScnMaster.delegate = self
         present(timerExtScnMaster, animated: true)
-
-
     }
+    
     @objc func actionButtonTapped() {
         switch task.timerState {
         case .running:
@@ -185,7 +179,8 @@ extension TimerVC {
         settings.timerIncrementControlSelectedIndex = index
         updateButtonLabels(timeInterval: settings.timerIncrementControlSelectedValue)
     }
-    private func handleTimerDidEnd() {
+    @objc func handleTimerDidEnd() {
+        #warning("check if this is active before presenting.")
         let formattedTime = TimerTask.formattedTimeFrom(timeInterval: task.adjustedCountdownTime, style: .brief)
         let alert = KBTAlertController(withTitle: "TIME UP!", message: "Your \(formattedTime) timer completed.") {
             NotificationCenter.default.post(Notification.init(name: .alertDidDismiss))
@@ -276,7 +271,7 @@ extension TimerVC {
         toolBar.addSubview(timerIncrementControl)
     }
     private func configureDismissButton() {
-        guard isModalInPresentation else { return }
+        //guard isModalInPresentation else { return }
         let dismissButton =
             UIBarButtonItem(image: GlobalImageKeys.dismiss.image, style: .plain, target: self, action: #selector(dismissController))
         navigationItem.leftBarButtonItem = dismissButton
@@ -306,7 +301,7 @@ extension TimerVC {
 // MARK: - CONSTRAINTS
 
 extension TimerVC {
-    private func configureIPhonePortraitConstraints() {
+    @objc func configureIPhonePortraitConstraints() {
         let verticalPadding: CGFloat = 20
         let horizontalPadding: CGFloat = 50
         let toolBarVerticalPadding: CGFloat = 8
@@ -349,7 +344,7 @@ extension TimerVC {
         constraints.iPhonePortrait = iPhonePortraitConstraints
     }
     
-    private func configureIPhoneLandscapeRegularConstraints() {
+    @objc func configureIPhoneLandscapeRegularConstraints() {
         let verticalPadding: CGFloat = 10
         let horizontalPadding: CGFloat = 75
         let toolBarVerticalPadding: CGFloat = 8
@@ -396,7 +391,7 @@ extension TimerVC {
         constraints.iPhoneLandscapeRegular = iPhoneLandscapeRegularConstraints
     }
     
-    private func configureIPadAndExternalDispayConstraints() {
+    @objc func configureIPadAndExternalDispayConstraints() {
         let verticalPadding: CGFloat = 40
         let horizontalPadding: CGFloat = 75
         let toolBarVerticalPadding: CGFloat = 8

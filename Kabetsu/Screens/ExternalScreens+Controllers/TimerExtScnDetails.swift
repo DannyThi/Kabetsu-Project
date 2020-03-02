@@ -1,5 +1,5 @@
 //
-//  TimerExtScnDetailsController.swift
+//  TimerExtScnDetails.swift
 //  Kabetsu
 //
 //  Created by Hai Long Danny Thi on 2020/02/21.
@@ -12,7 +12,7 @@ protocol TimerExtScnDetailsControllerDelegate: class {
     var task: TimerTask! { get }
 }
 
-class TimerExtScnDetailsController: UIViewController {
+class TimerExtScnDetails: UIViewController {
 
     private var digitalDisplayLabel: KBTDigitDisplayLabel!
     private var secondaryDigitalDisplaylabel: KBTDigitDisplayLabel!
@@ -24,28 +24,25 @@ class TimerExtScnDetailsController: UIViewController {
 
 // MARK: VIEW CONTROLLER LIFECYCLE
 
-extension TimerExtScnDetailsController {
+extension TimerExtScnDetails {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewController()
         configureNotifications()
         configureDigitalDisplayLabel()
         configureSecondaryDigitalDisplayLabel()
-        
         configureConstraints()
-        
-        configureExternalScreen()
     }
 }
 
 // MARK: ACTIONS
 
-extension TimerExtScnDetailsController {
+extension TimerExtScnDetails {
     private func updateDigitalDisplayLabel() {
         guard let delegate = delegate else { print(KBTError.delegateNotSet("TimerDisplayVC").formatted); return }
         digitalDisplayLabel.setTime(usingRawTime: delegate.task.currentCountdownTime, usingMilliseconds: true)
     }
-    func updateSecondaryDigitalDisplayLabel() {
+    private func updateSecondaryDigitalDisplayLabel() {
         guard let delegate = delegate else { print(KBTError.delegateNotSet("TimerDisplayVC").formatted); return }
         secondaryDigitalDisplaylabel.setTime(usingRawTime: delegate.task.adjustedCountdownTime, usingMilliseconds: true)
     }
@@ -65,13 +62,14 @@ extension TimerExtScnDetailsController {
 
 // MARK: CONFIGURATION
 
-extension TimerExtScnDetailsController {
+extension TimerExtScnDetails {
     private func configureViewController() {
         view.backgroundColor = .systemBackground
     }
     private func configureNotifications() {
         NotificationCenter.default.addObserver(forName: .timerDidUpdate, object: nil, queue: .main) { [weak self] _ in
             self?.updateDigitalDisplayLabel()
+            self?.updateSecondaryDigitalDisplayLabel()
         }
         NotificationCenter.default.addObserver(forName: .alertDidDismiss, object: nil, queue: .main) { [weak self] _ in
             self?.dismissAlert()
@@ -88,17 +86,11 @@ extension TimerExtScnDetailsController {
         updateSecondaryDigitalDisplayLabel()
         view.addSubview(secondaryDigitalDisplaylabel)
     }
-    
-    
-    
-    private func configureExternalScreen() {
-        
-    }
 }
 
 // MARK: CONSTRAINTS
 
-extension TimerExtScnDetailsController {
+extension TimerExtScnDetails {
     private func configureConstraints() {
         let verticalOffset: CGFloat = 60
         

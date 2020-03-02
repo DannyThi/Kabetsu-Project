@@ -52,7 +52,7 @@ class TimerTask {
         didSet {
             switch timerState {
             case .initialized:
-                break
+                NotificationCenter.default.post(Notification(name: .timerDidUpdate))
             case .running:
                 print("TimerState: Running")
                 deltaTime = Date()
@@ -99,6 +99,7 @@ class TimerTask {
             }
         }
         completed?()
+        NotificationCenter.default.post(Notification(name: .timerDidUpdate))
     }
 }
 

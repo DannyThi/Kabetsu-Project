@@ -13,6 +13,18 @@ class Constants {
         static let green = [UIColor(red: 48 / 255, green: 209 / 255, blue: 88 / 255, alpha: 1),
                             UIColor(red: 31 / 255, green: 156 / 255, blue: 62 / 255, alpha: 1)]
     }
+    
+    struct ImageKey {
+        
+    }
+    
+    // currently unused
+//    struct ViewAppearance {
+//        static let cornerRadius: CGFloat = 25
+//        static var borderWidth: CGFloat { return UITraitCollection.current.userInterfaceStyle == .dark ? 2 : 0.5 }
+//        static var shadowOpacity: Float { return UITraitCollection.current.userInterfaceStyle == .dark ? 0 : 0.5 }
+//        static let digitalDisplayFontHeightToWidthRatio: CGFloat = 0.17
+//    }
 }
 
 class UIHelpers {
@@ -41,6 +53,10 @@ enum GlobalImageKeys: String, CaseIterable {
     case dismiss = "xmark.circle.fill"
     case done = "checkmark.circle.fill"
     case project = "tv.circle.fill"
+    case reset = "arrow.counterclockwise"
+    case play = "play"
+    case pause = "pause"
+    
 
     var image: UIImage {
         return UIImage(systemName: self.rawValue, withConfiguration: GlobalImageKeys.symbolConfig())!
