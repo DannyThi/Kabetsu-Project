@@ -14,20 +14,20 @@ class TimerVC: UIViewController, TimerExtScnMasterDelegate {
     var constraints = KBTConstraints()
     let externalDisplay = ExternalDisplayManager.shared
     
-    private let settings = Settings.shared
-    private var projectButton: UIBarButtonItem!
+    let settings = Settings.shared
+    var projectButton: UIBarButtonItem!
     
-    private var digitDisplayLabel: KBTDigitDisplayLabel!
-    private var secondaryDigitDisplaylabel: KBTDigitDisplayLabel!
+    var digitDisplayLabel: KBTDigitDisplayLabel!
+    var secondaryDigitDisplaylabel: KBTDigitDisplayLabel!
     
-    private var primaryActionButton: KBTCircularButton!
-    private var decrementButton: KBTButton!
-    private var incrementButton: KBTButton!
-    private var resetButton: KBTButton!
-    private var buttonContainer: UIStackView!
+    var primaryActionButton: KBTCircularButton!
+    var decrementButton: KBTButton!
+    var incrementButton: KBTButton!
+    var resetButton: KBTButton!
+    var buttonContainer: UIStackView!
     
-    private var toolBar: UIToolbar!
-    private var timerIncrementControl: UISegmentedControl!
+    var toolBar: UIToolbar!
+    var timerIncrementControl: UISegmentedControl!
     
     private struct ImageKeys {
         static let play = "play"
@@ -92,7 +92,7 @@ extension TimerVC {
         decrementButton.setTitle("-\(Int(timeInterval))s", for: .normal)
         incrementButton.setTitle("+\(Int(timeInterval))s", for: .normal)
     }
-    private func updateConstraints() {
+    func updateConstraints() {
         if (traitCollection.verticalSizeClass == .regular && traitCollection.horizontalSizeClass == .regular) ||
             (traitCollection.verticalSizeClass == .unspecified && traitCollection.horizontalSizeClass == .unspecified) {
             constraints.activate(.iPadAndExternalDisplays)
@@ -180,7 +180,9 @@ extension TimerVC {
         updateButtonLabels(timeInterval: settings.timerIncrementControlSelectedValue)
     }
     @objc func handleTimerDidEnd() {
-        #warning("check if this is active before presenting.")
+        #warning("check if this is active before presenting. this might not work when preseting modally")
+        guard navigationController?.topViewController == self else { return }
+        
         let formattedTime = TimerTask.formattedTimeFrom(timeInterval: task.adjustedCountdownTime, style: .brief)
         let alert = KBTAlertController(withTitle: "TIME UP!", message: "Your \(formattedTime) timer completed.") {
             NotificationCenter.default.post(Notification.init(name: .alertDidDismiss))
