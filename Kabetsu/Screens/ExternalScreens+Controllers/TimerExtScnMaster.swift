@@ -52,7 +52,7 @@ extension TimerExtScnMaster {
 
 extension TimerExtScnMaster {
     @discardableResult private func configureDismissButton() -> KBTButton {
-        dismissButton = KBTCircularButton(withSFSymbolName: GlobalImageKeys.dismiss.rawValue)
+        dismissButton = KBTCircularButton(withSFSymbolName: GlobalImageKeys.dismissFill.rawValue)
         dismissButton.addTarget(self, action: #selector(dismissController), for: .touchUpInside)
         view.addSubview(dismissButton)
         return dismissButton
@@ -75,7 +75,7 @@ extension TimerExtScnMaster {
 
 extension TimerExtScnMaster {
     
-    #warning("RELAYOUT UI")
+    #warning("FIX CONSTRAINTS FOR IPAD")
     func configureUniversalContraints() {
         let verticalPadding: CGFloat = 20
         let horizontalPadding: CGFloat = 50
@@ -98,10 +98,10 @@ extension TimerExtScnMaster {
             secondaryDigitDisplaylabel.centerXAnchor.constraint(equalTo: buttonContainer.centerXAnchor),
             
             primaryActionButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 200),
-            primaryActionButton.centerYAnchor.constraint(equalTo: view.centerYAnchor).withPriority(.defaultHigh),
+            primaryActionButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -toolBar.bounds.height),
             primaryActionButton.bottomAnchor.constraint(equalTo: toolBar.topAnchor, constant: -verticalPadding),
             primaryActionButton.heightAnchor.constraint(equalTo: primaryActionButton.widthAnchor),
-            primaryActionButton.widthAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.7),
+            primaryActionButton.widthAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.7).withPriority(.defaultHigh),
             
             decrementButton.heightAnchor.constraint(equalTo: decrementButton.widthAnchor),
             incrementButton.heightAnchor.constraint(equalTo: incrementButton.widthAnchor),
@@ -114,6 +114,7 @@ extension TimerExtScnMaster {
             toolBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             toolBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             toolBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            toolBar.heightAnchor.constraint(equalToConstant: 50),
         
             timerIncrementControl.topAnchor.constraint(equalTo: toolBar.topAnchor, constant: toolBarVerticalPadding),
             timerIncrementControl.bottomAnchor.constraint(equalTo: toolBar.bottomAnchor, constant: -toolBarVerticalPadding),
@@ -122,12 +123,15 @@ extension TimerExtScnMaster {
             timerIncrementControl.centerXAnchor.constraint(equalTo: toolBar.centerXAnchor),
             timerIncrementControl.widthAnchor.constraint(equalToConstant: 800).withPriority(.defaultHigh)
         ]
-        
         constraints.append(forSizeClass: .universal, constraints: layoutConstraints)
     }
     
     override func configureIPadAndExternalDispayConstraints() {
+        let iPadConstraints: [NSLayoutConstraint] = [
+            
+        ]
         
+        configureUniversalContraints()
     }
     
 }

@@ -50,7 +50,8 @@ enum GlobalImageKeys: String, CaseIterable {
         return UIImage.SymbolConfiguration(pointSize: pointSize!, weight: .medium)
     }
 
-    case dismiss = "xmark.circle.fill"
+    case dismissFill = "xmark.circle.fill"
+    case dismiss = "xmark"
     case done = "checkmark.circle.fill"
     case project = "tv.circle.fill"
     case reset = "arrow.counterclockwise"

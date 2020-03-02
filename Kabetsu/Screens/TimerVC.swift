@@ -33,6 +33,7 @@ class TimerVC: UIViewController, TimerExtScnMasterDelegate {
         static let play = "play"
         static let pause = "pause"
         static let reset = "arrow.counterclockwise"
+        static let dismiss = "x"
     }
     
     init(withTask task: TimerTask?) {
@@ -275,7 +276,7 @@ extension TimerVC {
     private func configureDismissButton() {
         //guard isModalInPresentation else { return }
         let dismissButton =
-            UIBarButtonItem(image: GlobalImageKeys.dismiss.image, style: .plain, target: self, action: #selector(dismissController))
+            UIBarButtonItem(image: GlobalImageKeys.dismissFill.image, style: .plain, target: self, action: #selector(dismissController))
         navigationItem.leftBarButtonItem = dismissButton
     }
     private func configureProjectButton() {
@@ -398,7 +399,8 @@ extension TimerVC {
         let horizontalPadding: CGFloat = 75
         let toolBarVerticalPadding: CGFloat = 8
         let displayLabelToParentViewRatio: CGFloat = 0.8
-        let primaryButtonSize: CGFloat = 200
+        var primaryButtonSize: CGFloat { return CGFloat.minimum(view.bounds.width, view.bounds.height) * 0.4}
+
         
         let iPadAndExternalDisplayConstraints: [NSLayoutConstraint] = [
             digitDisplayLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: verticalPadding),
@@ -412,14 +414,15 @@ extension TimerVC {
             secondaryDigitDisplaylabel.heightAnchor.constraint(equalTo: secondaryDigitDisplaylabel.widthAnchor, multiplier: UIHelpers.digitalDisplayFontHeightToWidthRatio),
             
             primaryActionButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            primaryActionButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            primaryActionButton.centerYAnchor.constraint(equalTo: view.centerYAnchor).withPriority(.defaultHigh),
             primaryActionButton.heightAnchor.constraint(equalTo: primaryActionButton.widthAnchor),
-            primaryActionButton.widthAnchor.constraint(equalToConstant: primaryButtonSize),
+            primaryActionButton.widthAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.2),
+            primaryActionButton.topAnchor.constraint(greaterThanOrEqualTo: secondaryDigitDisplaylabel.bottomAnchor, constant: 30),
             
             decrementButton.heightAnchor.constraint(equalTo: decrementButton.widthAnchor),
             incrementButton.heightAnchor.constraint(equalTo: incrementButton.widthAnchor),
             resetButton.widthAnchor.constraint(equalTo: resetButton.heightAnchor),
-            resetButton.heightAnchor.constraint(equalTo: primaryActionButton.heightAnchor, multiplier: 0.65),
+            resetButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.1),
 
             buttonContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             buttonContainer.bottomAnchor.constraint(equalTo: toolBar.topAnchor, constant: -verticalPadding),

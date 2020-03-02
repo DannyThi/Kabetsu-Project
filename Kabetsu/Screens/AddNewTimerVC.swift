@@ -305,7 +305,7 @@ extension AddNewTimerVC {
         view.addSubview(confirmButton)
     }
     private func configureDismissButton() {
-        let dismissButton = UIBarButtonItem(image: GlobalImageKeys.dismiss.image,
+        let dismissButton = UIBarButtonItem(image: GlobalImageKeys.dismissFill.image,
                                             style: .plain,
                                             target: self,
                                             action: #selector(dismissButtonTapped))

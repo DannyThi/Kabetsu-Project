@@ -171,7 +171,7 @@ extension SettingsVC {
         self.title = "Settings"
     }
     private func configureDismissButton() {
-        let dismissButton = UIBarButtonItem(image: GlobalImageKeys.dismiss.image,
+        let dismissButton = UIBarButtonItem(image: GlobalImageKeys.dismissFill.image,
                                             style: .plain,
                                             target: self,
                                             action: #selector(dismissVC))
