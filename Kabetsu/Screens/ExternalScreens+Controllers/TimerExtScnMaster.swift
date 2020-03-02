@@ -126,4 +126,8 @@ extension TimerExtScnMaster {
         constraints.append(forSizeClass: .universal, constraints: layoutConstraints)
     }
     
+    override func configureIPadAndExternalDispayConstraints() {
+        
+    }
+    
 }

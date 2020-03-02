@@ -26,9 +26,9 @@ class KBTDigitDisplayLabel: UILabel {
     
     // MARK: - Initialization
     
-    init(withFontSize fontSize: CGFloat, fontWeight: UIFont.Weight = .medium, textAlignment: NSTextAlignment) {
+    init(fontSize: CGFloat? = nil, fontWeight: UIFont.Weight = .medium, textAlignment: NSTextAlignment) {
         super.init(frame: .zero)
-        self.font = UIFont.monospacedDigitSystemFont(ofSize: fontSize, weight: fontWeight)
+        self.font = UIFont.monospacedDigitSystemFont(ofSize: fontSize ?? 1000, weight: fontWeight)
         self.textAlignment = textAlignment
         configureLabel()
     }

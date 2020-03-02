@@ -76,12 +76,12 @@ extension TimerExtScnDetails {
         }
     }
     private func configureDigitalDisplayLabel() {
-        digitalDisplayLabel = KBTDigitDisplayLabel(withFontSize: 500, fontWeight: .bold, textAlignment: .center)
+        digitalDisplayLabel = KBTDigitDisplayLabel(fontSize: 500, fontWeight: .bold, textAlignment: .center)
         updateDigitalDisplayLabel()
         view.addSubview(digitalDisplayLabel)
     }
     private func configureSecondaryDigitalDisplayLabel() {
-        secondaryDigitalDisplaylabel = KBTDigitDisplayLabel(withFontSize: 400, fontWeight: .bold, textAlignment: .center)
+        secondaryDigitalDisplaylabel = KBTDigitDisplayLabel(fontSize: 400, fontWeight: .bold, textAlignment: .center)
         secondaryDigitalDisplaylabel.textColor = .tertiaryLabel
         updateSecondaryDigitalDisplayLabel()
         view.addSubview(secondaryDigitalDisplaylabel)

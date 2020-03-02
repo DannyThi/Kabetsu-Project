@@ -16,6 +16,7 @@ class TimersListVC: UIViewController {
     
     private enum SectionLayoutKind: Int, CaseIterable {
         case main
+        var iPadRowHeight: CGFloat { return UIDevice.current.orientation.isLandscape ? 200 : 150 }
         func columnCount(for width: CGFloat) -> Int {
             var columnsForPortrait = 2
             var columnsForLandscape = 3
@@ -159,6 +160,7 @@ extension TimersListVC {
         ])
     }
     private func configureCompositionalFlowLayout() -> UICollectionViewLayout {
+        
         let layout = UICollectionViewCompositionalLayout { sectionIndex, layoutEnvironment -> NSCollectionLayoutSection? in
             guard let layoutKind = SectionLayoutKind(rawValue: sectionIndex) else { return nil }
             
@@ -167,9 +169,12 @@ extension TimersListVC {
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(150))
+            
+            let height = UIDevice.current.userInterfaceIdiom == .pad ? SectionLayoutKind.main.iPadRowHeight : 140
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(height))
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: columns)
             group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 5)
+            
             let section = NSCollectionLayoutSection(group: group)
             return section
         }

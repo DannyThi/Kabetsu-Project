@@ -237,11 +237,11 @@ extension TimerVC {
         view.addSubview(toolBar)
     }
     private func configureDigitDisplayLabel() {
-        digitDisplayLabel = KBTDigitDisplayLabel(withFontSize: 500, fontWeight: .bold, textAlignment: .center)
+        digitDisplayLabel = KBTDigitDisplayLabel(fontSize: 500, fontWeight: .bold, textAlignment: .center)
         view.addSubview(digitDisplayLabel)
     }
     private func configureSecondaryDigitDisplayLabel() {
-        secondaryDigitDisplaylabel = KBTDigitDisplayLabel(withFontSize: 400, fontWeight: .bold, textAlignment: .center)
+        secondaryDigitDisplaylabel = KBTDigitDisplayLabel(fontSize: 400, fontWeight: .bold, textAlignment: .center)
         secondaryDigitDisplaylabel.textColor = .tertiaryLabel
         view.addSubview(secondaryDigitDisplaylabel)
     }

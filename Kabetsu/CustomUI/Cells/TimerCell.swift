@@ -76,17 +76,15 @@ extension TimerCell {
     }
     
     private func configureLabel() {
-        countdownLabel = KBTDigitDisplayLabel(withFontSize: 30, fontWeight: .bold, textAlignment: .center)
+        countdownLabel = KBTDigitDisplayLabel(fontWeight: .bold, textAlignment: .center)
         countdownLabel.textColor = .label
         countdownLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(countdownLabel)
         
-        let padding: CGFloat = 15
-        
         NSLayoutConstraint.activate([
             countdownLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            countdownLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
-            countdownLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
+            countdownLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            countdownLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.8),
             countdownLabel.heightAnchor.constraint(equalTo: countdownLabel.widthAnchor, multiplier: UIHelpers.digitalDisplayFontHeightToWidthRatio)
         ])
     }
