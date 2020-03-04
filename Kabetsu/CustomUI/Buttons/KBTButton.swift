@@ -28,9 +28,9 @@ class KBTButton: UIButton {
         if image != nil { self.setImage(image, for: .normal) }
         
         self.imageView?.layer.shadowColor = UIColor.black.cgColor
-        self.imageView?.layer.shadowOffset = CGSize(width: 0, height: 4)
-        self.imageView?.layer.shadowRadius = 3
-        self.imageView?.layer.shadowOpacity = 0.3
+        self.imageView?.layer.shadowOffset = CGSize(width: 0, height: 3)
+        self.imageView?.layer.shadowRadius = 2
+        self.imageView?.layer.shadowOpacity = 0.16
         self.imageView?.layer.masksToBounds = false
 
         configureButton()
@@ -43,9 +43,9 @@ class KBTButton: UIButton {
         titleLabel?.font = UIFont(name: "HelveticaNeue-bold", size: fontSize ?? 1000)
         
         titleLabel?.layer.shadowColor = UIColor.black.cgColor
-        titleLabel?.layer.shadowOffset = CGSize(width: 0, height: 4)
-        titleLabel?.layer.shadowRadius = 3
-        titleLabel?.layer.shadowOpacity = 0.3
+        titleLabel?.layer.shadowOffset = CGSize(width: 0, height: 3)
+        titleLabel?.layer.shadowRadius = 2
+        titleLabel?.layer.shadowOpacity = 0.16
         titleLabel?.layer.masksToBounds = false
         
         titleLabel?.adjustsFontForContentSizeCategory = true
@@ -86,7 +86,7 @@ extension KBTButton {
         case .dark:
             layer.shadowOpacity = 0
         default:
-            layer.shadowOpacity = 1
+            layer.shadowOpacity = 0.3
         }
     }
 }
@@ -100,9 +100,9 @@ extension KBTButton {
         self.tintColor = .white
         self.translatesAutoresizingMaskIntoConstraints = false
         self.layer.borderColor = KBTColors.kabetsuGreenBorder!.cgColor
-        self.layer.shadowColor = UIColor.lightGray.cgColor
+        self.layer.shadowColor = UIColor.black.cgColor
         self.layer.shadowOffset = CGSize(width: 3, height: 3)
-        self.layer.shadowRadius = 1.5
+        self.layer.shadowRadius = 4
     }
     private func calculateImageEdgeInsets() {
         let multiplier: CGFloat = 0.2
