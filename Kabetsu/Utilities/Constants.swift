@@ -8,6 +8,11 @@
 
 import UIKit
 
+struct KBTColors {
+    static var primaryLabel = UIColor(named: "primaryLabel")
+    static let secondaryLabel = UIColor(named: "secondaryLabel")
+}
+
 class Constants {
     struct Gradient {
         static let green = [UIColor(red: 48 / 255, green: 209 / 255, blue: 88 / 255, alpha: 1),
@@ -18,13 +23,12 @@ class Constants {
         
     }
     
-    // currently unused
-//    struct ViewAppearance {
-//        static let cornerRadius: CGFloat = 25
-//        static var borderWidth: CGFloat { return UITraitCollection.current.userInterfaceStyle == .dark ? 2 : 0.5 }
-//        static var shadowOpacity: Float { return UITraitCollection.current.userInterfaceStyle == .dark ? 0 : 0.5 }
-//        static let digitalDisplayFontHeightToWidthRatio: CGFloat = 0.17
-//    }
+    struct ViewAppearance {
+        static let cornerRadius: CGFloat = 25
+        static var borderWidth: CGFloat { return UITraitCollection.current.userInterfaceStyle == .dark ? 2 : 0.5 }
+        static var shadowOpacity: Float { return UITraitCollection.current.userInterfaceStyle == .dark ? 0 : 0.5 }
+        static let digitalDisplayFontHeightToWidthRatio: CGFloat = 0.17
+    }
 }
 
 class UIHelpers {

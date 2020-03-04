@@ -19,6 +19,7 @@ class TimerVC: UIViewController, TimerExtScnMasterDelegate {
     
     var digitDisplayLabel: KBTDigitDisplayLabel!
     var secondaryDigitDisplaylabel: KBTDigitDisplayLabel!
+    var digitLabelsLayoutContainer: UIView!
     
     var primaryActionButton: KBTCircularButton!
     var decrementButton: KBTButton!
@@ -200,8 +201,9 @@ extension TimerVC {
         super.viewDidLoad()
         configureViewController()
         configureToolBar()
-        configureDigitDisplayLabel()
-        configureSecondaryDigitDisplayLabel()
+        configureDigitLabels()
+//        configureDigitDisplayLabel()
+//        configureSecondaryDigitDisplayLabel()
         configurePrimaryActionButton()
         configureStackViewButtons()
         configureTimerIncrementControl()
@@ -237,15 +239,61 @@ extension TimerVC {
         toolBar.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(toolBar)
     }
-    private func configureDigitDisplayLabel() {
-        digitDisplayLabel = KBTDigitDisplayLabel(fontSize: 500, fontWeight: .bold, textAlignment: .center)
-        view.addSubview(digitDisplayLabel)
-    }
-    private func configureSecondaryDigitDisplayLabel() {
+    
+    
+    private func configureDigitLabels() {
+        digitDisplayLabel = KBTDigitDisplayLabel(fontWeight: .bold, textAlignment: .center)
+        digitDisplayLabel.font = UIFont(name: "HelveticaNeue-medium", size: 1000)
+        digitDisplayLabel.textColor = KBTColors.primaryLabel
+        
         secondaryDigitDisplaylabel = KBTDigitDisplayLabel(fontSize: 400, fontWeight: .bold, textAlignment: .center)
-        secondaryDigitDisplaylabel.textColor = .tertiaryLabel
-        view.addSubview(secondaryDigitDisplaylabel)
+        secondaryDigitDisplaylabel.font = UIFont(name: "HelveticaNeue-thin", size: 1000)
+        secondaryDigitDisplaylabel.textColor = KBTColors.secondaryLabel
+        
+        let labelGroup = UIView()
+        labelGroup.translatesAutoresizingMaskIntoConstraints = false
+        labelGroup.addSubview(digitDisplayLabel)
+        labelGroup.addSubview(secondaryDigitDisplaylabel)
+        
+        NSLayoutConstraint.activate([
+            digitDisplayLabel.topAnchor.constraint(equalTo: labelGroup.topAnchor),
+            digitDisplayLabel.leadingAnchor.constraint(equalTo: labelGroup.leadingAnchor),
+            digitDisplayLabel.trailingAnchor.constraint(equalTo: labelGroup.trailingAnchor),
+            digitDisplayLabel.heightAnchor.constraint(equalTo: digitDisplayLabel.widthAnchor,
+                                                      multiplier: Constants.ViewAppearance.digitalDisplayFontHeightToWidthRatio),
+            
+            secondaryDigitDisplaylabel.topAnchor.constraint(equalTo: digitDisplayLabel.bottomAnchor, constant: 8),
+            secondaryDigitDisplaylabel.widthAnchor.constraint(equalTo: digitDisplayLabel.widthAnchor, multiplier: 0.5),
+            secondaryDigitDisplaylabel.heightAnchor.constraint(equalTo: secondaryDigitDisplaylabel.widthAnchor,
+                                                      multiplier: Constants.ViewAppearance.digitalDisplayFontHeightToWidthRatio),
+            secondaryDigitDisplaylabel.bottomAnchor.constraint(equalTo: labelGroup.bottomAnchor),
+            secondaryDigitDisplaylabel.centerXAnchor.constraint(equalTo: digitDisplayLabel.centerXAnchor)
+        ])
+        
+        digitLabelsLayoutContainer = UIView()
+        digitLabelsLayoutContainer.translatesAutoresizingMaskIntoConstraints = false
+        digitLabelsLayoutContainer.addSubview(labelGroup)
+        
+        NSLayoutConstraint.activate([
+            labelGroup.centerXAnchor.constraint(equalTo: digitLabelsLayoutContainer.centerXAnchor),
+            labelGroup.centerYAnchor.constraint(equalTo: digitLabelsLayoutContainer.centerYAnchor, constant: -10),
+            labelGroup.widthAnchor.constraint(equalTo: digitLabelsLayoutContainer.widthAnchor, multiplier: 0.9)
+        ])
+        view.addSubview(digitLabelsLayoutContainer)
     }
+    
+    
+//    private func configureDigitDisplayLabel() {
+//        digitDisplayLabel = KBTDigitDisplayLabel(fontWeight: .bold, textAlignment: .center)
+//        digitDisplayLabel.font = UIFont(name: "HelveticaNeue-medium", size: 1000)
+//        digitDisplayLabel.textColor = UIColor.KBTPrimaryLabel
+//        view.addSubview(digitDisplayLabel)
+//    }
+//    private func configureSecondaryDigitDisplayLabel() {
+//        secondaryDigitDisplaylabel = KBTDigitDisplayLabel(fontSize: 400, fontWeight: .bold, textAlignment: .center)
+//        secondaryDigitDisplaylabel.textColor = .tertiaryLabel
+//        view.addSubview(secondaryDigitDisplaylabel)
+//    }
     private func configurePrimaryActionButton() {
         primaryActionButton = KBTCircularButton(withSFSymbolName: ImageKeys.play)
         primaryActionButton.addTarget(self, action: #selector(actionButtonTapped), for: .touchUpInside)
@@ -310,16 +358,12 @@ extension TimerVC {
         let toolBarVerticalPadding: CGFloat = 8
         
         let iPhonePortraitConstraints: [NSLayoutConstraint] = [
-            digitDisplayLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: verticalPadding),
-            digitDisplayLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: horizontalPadding),
-            digitDisplayLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -horizontalPadding),
-            digitDisplayLabel.heightAnchor.constraint(equalTo: digitDisplayLabel.widthAnchor, multiplier: UIHelpers.digitalDisplayFontHeightToWidthRatio),
-            
-            secondaryDigitDisplaylabel.topAnchor.constraint(equalTo: digitDisplayLabel.bottomAnchor, constant: 10),
-            secondaryDigitDisplaylabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: horizontalPadding * 2),
-            secondaryDigitDisplaylabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -horizontalPadding * 2),
-            secondaryDigitDisplaylabel.heightAnchor.constraint(equalTo: secondaryDigitDisplaylabel.widthAnchor, multiplier: UIHelpers.digitalDisplayFontHeightToWidthRatio),
-            
+            digitLabelsLayoutContainer.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            digitLabelsLayoutContainer.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            digitLabelsLayoutContainer.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            digitLabelsLayoutContainer.bottomAnchor.constraint(equalTo: primaryActionButton.topAnchor),
+
+
             primaryActionButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             primaryActionButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             primaryActionButton.heightAnchor.constraint(equalTo: primaryActionButton.widthAnchor),

@@ -38,7 +38,7 @@
 		975C260123DEC493005847FF /* KBTDigitDisplayLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975C25FF23DEC493005847FF /* KBTDigitDisplayLabel.swift */; };
 		975C260623DFA8C5005847FF /* TimerTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975C260523DFA8C5005847FF /* TimerTask.swift */; };
 		975C260923DFBC2B005847FF /* TimersList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975C260823DFBC2B005847FF /* TimersList.swift */; };
-		975C260B23DFF6F4005847FF /* UIHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975C260A23DFF6F4005847FF /* UIHelpers.swift */; };
+		975C260B23DFF6F4005847FF /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975C260A23DFF6F4005847FF /* Constants.swift */; };
 		975D929C23E100AD000CE57D /* TimerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975D929B23E100AD000CE57D /* TimerVC.swift */; };
 		975D929E23E160EF000CE57D /* KBTButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975D929D23E160EF000CE57D /* KBTButton.swift */; };
 		975D92A223E2957C000CE57D /* KBTCircularButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975D92A123E2957C000CE57D /* KBTCircularButton.swift */; };
@@ -80,7 +80,7 @@
 		975C25FF23DEC493005847FF /* KBTDigitDisplayLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KBTDigitDisplayLabel.swift; sourceTree = "<group>"; };
 		975C260523DFA8C5005847FF /* TimerTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerTask.swift; sourceTree = "<group>"; };
 		975C260823DFBC2B005847FF /* TimersList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimersList.swift; sourceTree = "<group>"; };
-		975C260A23DFF6F4005847FF /* UIHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelpers.swift; sourceTree = "<group>"; };
+		975C260A23DFF6F4005847FF /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		975D929B23E100AD000CE57D /* TimerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerVC.swift; sourceTree = "<group>"; };
 		975D929D23E160EF000CE57D /* KBTButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KBTButton.swift; sourceTree = "<group>"; };
 		975D92A123E2957C000CE57D /* KBTCircularButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KBTCircularButton.swift; sourceTree = "<group>"; };
@@ -244,7 +244,7 @@
 		975C260C23DFF716005847FF /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				975C260A23DFF6F4005847FF /* UIHelpers.swift */,
+				975C260A23DFF6F4005847FF /* Constants.swift */,
 				9753C22123F0CC650035A514 /* Extensions.swift */,
 				9753C22323F133C40035A514 /* KBTConstraints.swift */,
 				9753C22523F250960035A514 /* KBTError.swift */,
@@ -359,7 +359,7 @@
 				975C260923DFBC2B005847FF /* TimersList.swift in Sources */,
 				9753C22623F250960035A514 /* KBTError.swift in Sources */,
 				9753C23D23FA4A250035A514 /* KBTTitleLabel.swift in Sources */,
-				975C260B23DFF6F4005847FF /* UIHelpers.swift in Sources */,
+				975C260B23DFF6F4005847FF /* Constants.swift in Sources */,
 				975D929C23E100AD000CE57D /* TimerVC.swift in Sources */,
 				9753C2932401FAE80035A514 /* AlertVolumeTVCell.swift in Sources */,
 				9753C23423F941520035A514 /* TimerIncrementsTVCell.swift in Sources */,

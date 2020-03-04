@@ -48,6 +48,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let navCon = UINavigationController(rootViewController: TimersListVC())
         navCon.navigationBar.prefersLargeTitles = true
         navCon.tabBarItem = tab
+        navCon.navigationBar.barStyle = .default
         tabItemCount += 1
         
         return navCon
