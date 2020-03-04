@@ -9,8 +9,10 @@
 import UIKit
 
 struct KBTColors {
-    static var primaryLabel = UIColor(named: "primaryLabel")
+    static let primaryLabel = UIColor(named: "primaryLabel")
     static let secondaryLabel = UIColor(named: "secondaryLabel")
+    static let kabetsuGreen = UIColor(named: "kabetsuGreen")
+    static let kabetsuGreenBorder = UIColor(named: "kabetsuGreenBorder")
 }
 
 class Constants {
@@ -25,7 +27,7 @@ class Constants {
     
     struct ViewAppearance {
         static let cornerRadius: CGFloat = 25
-        static var borderWidth: CGFloat { return UITraitCollection.current.userInterfaceStyle == .dark ? 2 : 0.5 }
+        static var borderWidth: CGFloat { return UITraitCollection.current.userInterfaceStyle == .dark ? 2 : 2 }
         static var shadowOpacity: Float { return UITraitCollection.current.userInterfaceStyle == .dark ? 0 : 0.5 }
         static let digitalDisplayFontHeightToWidthRatio: CGFloat = 0.17
     }

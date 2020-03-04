@@ -87,15 +87,15 @@ extension TimerExtScnMaster {
             dismissButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
             dismissButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: verticalPadding),
             
-            digitDisplayLabel.widthAnchor.constraint(equalTo: buttonContainer.widthAnchor),
+            digitDisplayLabel.widthAnchor.constraint(equalTo: secondaryButtonsContainer.widthAnchor),
             digitDisplayLabel.heightAnchor.constraint(equalTo: digitDisplayLabel.widthAnchor, multiplier: UIHelpers.digitalDisplayFontHeightToWidthRatio),
-            digitDisplayLabel.centerXAnchor.constraint(equalTo: buttonContainer.centerXAnchor),
+            digitDisplayLabel.centerXAnchor.constraint(equalTo: secondaryButtonsContainer.centerXAnchor),
             digitDisplayLabel.bottomAnchor.constraint(equalTo: secondaryDigitDisplaylabel.topAnchor),
             
             secondaryDigitDisplaylabel.widthAnchor.constraint(equalTo: digitDisplayLabel.widthAnchor, multiplier: 0.8),
             secondaryDigitDisplaylabel.heightAnchor.constraint(equalTo: secondaryDigitDisplaylabel.widthAnchor, multiplier: UIHelpers.digitalDisplayFontHeightToWidthRatio),
-            secondaryDigitDisplaylabel.bottomAnchor.constraint(equalTo: buttonContainer.topAnchor, constant: -50),
-            secondaryDigitDisplaylabel.centerXAnchor.constraint(equalTo: buttonContainer.centerXAnchor),
+            secondaryDigitDisplaylabel.bottomAnchor.constraint(equalTo: secondaryButtonsContainer.topAnchor, constant: -50),
+            secondaryDigitDisplaylabel.centerXAnchor.constraint(equalTo: secondaryButtonsContainer.centerXAnchor),
             
             primaryActionButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 200),
             primaryActionButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -toolBar.bounds.height),
@@ -108,8 +108,8 @@ extension TimerExtScnMaster {
             resetButton.widthAnchor.constraint(equalTo: resetButton.heightAnchor),
             resetButton.heightAnchor.constraint(equalToConstant: 75),
         
-            buttonContainer.bottomAnchor.constraint(equalTo: toolBar.topAnchor, constant: -verticalPadding),
-            buttonContainer.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: horizontalPadding),
+            secondaryButtonsContainer.bottomAnchor.constraint(equalTo: toolBar.topAnchor, constant: -verticalPadding),
+            secondaryButtonsContainer.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: horizontalPadding),
             
             toolBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             toolBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),

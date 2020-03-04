@@ -18,7 +18,6 @@ class KBTButton: UIButton {
             calculateCornerRadius()
             calculateTitleEdgeInsets()
             updateView(for: traitCollection.userInterfaceStyle)
-            applyGradient()
         }
     }
 
@@ -27,17 +26,33 @@ class KBTButton: UIButton {
         self.imageConfig = UIImage.SymbolConfiguration(pointSize: 1000, weight: weight ?? .regular)
         let image = UIImage(systemName: symbolName, withConfiguration: imageConfig)
         if image != nil { self.setImage(image, for: .normal) }
+        
+        self.imageView?.layer.shadowColor = UIColor.black.cgColor
+        self.imageView?.layer.shadowOffset = CGSize(width: 0, height: 4)
+        self.imageView?.layer.shadowRadius = 3
+        self.imageView?.layer.shadowOpacity = 0.3
+        self.imageView?.layer.masksToBounds = false
+
         configureButton()
     }
-    init(withTitle title: String) {
+    
+    init(withTitle title: String, fontSize: CGFloat? = nil) {
         super.init(frame: .zero)
         setTitle(title, for: .normal)
         titleLabel?.textColor = .white
-        titleLabel?.font = UIFont.monospacedSystemFont(ofSize: 1000, weight: .bold)
+        titleLabel?.font = UIFont(name: "HelveticaNeue-bold", size: fontSize ?? 1000)
+        
+        titleLabel?.layer.shadowColor = UIColor.black.cgColor
+        titleLabel?.layer.shadowOffset = CGSize(width: 0, height: 4)
+        titleLabel?.layer.shadowRadius = 3
+        titleLabel?.layer.shadowOpacity = 0.3
+        titleLabel?.layer.masksToBounds = false
+        
         titleLabel?.adjustsFontForContentSizeCategory = true
+        titleLabel?.adjustsFontSizeToFitWidth = true
+
         titleLabel?.textAlignment = .center
         titleLabel?.baselineAdjustment = .alignCenters
-        titleLabel?.adjustsFontSizeToFitWidth = true
         configureButton()
     }
     override init(frame: CGRect) {
@@ -63,17 +78,14 @@ extension KBTButton {
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         updateView(for: traitCollection.userInterfaceStyle)
-        applyGradient()
     }
     
     private func updateView(for userInterfaceStyle: UIUserInterfaceStyle) {
-        let borderWidth = CGFloat.minimum(bounds.width, bounds.height) * 0.03
+        layer.borderWidth = Constants.ViewAppearance.borderWidth
         switch userInterfaceStyle {
         case .dark:
-            layer.borderWidth = borderWidth
             layer.shadowOpacity = 0
         default:
-            layer.borderWidth = 0
             layer.shadowOpacity = 1
         }
     }
@@ -84,10 +96,10 @@ extension KBTButton {
 
 extension KBTButton {
     private func configureButton() {
-        //self.backgroundColor = .systemGreen
+        self.backgroundColor = KBTColors.kabetsuGreen
         self.tintColor = .white
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.layer.borderColor = UIColor.white.cgColor
+        self.layer.borderColor = KBTColors.kabetsuGreenBorder!.cgColor
         self.layer.shadowColor = UIColor.lightGray.cgColor
         self.layer.shadowOffset = CGSize(width: 3, height: 3)
         self.layer.shadowRadius = 1.5

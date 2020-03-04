@@ -22,10 +22,12 @@ class TimerVC: UIViewController, TimerExtScnMasterDelegate {
     var digitLabelsLayoutContainer: UIView!
     
     var primaryActionButton: KBTCircularButton!
+    var primaryButtonsContainer: UIView!
+    
     var decrementButton: KBTButton!
     var incrementButton: KBTButton!
     var resetButton: KBTButton!
-    var buttonContainer: UIStackView!
+    var secondaryButtonsContainer: UIView!
     
     var toolBar: UIToolbar!
     var timerIncrementControl: UISegmentedControl!
@@ -220,6 +222,10 @@ extension TimerVC {
         updateTitle()
         updateProjectButtonStatus()
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.prefersLargeTitles = false
+    }
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         updateConstraints()
@@ -239,7 +245,6 @@ extension TimerVC {
         toolBar.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(toolBar)
     }
-    
     
     private func configureDigitLabels() {
         digitDisplayLabel = KBTDigitDisplayLabel(fontWeight: .bold, textAlignment: .center)
@@ -281,38 +286,52 @@ extension TimerVC {
         ])
         view.addSubview(digitLabelsLayoutContainer)
     }
-    
-    
-//    private func configureDigitDisplayLabel() {
-//        digitDisplayLabel = KBTDigitDisplayLabel(fontWeight: .bold, textAlignment: .center)
-//        digitDisplayLabel.font = UIFont(name: "HelveticaNeue-medium", size: 1000)
-//        digitDisplayLabel.textColor = UIColor.KBTPrimaryLabel
-//        view.addSubview(digitDisplayLabel)
-//    }
-//    private func configureSecondaryDigitDisplayLabel() {
-//        secondaryDigitDisplaylabel = KBTDigitDisplayLabel(fontSize: 400, fontWeight: .bold, textAlignment: .center)
-//        secondaryDigitDisplaylabel.textColor = .tertiaryLabel
-//        view.addSubview(secondaryDigitDisplaylabel)
-//    }
+
     private func configurePrimaryActionButton() {
         primaryActionButton = KBTCircularButton(withSFSymbolName: ImageKeys.play)
         primaryActionButton.addTarget(self, action: #selector(actionButtonTapped), for: .touchUpInside)
-        view.addSubview(primaryActionButton)
+        
+        primaryButtonsContainer = UIView()
+        primaryButtonsContainer.translatesAutoresizingMaskIntoConstraints = false
+        primaryButtonsContainer.addSubview(primaryActionButton)
+        
+        NSLayoutConstraint.activate([
+            primaryActionButton.centerXAnchor.constraint(equalTo: primaryButtonsContainer.centerXAnchor),
+            primaryActionButton.centerYAnchor.constraint(equalTo: primaryButtonsContainer.centerYAnchor),
+            primaryActionButton.widthAnchor.constraint(equalTo: primaryButtonsContainer.widthAnchor, multiplier: 0.6),
+            primaryActionButton.heightAnchor.constraint(equalTo: primaryActionButton.widthAnchor),
+            primaryButtonsContainer.heightAnchor.constraint(equalTo: primaryActionButton.heightAnchor)
+        ])
+        
+        view.addSubview(primaryButtonsContainer)
     }
+    
     private func configureStackViewButtons() {
-        decrementButton = KBTButton(withTitle: "-\(Int(Settings.shared.timerIncrementControlSelectedValue))s")
+        decrementButton = KBTCircularButton(withTitle: "-\(Int(Settings.shared.timerIncrementControlSelectedValue))s", fontSize: 25)
         decrementButton.addTarget(self, action: #selector(decrementButtonTapped), for: .touchUpInside)
-
-        incrementButton = KBTButton(withTitle: "+\(Int(Settings.shared.timerIncrementControlSelectedValue))s")
+        incrementButton = KBTCircularButton(withTitle: "+\(Int(Settings.shared.timerIncrementControlSelectedValue))s", fontSize: 25)
         incrementButton.addTarget(self, action: #selector(incrementButtonTapped), for: .touchUpInside)
-
-        resetButton = KBTButton(withSFSymbolName: ImageKeys.reset)
+        resetButton = KBTCircularButton(withSFSymbolName: ImageKeys.reset)
         resetButton.addTarget(self, action: #selector(resetButtonTapped), for: .touchUpInside)
-
-        buttonContainer = UIStackView(arrangedSubviews: [decrementButton, resetButton, incrementButton])
-        buttonContainer.spacing = 20
-        buttonContainer.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(buttonContainer)
+                
+        let stackView = UIStackView(arrangedSubviews: [decrementButton, resetButton, incrementButton])
+        stackView.spacing = 20
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        secondaryButtonsContainer = UIView()
+        secondaryButtonsContainer.translatesAutoresizingMaskIntoConstraints = false
+        secondaryButtonsContainer.addSubview(stackView)
+        
+        NSLayoutConstraint.activate([
+            decrementButton.heightAnchor.constraint(equalTo: decrementButton.widthAnchor),
+            incrementButton.heightAnchor.constraint(equalTo: incrementButton.widthAnchor),
+            resetButton.widthAnchor.constraint(equalTo: resetButton.heightAnchor),
+            resetButton.heightAnchor.constraint(equalToConstant: 90),
+            
+            stackView.centerXAnchor.constraint(equalTo: secondaryButtonsContainer.centerXAnchor),
+            stackView.centerYAnchor.constraint(equalTo: secondaryButtonsContainer.centerYAnchor),
+        ])
+        view.addSubview(secondaryButtonsContainer)
     }
     private func configureTimerIncrementControl() {
         timerIncrementControl = UISegmentedControl(items: settings.timerIncrementControlValues.map { "\(Int($0))s" })
@@ -353,7 +372,6 @@ extension TimerVC {
 
 extension TimerVC {
     @objc func configureIPhonePortraitConstraints() {
-        let verticalPadding: CGFloat = 20
         let horizontalPadding: CGFloat = 50
         let toolBarVerticalPadding: CGFloat = 8
         
@@ -361,22 +379,19 @@ extension TimerVC {
             digitLabelsLayoutContainer.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             digitLabelsLayoutContainer.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             digitLabelsLayoutContainer.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            digitLabelsLayoutContainer.bottomAnchor.constraint(equalTo: primaryActionButton.topAnchor),
+            digitLabelsLayoutContainer.bottomAnchor.constraint(equalTo: primaryButtonsContainer.topAnchor),
 
-
-            primaryActionButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            primaryActionButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            primaryActionButton.heightAnchor.constraint(equalTo: primaryActionButton.widthAnchor),
-            primaryActionButton.widthAnchor.constraint(equalToConstant: 200),
+            primaryButtonsContainer.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            primaryButtonsContainer.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            primaryButtonsContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            primaryButtonsContainer.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            primaryButtonsContainer.bottomAnchor.constraint(equalTo: secondaryButtonsContainer.topAnchor),
             
-            decrementButton.heightAnchor.constraint(equalTo: decrementButton.widthAnchor),
-            incrementButton.heightAnchor.constraint(equalTo: incrementButton.widthAnchor),
-            resetButton.widthAnchor.constraint(equalTo: resetButton.heightAnchor),
-            resetButton.heightAnchor.constraint(equalToConstant: 75),
+            secondaryButtonsContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            secondaryButtonsContainer.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            secondaryButtonsContainer.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            secondaryButtonsContainer.bottomAnchor.constraint(equalTo: toolBar.topAnchor),
 
-            buttonContainer.bottomAnchor.constraint(equalTo: toolBar.topAnchor, constant: -verticalPadding),
-            buttonContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            
             toolBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             toolBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             toolBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -421,8 +436,8 @@ extension TimerVC {
             resetButton.widthAnchor.constraint(equalTo: resetButton.heightAnchor),
             resetButton.heightAnchor.constraint(equalTo: primaryActionButton.heightAnchor, multiplier: 0.75),
 
-            buttonContainer.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: horizontalPadding),
-            buttonContainer.centerYAnchor.constraint(equalTo: primaryActionButton.centerYAnchor),
+            secondaryButtonsContainer.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: horizontalPadding),
+            secondaryButtonsContainer.centerYAnchor.constraint(equalTo: primaryActionButton.centerYAnchor),
             
             toolBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             toolBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -468,8 +483,8 @@ extension TimerVC {
             resetButton.widthAnchor.constraint(equalTo: resetButton.heightAnchor),
             resetButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.1),
 
-            buttonContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            buttonContainer.bottomAnchor.constraint(equalTo: toolBar.topAnchor, constant: -verticalPadding),
+            secondaryButtonsContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            secondaryButtonsContainer.bottomAnchor.constraint(equalTo: toolBar.topAnchor, constant: -verticalPadding),
             
             toolBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             toolBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),

@@ -13,8 +13,8 @@ class KBTCircularButton: KBTButton {
         super.init(withSFSymbolName: symbolName, weight: weight)
     }
     
-    override init(withTitle title: String) {
-        super.init(withTitle: title)
+    override init(withTitle title: String, fontSize: CGFloat? = nil) {
+        super.init(withTitle: title, fontSize: fontSize)
     }
     
     required init?(coder: NSCoder) {
@@ -24,6 +24,5 @@ class KBTCircularButton: KBTButton {
     override func layoutSubviews() {
         super.layoutSubviews()
         self.layer.cornerRadius = bounds.height / 2
-        self.applyGradient(colours: Constants.Gradient.green)
     }
 }
