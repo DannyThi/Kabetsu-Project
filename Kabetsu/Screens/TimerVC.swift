@@ -298,7 +298,6 @@ extension TimerVC {
             primaryActionButton.centerYAnchor.constraint(equalTo: primaryButtonsContainer.centerYAnchor),
             primaryActionButton.widthAnchor.constraint(equalTo: primaryButtonsContainer.widthAnchor, multiplier: 0.6),
             primaryActionButton.heightAnchor.constraint(equalTo: primaryActionButton.widthAnchor),
-            primaryButtonsContainer.heightAnchor.constraint(equalTo: primaryActionButton.heightAnchor).withPriority(.defaultHigh)
         ])
         
         view.addSubview(primaryButtonsContainer)
@@ -382,6 +381,7 @@ extension TimerVC {
             digitLabelsLayoutContainer.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             digitLabelsLayoutContainer.bottomAnchor.constraint(equalTo: primaryButtonsContainer.topAnchor),
 
+            primaryButtonsContainer.heightAnchor.constraint(equalTo: primaryActionButton.heightAnchor),
             primaryButtonsContainer.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             primaryButtonsContainer.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             primaryButtonsContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -418,6 +418,7 @@ extension TimerVC {
             digitLabelsLayoutContainer.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -horizontalEdgeInset),
             digitLabelsLayoutContainer.bottomAnchor.constraint(equalTo: view.centerYAnchor, constant: -verticalEdgeInset),
 
+            primaryButtonsContainer.heightAnchor.constraint(equalTo: primaryActionButton.heightAnchor),
             primaryButtonsContainer.topAnchor.constraint(equalTo: digitLabelsLayoutContainer.bottomAnchor, constant: -verticalEdgeInset),
             primaryButtonsContainer.leadingAnchor.constraint(greaterThanOrEqualTo: view.centerXAnchor),
             primaryButtonsContainer.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
@@ -456,6 +457,7 @@ extension TimerVC {
             digitLabelsLayoutContainer.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             digitLabelsLayoutContainer.bottomAnchor.constraint(equalTo: view.centerYAnchor),
             
+            primaryButtonsContainer.heightAnchor.constraint(equalTo: primaryActionButton.heightAnchor).withPriority(.defaultHigh),
             primaryButtonsContainer.widthAnchor.constraint(equalToConstant: primaryButtonSize),
             primaryButtonsContainer.topAnchor.constraint(equalTo: digitLabelsLayoutContainer.bottomAnchor, constant: -verticalEdgeInset),
             primaryButtonsContainer.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -horizontalEdgeInset),
