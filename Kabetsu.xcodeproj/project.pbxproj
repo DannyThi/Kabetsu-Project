@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		97435578241086E800F8EB32 /* KBTDismissButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97435577241086E800F8EB32 /* KBTDismissButton.swift */; };
+		9743557A24109BB100F8EB32 /* Stopwatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9743557924109BB100F8EB32 /* Stopwatch.swift */; };
+		9743557C24109C8A00F8EB32 /* StopwatchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9743557B24109C8A00F8EB32 /* StopwatchVC.swift */; };
 		9753C22223F0CC650035A514 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9753C22123F0CC650035A514 /* Extensions.swift */; };
 		9753C22423F133C40035A514 /* KBTConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9753C22323F133C40035A514 /* KBTConstraints.swift */; };
 		9753C22623F250960035A514 /* KBTError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9753C22523F250960035A514 /* KBTError.swift */; };
@@ -49,6 +51,8 @@
 
 /* Begin PBXFileReference section */
 		97435577241086E800F8EB32 /* KBTDismissButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KBTDismissButton.swift; sourceTree = "<group>"; };
+		9743557924109BB100F8EB32 /* Stopwatch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stopwatch.swift; sourceTree = "<group>"; };
+		9743557B24109C8A00F8EB32 /* StopwatchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopwatchVC.swift; sourceTree = "<group>"; };
 		9753C22123F0CC650035A514 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		9753C22323F133C40035A514 /* KBTConstraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KBTConstraints.swift; sourceTree = "<group>"; };
 		9753C22523F250960035A514 /* KBTError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KBTError.swift; sourceTree = "<group>"; };
@@ -224,6 +228,7 @@
 		975C260423DFA884005847FF /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				9743557924109BB100F8EB32 /* Stopwatch.swift */,
 				975C260823DFBC2B005847FF /* TimersList.swift */,
 				975C260523DFA8C5005847FF /* TimerTask.swift */,
 				975D92A523E401AC000CE57D /* Settings.swift */,
@@ -239,6 +244,7 @@
 				975D929B23E100AD000CE57D /* TimerVC.swift */,
 				975D92B423EBD78F000CE57D /* AddNewTimerVC.swift */,
 				9753C22723F663770035A514 /* SettingsVC.swift */,
+				9743557B24109C8A00F8EB32 /* StopwatchVC.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -353,9 +359,11 @@
 				975D92B523EBD78F000CE57D /* AddNewTimerVC.swift in Sources */,
 				9753C2982404EDB20035A514 /* ExternalSceneDelegate.swift in Sources */,
 				9753C28623FF8BFC0035A514 /* TimerExtScnDetails.swift in Sources */,
+				9743557A24109BB100F8EB32 /* Stopwatch.swift in Sources */,
 				9753C28023FF4B900035A514 /* ExternalDisplayManager.swift in Sources */,
 				9753C23B23FA49960035A514 /* KBTAlertController.swift in Sources */,
 				975C260623DFA8C5005847FF /* TimerTask.swift in Sources */,
+				9743557C24109C8A00F8EB32 /* StopwatchVC.swift in Sources */,
 				975C260123DEC493005847FF /* KBTDigitDisplayLabel.swift in Sources */,
 				9753C22E23F8CB730035A514 /* ThemeTVCell.swift in Sources */,
 				9753C24023FA6ED80035A514 /* KBTBodyLabel.swift in Sources */,

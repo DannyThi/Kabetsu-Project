@@ -8,8 +8,7 @@
 
 import UIKit
 
-#warning("Convert to Collection View with Diffable Datasource")
-#warning("Usinf dynamic text size for accessibility causes fonts display incorrectly.")
+// TODO: - Convert to Collection View with Diffable Datasource
 
 extension Notification.Name {
     static let alertSoundSelected = Notification.Name("alertSoundSelected")

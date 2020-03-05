@@ -58,8 +58,8 @@ class SoundManager {
         }
     }
     
-    private func triggerVibration() {
-        #warning("Add option to turn on vibration")
+    private func triggerVibration() {        
+        // TODO: - Add option to turn on vibration
         AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
     }
     

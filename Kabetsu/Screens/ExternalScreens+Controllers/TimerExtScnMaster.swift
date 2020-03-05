@@ -79,7 +79,6 @@ extension TimerExtScnMaster {
 
 extension TimerExtScnMaster {
     
-    #warning("FIX CONSTRAINTS FOR IPAD")
     func configureUniversalContraints() {
         let verticalEdgeInset: CGFloat = 20
         let horizontalEdgeInset: CGFloat = 5
@@ -127,27 +126,12 @@ extension TimerExtScnMaster {
         constraints.append(forSizeClass: .universal, constraints: layoutConstraints)
     }
     
-//    let iPhoneLandscapeRegularConstraints: [NSLayoutConstraint] = [
-//        digitLabelsLayoutContainer.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: verticalEdgeInset),
-//        digitLabelsLayoutContainer.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: horizontalEdgeInset),
-//        digitLabelsLayoutContainer.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -horizontalEdgeInset),
-//        digitLabelsLayoutContainer.bottomAnchor.constraint(equalTo: view.centerYAnchor, constant: -verticalEdgeInset),
+//    override func configureIPadAndExternalDispayConstraints() {
+//        let iPadConstraints: [NSLayoutConstraint] = [
 //
-//        primaryButtonsContainer.heightAnchor.constraint(equalTo: primaryActionButton.heightAnchor),
-//        primaryButtonsContainer.topAnchor.constraint(equalTo: digitLabelsLayoutContainer.bottomAnchor, constant: -verticalEdgeInset),
-//        primaryButtonsContainer.leadingAnchor.constraint(greaterThanOrEqualTo: view.centerXAnchor),
-//        primaryButtonsContainer.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-//        primaryButtonsContainer.bottomAnchor.constraint(equalTo: toolBar.topAnchor, constant: -verticalEdgeInset),
+//        ]
 //
-
-//    ]
-    
-    override func configureIPadAndExternalDispayConstraints() {
-        let iPadConstraints: [NSLayoutConstraint] = [
-            
-        ]
-        
-        configureUniversalContraints()
-    }
+//        configureUniversalContraints()
+//    }
     
 }
