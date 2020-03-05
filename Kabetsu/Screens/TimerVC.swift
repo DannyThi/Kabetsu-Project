@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TimerVC: UIViewController, TimerExtScnMasterDelegate {
+class TimerVC: UIViewController, TimerExtScnDetailsDelegate {
         
     var task: TimerTask!
     var constraints = KBTConstraints()
@@ -136,15 +136,20 @@ extension TimerVC {
             externalDisplay.endProjecting()
             dismiss(animated: true)
             navigationController?.popViewController(animated: true)
-
         }
     }
     
     @objc private func projectScreen() {
         guard UIScreen.screens.count > 1 else { return }
-        let timerExtScnMaster = TimerExtScnMaster(withTask: self.task)
-        timerExtScnMaster.delegate = self
-        present(timerExtScnMaster, animated: true)
+        guard externalDisplay.rootViewController == nil else {
+            externalDisplay.endProjecting()
+            return
+        }
+        if externalDisplay.rootViewController == nil {
+            let detailsView = TimerExtScnDetails()
+            detailsView.delegate = self
+            externalDisplay.project(detailsViewController: detailsView)
+        }
     }
     
     @objc func actionButtonTapped() {
@@ -184,7 +189,6 @@ extension TimerVC {
         updateButtonLabels(timeInterval: settings.timerIncrementControlSelectedValue)
     }
     @objc func handleTimerDidEnd() {
-        #warning("check if this is active before presenting. this might not work when preseting modally")
         guard navigationController?.topViewController == self else { return }
         
         let formattedTime = TimerTask.formattedTimeFrom(timeInterval: task.adjustedCountdownTime, style: .brief)
@@ -237,6 +241,7 @@ extension TimerVC {
 extension TimerVC {
     private func configureViewController() {
         view.backgroundColor = .systemBackground
+        print(settings.currentAlertSound.title)
     }
     private func configureToolBar() {
         toolBar = UIToolbar()
@@ -330,6 +335,8 @@ extension TimerVC {
             
             stackView.centerXAnchor.constraint(equalTo: secondaryButtonsContainer.centerXAnchor),
             stackView.centerYAnchor.constraint(equalTo: secondaryButtonsContainer.centerYAnchor),
+            stackView.heightAnchor.constraint(lessThanOrEqualTo: secondaryButtonsContainer.heightAnchor),
+            stackView.widthAnchor.constraint(lessThanOrEqualTo: secondaryButtonsContainer.widthAnchor),
         ])
         view.addSubview(secondaryButtonsContainer)
     }
@@ -411,7 +418,6 @@ extension TimerVC {
         let horizontalEdgeInset: CGFloat = 90
         let toolBarVerticalPadding: CGFloat = 8
         
-
         let iPhoneLandscapeRegularConstraints: [NSLayoutConstraint] = [
             digitLabelsLayoutContainer.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: verticalEdgeInset),
             digitLabelsLayoutContainer.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: horizontalEdgeInset),

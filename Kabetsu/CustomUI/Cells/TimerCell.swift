@@ -51,8 +51,8 @@ extension TimerCell {
         updateViewAppearance()
     }
     private func updateViewAppearance() {
-        contentView.layer.borderWidth = UIHelpers.borderWidth
-        layer.shadowOpacity = UIHelpers.shadowOpacity
+        contentView.layer.borderWidth = Constants.ViewAppearance.borderWidth
+        layer.shadowOpacity = Constants.ViewAppearance.shadowOpacity
     }
 }
 
@@ -65,13 +65,13 @@ extension TimerCell {
         contentView.backgroundColor = .secondarySystemBackground
         contentView.layer.cornerRadius = 25
         contentView.layer.borderColor = UIColor.white.cgColor
-        contentView.layer.borderWidth = UIHelpers.borderWidth
+        contentView.layer.borderWidth = Constants.ViewAppearance.borderWidth
         contentView.layer.masksToBounds = true
     
         layer.shadowColor = UIColor.lightGray.cgColor
         layer.shadowOffset = CGSize(width: 3, height: 3)
         layer.shadowRadius = 1.5
-        layer.shadowOpacity = UIHelpers.shadowOpacity
+        layer.shadowOpacity = Constants.ViewAppearance.shadowOpacity
         layer.masksToBounds = false
     }
     
@@ -85,7 +85,7 @@ extension TimerCell {
             countdownLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             countdownLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             countdownLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.8),
-            countdownLabel.heightAnchor.constraint(equalTo: countdownLabel.widthAnchor, multiplier: UIHelpers.digitalDisplayFontHeightToWidthRatio)
+            countdownLabel.heightAnchor.constraint(equalTo: countdownLabel.widthAnchor, multiplier: Constants.ViewAppearance.digitalDisplayFontHeightToWidthRatio)
         ])
     }
     

@@ -111,7 +111,7 @@ extension KBTAlertController {
     }
     private func configureActionButton() {
         guard !prefersActionButtonHidden else { return }
-        actionButton = KBTCircularButton(withTitle: "OK")
+        actionButton = KBTCircularButton(withTitle: "OK", fontSize: 20)
         actionButton.addTarget(self, action: #selector(dismissController), for: .touchUpInside)
         alertContainer.addSubview(actionButton)
     }
@@ -124,8 +124,9 @@ extension KBTAlertController {
     
     @discardableResult private func configureUniversalConstraints() -> [NSLayoutConstraint] {
         let titleVerticalPadding: CGFloat = 30
-        let verticalPadding: CGFloat = 15
-        let horizontalInset: CGFloat = 20
+        let topInset: CGFloat = 15
+        let bottomInset: CGFloat = 25
+        let horizontalInset: CGFloat = 30
         
         let containerWidth = CGFloat.minimum(CGFloat.minimum(view.bounds.width, view.bounds.height) * 0.8, 500)
             
@@ -145,7 +146,7 @@ extension KBTAlertController {
         
         if let messageLabel = messageLabel {
             universalConstraints.append(contentsOf: [
-                messageLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: verticalPadding),
+                messageLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: topInset),
                 messageLabel.leadingAnchor.constraint(equalTo: alertContainer.safeAreaLayoutGuide.leadingAnchor, constant: horizontalInset),
                 messageLabel.trailingAnchor.constraint(equalTo: alertContainer.safeAreaLayoutGuide.trailingAnchor, constant: -horizontalInset),
                 messageLabel.bottomAnchor.constraint(lessThanOrEqualTo: alertContainer.safeAreaLayoutGuide.bottomAnchor, constant: titleVerticalPadding).withPriority(UILayoutPriority(rawValue: 960)),
@@ -154,11 +155,11 @@ extension KBTAlertController {
         
         if let actionButton = actionButton {
             universalConstraints.append(contentsOf: [
-                actionButton.topAnchor.constraint(greaterThanOrEqualTo: messageLabel?.bottomAnchor ?? titleLabel.bottomAnchor, constant: verticalPadding),
+                actionButton.topAnchor.constraint(greaterThanOrEqualTo: messageLabel?.bottomAnchor ?? titleLabel.bottomAnchor, constant: topInset),
                 actionButton.leadingAnchor.constraint(equalTo: alertContainer.safeAreaLayoutGuide.leadingAnchor, constant: horizontalInset),
                 actionButton.trailingAnchor.constraint(equalTo: alertContainer.safeAreaLayoutGuide.trailingAnchor, constant: -horizontalInset),
-                actionButton.bottomAnchor.constraint(equalTo: alertContainer.safeAreaLayoutGuide.bottomAnchor, constant: -verticalPadding),
-                actionButton.heightAnchor.constraint(equalTo: alertContainer.heightAnchor, multiplier: 0.2)
+                actionButton.bottomAnchor.constraint(equalTo: alertContainer.safeAreaLayoutGuide.bottomAnchor, constant: -bottomInset),
+                actionButton.heightAnchor.constraint(equalTo: alertContainer.heightAnchor, multiplier: 0.25)
             ])
         }
         constraints.append(forSizeClass: .universal, constraints: universalConstraints)

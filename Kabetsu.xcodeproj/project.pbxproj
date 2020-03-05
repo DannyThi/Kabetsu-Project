@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		97435578241086E800F8EB32 /* KBTDismissButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97435577241086E800F8EB32 /* KBTDismissButton.swift */; };
 		9753C22223F0CC650035A514 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9753C22123F0CC650035A514 /* Extensions.swift */; };
 		9753C22423F133C40035A514 /* KBTConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9753C22323F133C40035A514 /* KBTConstraints.swift */; };
 		9753C22623F250960035A514 /* KBTError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9753C22523F250960035A514 /* KBTError.swift */; };
@@ -47,6 +48,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		97435577241086E800F8EB32 /* KBTDismissButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KBTDismissButton.swift; sourceTree = "<group>"; };
 		9753C22123F0CC650035A514 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		9753C22323F133C40035A514 /* KBTConstraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KBTConstraints.swift; sourceTree = "<group>"; };
 		9753C22523F250960035A514 /* KBTError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KBTError.swift; sourceTree = "<group>"; };
@@ -258,6 +260,7 @@
 				975D929D23E160EF000CE57D /* KBTButton.swift */,
 				975D92A123E2957C000CE57D /* KBTCircularButton.swift */,
 				9753C29A2408E9A10035A514 /* KBTBarButton.swift */,
+				97435577241086E800F8EB32 /* KBTDismissButton.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -345,6 +348,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				97435578241086E800F8EB32 /* KBTDismissButton.swift in Sources */,
 				9753C22823F663770035A514 /* SettingsVC.swift in Sources */,
 				975D92B523EBD78F000CE57D /* AddNewTimerVC.swift in Sources */,
 				9753C2982404EDB20035A514 /* ExternalSceneDelegate.swift in Sources */,

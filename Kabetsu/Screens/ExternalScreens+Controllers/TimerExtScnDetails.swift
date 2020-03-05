@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol TimerExtScnDetailsControllerDelegate: class {
+protocol TimerExtScnDetailsDelegate: class {
     var task: TimerTask! { get }
 }
 
@@ -18,7 +18,7 @@ class TimerExtScnDetails: UIViewController {
     private var secondaryDigitalDisplaylabel: KBTDigitDisplayLabel!
     private var alert: KBTAlertController?
     
-    weak var delegate: TimerExtScnDetailsControllerDelegate!
+    weak var delegate: TimerExtScnDetailsDelegate!
 
 }
 
@@ -98,12 +98,12 @@ extension TimerExtScnDetails {
             digitalDisplayLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -verticalOffset),
             digitalDisplayLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             digitalDisplayLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
-            digitalDisplayLabel.heightAnchor.constraint(equalTo: digitalDisplayLabel.widthAnchor, multiplier: UIHelpers.digitalDisplayFontHeightToWidthRatio),
+            digitalDisplayLabel.heightAnchor.constraint(equalTo: digitalDisplayLabel.widthAnchor, multiplier: Constants.ViewAppearance.digitalDisplayFontHeightToWidthRatio),
             
             secondaryDigitalDisplaylabel.topAnchor.constraint(equalTo: digitalDisplayLabel.bottomAnchor, constant: 10),
             secondaryDigitalDisplaylabel.widthAnchor.constraint(equalTo: digitalDisplayLabel.widthAnchor, multiplier: 0.5),
             secondaryDigitalDisplaylabel.centerXAnchor.constraint(equalTo: digitalDisplayLabel.centerXAnchor),
-            secondaryDigitalDisplaylabel.heightAnchor.constraint(equalTo: secondaryDigitalDisplaylabel.widthAnchor, multiplier: UIHelpers.digitalDisplayFontHeightToWidthRatio),
+            secondaryDigitalDisplaylabel.heightAnchor.constraint(equalTo: secondaryDigitalDisplaylabel.widthAnchor, multiplier: Constants.ViewAppearance.digitalDisplayFontHeightToWidthRatio),
         ])
     }
 }

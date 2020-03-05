@@ -27,19 +27,13 @@ class Constants {
     
     struct ViewAppearance {
         static let cornerRadius: CGFloat = 25
-        static var borderWidth: CGFloat { return UITraitCollection.current.userInterfaceStyle == .dark ? 3 : 2 }
+        static var borderWidth: CGFloat { return UITraitCollection.current.userInterfaceStyle == .dark ? 3 : 1 }
         static var shadowOpacity: Float { return UITraitCollection.current.userInterfaceStyle == .dark ? 0 : 0.5 }
         static let digitalDisplayFontHeightToWidthRatio: CGFloat = 0.17
     }
 }
 
 class UIHelpers {
-    
-    static let cornerRadius: CGFloat = 25
-    static var borderWidth: CGFloat { return UITraitCollection.current.userInterfaceStyle == .dark ? 2 : 0.5 }
-    static var shadowOpacity: Float { return UITraitCollection.current.userInterfaceStyle == .dark ? 0 : 0.5 }
-    static let digitalDisplayFontHeightToWidthRatio: CGFloat = 0.17
-    
     static func displayDefaultAlert(title: String? = nil, message: String? = nil, actions: [UIAlertAction], completed: (() ->Void)? = nil) {
         let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
         for action in actions {

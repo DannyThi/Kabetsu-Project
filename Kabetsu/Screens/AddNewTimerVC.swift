@@ -83,10 +83,10 @@ extension AddNewTimerVC {
         constraints.activate(.iPhonePortrait)
     }
     private func updateViewAppearance() {
-        textLabel.layer.borderWidth = UIHelpers.borderWidth
-        textLabel.layer.shadowOpacity = UIHelpers.shadowOpacity
-        timePicker.layer.borderWidth = UIHelpers.borderWidth
-        timePicker.layer.shadowOpacity = UIHelpers.shadowOpacity
+        textLabel.layer.borderWidth = Constants.ViewAppearance.borderWidth
+        textLabel.layer.shadowOpacity = Constants.ViewAppearance.shadowOpacity
+        timePicker.layer.borderWidth = Constants.ViewAppearance.borderWidth
+        timePicker.layer.shadowOpacity = Constants.ViewAppearance.shadowOpacity
     }
 }
 
@@ -106,7 +106,7 @@ extension AddNewTimerVC {
         if timersList.timers.firstIndex(of: rawTime) == nil, rawTime != 0.0 {
             confirmBarButton.isEnabled = true
             confirmButton.isEnabled = true
-            confirmButton.backgroundColor = .systemGreen
+            confirmButton.backgroundColor = KBTColors.kabetsuGreen
             formattedTextForDisplay = getTimeFromPicker()
         } else {
             confirmBarButton.isEnabled = false
@@ -266,14 +266,14 @@ extension AddNewTimerVC {
         textLabel.lineBreakMode = .byWordWrapping
         textLabel.layer.backgroundColor = UIColor.secondarySystemBackground.cgColor
         
-        textLabel.layer.cornerRadius = UIHelpers.cornerRadius
+        textLabel.layer.cornerRadius = Constants.ViewAppearance.cornerRadius
         textLabel.layer.borderColor = UIColor.white.cgColor
-        textLabel.layer.borderWidth = UIHelpers.borderWidth
+        textLabel.layer.borderWidth = Constants.ViewAppearance.borderWidth
         
         textLabel.layer.shadowColor = UIColor.lightGray.cgColor
-        textLabel.layer.shadowOffset = CGSize(width: 1, height: 1)
-        textLabel.layer.shadowRadius = 2
-        textLabel.layer.shadowOpacity = UIHelpers.shadowOpacity
+        textLabel.layer.shadowOffset = CGSize(width: 3, height: 3)
+        textLabel.layer.shadowRadius = 3
+        textLabel.layer.shadowOpacity = Constants.ViewAppearance.shadowOpacity
     }
     
     private func configureTimePicker() {
@@ -281,14 +281,14 @@ extension AddNewTimerVC {
         timePicker.translatesAutoresizingMaskIntoConstraints = false
         timePicker.layer.backgroundColor = UIColor.secondarySystemBackground.cgColor
     
-        timePicker.layer.cornerRadius = UIHelpers.cornerRadius
+        timePicker.layer.cornerRadius = Constants.ViewAppearance.cornerRadius
         timePicker.layer.borderColor = UIColor.white.cgColor
-        timePicker.layer.borderWidth = UIHelpers.borderWidth
+        timePicker.layer.borderWidth = Constants.ViewAppearance.borderWidth
         
         timePicker.layer.shadowColor = UIColor.lightGray.cgColor
-        timePicker.layer.shadowOffset = CGSize(width: 1, height: 1)
-        timePicker.layer.shadowRadius = 2
-        timePicker.layer.shadowOpacity = UIHelpers.shadowOpacity
+        timePicker.layer.shadowOffset = CGSize(width: 3, height: 3)
+        timePicker.layer.shadowRadius = 3
+        timePicker.layer.shadowOpacity = Constants.ViewAppearance.shadowOpacity
         timePicker.layer.masksToBounds = false
         timePicker.delegate = self
         timePicker.dataSource = self
@@ -300,7 +300,7 @@ extension AddNewTimerVC {
                                            action: #selector(confirmButtonTapped))
         navigationItem.rightBarButtonItem = confirmBarButton
 
-        confirmButton = KBTButton(withTitle: "Add Timer")
+        confirmButton = KBTCircularButton(withTitle: "Add Timer", fontSize: 25)
         confirmButton.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
         view.addSubview(confirmButton)
     }
@@ -385,24 +385,3 @@ extension AddNewTimerVC {
         constraints.iPhoneLandscapeRegular = iPhoneLandscapeRegularConstraints
     }
 }
-
-
-//public func configureButton() {
-//    self.translatesAutoresizingMaskIntoConstraints = false
-//    self.layer.cornerRadius = 25
-//    self.layer.borderColor = UIColor.secondarySystemGroupedBackground.cgColor
-//    self.layer.shadowColor = UIColor.lightGray.cgColor
-//    self.layer.shadowOffset = CGSize(width: 1, height: 1)
-//    self.layer.shadowRadius = 2
-//}
-//
-//private func updateView(for userInterfaceStyle: UIUserInterfaceStyle) {
-//    switch userInterfaceStyle {
-//    case .dark:
-//        layer.borderWidth = 2
-//        layer.shadowOpacity = 0
-//    default:
-//        layer.borderWidth = 0
-//        layer.shadowOpacity = 0.5
-//    }
-//}
