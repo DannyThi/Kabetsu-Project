@@ -57,6 +57,7 @@ enum GlobalImageKeys: String, CaseIterable {
     case reset = "arrow.counterclockwise"
     case play = "play"
     case pause = "pause"
+    case log = "square.and.pencil"
     
 
     var image: UIImage {

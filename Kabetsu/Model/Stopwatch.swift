@@ -14,14 +14,10 @@ extension Notification.Name {
 }
 
 enum WatchState {
-    case initialized, running, paused, resetted
+    case running, paused, resetted
 }
 
 class Stopwatch {
-    
-    var elsapsedTimeAsString: String {
-        return formatTime(elapsedTime)
-    }
     
     private(set) var elapsedTime: TimeInterval = 0.0 {
         didSet {
@@ -29,14 +25,14 @@ class Stopwatch {
         }
     }
     
-    private(set) var lapTimes = [TimeInterval]() {
+    private(set) var logTimes = [TimeInterval]() {
         didSet {
             NotificationCenter.default.post(Notification(name: .laptimesDidUpdate))
         }
     }
     
-    func getLaptime(for index: Int) -> String {
-        return formatTime(lapTimes[index])
+    func logTime(for index: Int) -> String {
+        return formatTime(logTimes[index])
     }
     
     private var updateTimer: Timer! // Timer used for updating the stopwatch.
@@ -45,9 +41,9 @@ class Stopwatch {
     var watchState: WatchState = .resetted {
         didSet {
             switch watchState {
-            case .initialized:
-                print("Initialized.")
-                
+//            case .initialized:
+//                print("Initialized.")
+//                //NotificationCenter.default.post(Notification(name: .stopwatchDidUpdate))
             case .running:
                 print("Running.")
                 updateTimer = Timer.scheduledTimer(withTimeInterval: 0.03, repeats: true) { (timer) in
@@ -77,16 +73,17 @@ class Stopwatch {
     
     func recordLap() {
         if watchState == .running {
-            lapTimes.append(elapsedTime)
+            logTimes.append(elapsedTime)
         }
     }
     
     private func resetStopwatch() {
+        elapsedTime = 0.0
+        deltaTime = nil
         if updateTimer != nil {
             updateTimer.invalidate()
         }
-        elapsedTime = 0
-        lapTimes.removeAll()
+        logTimes.removeAll()
     }
     
     private func formatTime(_ rawTime: TimeInterval) -> String {
