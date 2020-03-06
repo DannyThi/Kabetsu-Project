@@ -58,6 +58,7 @@ enum GlobalImageKeys: String, CaseIterable {
     case play = "play"
     case pause = "pause"
     case log = "square.and.pencil"
+    case settings = "slider.horizontal.3"
     
 
     var image: UIImage {

@@ -14,6 +14,9 @@ class StopwatchVC: UIViewController {
     private var settings = Settings.shared
     private var constraints = KBTConstraints()
     
+    private var projectButton: UIBarButtonItem!
+    private let externalDisplay = ExternalDisplayManager.shared
+    
     private var digitDisplay: KBTDigitDisplayLabel!
     private var digitDisplayContainer: UIView!
 
@@ -66,6 +69,9 @@ extension StopwatchVC {
         }
         constraints.activate(.universal)
     }
+    private func updateProjectButtonStatus() {
+         projectButton.isEnabled =  UIScreen.screens.count > 1 ? true : false
+    }
 }
 
 
@@ -90,6 +96,29 @@ extension StopwatchVC {
     @objc private func logButtonTapped() {
         stopwatch.logTime()
     }
+    @objc private func settingsButtonTapped(sender: Any) {
+        guard let sender = sender as? UIBarButtonItem else { return }
+        let settingsVC = SettingsVC()
+        let navCon = UINavigationController(rootViewController: settingsVC)
+        navCon.modalPresentationStyle = .popover
+        let popOver = navCon.popoverPresentationController!
+        popOver.barButtonItem = sender
+        popOver.sourceView = self.view
+        present(navCon, animated: true)
+    }
+    @objc private func projectScreen() {
+        guard UIScreen.screens.count > 1 else { return }
+        guard externalDisplay.rootViewController == nil else {
+            externalDisplay.endProjecting()
+            return
+        }
+        if externalDisplay.rootViewController == nil {
+            
+//            let detailsView = TimerExtScnDetails()
+//            detailsView.delegate = self
+            //externalDisplay.project(detailsViewController: detailsView)
+        }
+    }
 }
 
 
@@ -99,6 +128,7 @@ extension StopwatchVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewController()
+        configureBarButtonItems()
         configureDigitDisplayLabel()
         configureButtons()
         configureCollectionView()
@@ -126,6 +156,21 @@ extension StopwatchVC {
     private func configureViewController() {
         view.backgroundColor = .systemBackground
         self.title = "Stopwatch"
+    }
+    private func configureProjectButton() {
+        let projectButton =
+            UIBarButtonItem(image: GlobalImageKeys.project.image, style: .plain, target: self, action: #selector(projectScreen))
+            navigationItem.rightBarButtonItem = projectButton
+        self.projectButton = projectButton
+    }
+    private func configureBarButtonItems() {
+        let config = GlobalImageKeys.symbolConfig()
+        let settingsImage = UIImage(systemName: GlobalImageKeys.settings.rawValue, withConfiguration: config)
+        let projectImage = UIImage(systemName: GlobalImageKeys.project.rawValue, withConfiguration: config)
+        let settingsBarButton = UIBarButtonItem(image: settingsImage, style: .plain, target: self, action: #selector(settingsButtonTapped))
+        projectButton = UIBarButtonItem(image: projectImage, style: .plain, target: self, action: #selector(projectScreen))
+        navigationItem.leftBarButtonItem = settingsBarButton
+        navigationItem.rightBarButtonItem = projectButton
     }
     private func configureDigitDisplayLabel() {
         digitDisplay = KBTDigitDisplayLabel(fontWeight: .bold, textAlignment: .center)
@@ -199,11 +244,13 @@ extension StopwatchVC {
     private func configureNotificationListeners() {
         let center = NotificationCenter.default
         center.addObserver(forName: .stopwatchDidUpdate, object: nil, queue: nil) { [weak self] _ in
-            self?.updateUI()
-        }
+            self?.updateUI() }
         center.addObserver(forName: .logTimesDidUpdate, object: nil, queue: nil) { [weak self] _ in
-            self?.updateCollectionView(animated: true)
-        }
+            self?.updateCollectionView(animated: true) }
+        center.addObserver(forName: UIScreen.didConnectNotification, object: nil, queue: nil) { [weak self] _ in
+            self?.updateProjectButtonStatus() }
+        center.addObserver(forName: UIScreen.didDisconnectNotification, object: nil, queue: nil) { [weak self] _ in
+            self?.updateProjectButtonStatus() }
     }
 }
 
