@@ -10,7 +10,7 @@ import Foundation
 
 extension Notification.Name {
     static let stopwatchDidUpdate = Notification.Name("stopwatchDidUpdate")
-    static let laptimesDidUpdate = Notification.Name("laptimesDidUpdate")
+    static let logTimesDidUpdate = Notification.Name("logTimesDidUpdate")
 }
 
 enum WatchState {
@@ -27,13 +27,13 @@ class Stopwatch {
     
     private(set) var logTimes = [TimeInterval]() {
         didSet {
-            NotificationCenter.default.post(Notification(name: .laptimesDidUpdate))
+            NotificationCenter.default.post(Notification(name: .logTimesDidUpdate))
         }
     }
     
-    func logTime(for index: Int) -> String {
-        return formatTime(logTimes[index])
-    }
+//    func logTime(for index: Int) -> String {
+//        return formatTime(logTimes[index])
+//    }
     
     private var updateTimer: Timer! // Timer used for updating the stopwatch.
     private var deltaTime: Date?    // Time between updates.
@@ -41,9 +41,6 @@ class Stopwatch {
     var watchState: WatchState = .resetted {
         didSet {
             switch watchState {
-//            case .initialized:
-//                print("Initialized.")
-//                //NotificationCenter.default.post(Notification(name: .stopwatchDidUpdate))
             case .running:
                 print("Running.")
                 updateTimer = Timer.scheduledTimer(withTimeInterval: 0.03, repeats: true) { (timer) in
@@ -62,7 +59,6 @@ class Stopwatch {
                 print("Resetted.")
                 resetStopwatch()
             }
-            
         }
     }
 
@@ -71,10 +67,10 @@ class Stopwatch {
         deltaTime = Date()
     }
     
-    func recordLap() {
-        if watchState == .running {
-            logTimes.append(elapsedTime)
-        }
+    func logTime() {
+        guard !logTimes.contains(elapsedTime) else { return }
+        logTimes.append(elapsedTime)
+//        NotificationCenter.default.post(Notification(name: .logTimesDidUpdate))
     }
     
     private func resetStopwatch() {

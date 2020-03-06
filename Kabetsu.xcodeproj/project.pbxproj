@@ -10,6 +10,7 @@
 		97435578241086E800F8EB32 /* KBTDismissButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97435577241086E800F8EB32 /* KBTDismissButton.swift */; };
 		9743557A24109BB100F8EB32 /* Stopwatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9743557924109BB100F8EB32 /* Stopwatch.swift */; };
 		9743557C24109C8A00F8EB32 /* StopwatchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9743557B24109C8A00F8EB32 /* StopwatchVC.swift */; };
+		9743557E2410D1F500F8EB32 /* StopwatchLogCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9743557D2410D1F500F8EB32 /* StopwatchLogCell.swift */; };
 		9753C22223F0CC650035A514 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9753C22123F0CC650035A514 /* Extensions.swift */; };
 		9753C22423F133C40035A514 /* KBTConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9753C22323F133C40035A514 /* KBTConstraints.swift */; };
 		9753C22623F250960035A514 /* KBTError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9753C22523F250960035A514 /* KBTError.swift */; };
@@ -53,6 +54,7 @@
 		97435577241086E800F8EB32 /* KBTDismissButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KBTDismissButton.swift; sourceTree = "<group>"; };
 		9743557924109BB100F8EB32 /* Stopwatch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stopwatch.swift; sourceTree = "<group>"; };
 		9743557B24109C8A00F8EB32 /* StopwatchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopwatchVC.swift; sourceTree = "<group>"; };
+		9743557D2410D1F500F8EB32 /* StopwatchLogCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopwatchLogCell.swift; sourceTree = "<group>"; };
 		9753C22123F0CC650035A514 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		9753C22323F133C40035A514 /* KBTConstraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KBTConstraints.swift; sourceTree = "<group>"; };
 		9753C22523F250960035A514 /* KBTError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KBTError.swift; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 			children = (
 				9753C296240299EA0035A514 /* Settings */,
 				975C25FE23DEC493005847FF /* TimerCell.swift */,
+				9743557D2410D1F500F8EB32 /* StopwatchLogCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -362,6 +365,7 @@
 				9743557A24109BB100F8EB32 /* Stopwatch.swift in Sources */,
 				9753C28023FF4B900035A514 /* ExternalDisplayManager.swift in Sources */,
 				9753C23B23FA49960035A514 /* KBTAlertController.swift in Sources */,
+				9743557E2410D1F500F8EB32 /* StopwatchLogCell.swift in Sources */,
 				975C260623DFA8C5005847FF /* TimerTask.swift in Sources */,
 				9743557C24109C8A00F8EB32 /* StopwatchVC.swift in Sources */,
 				975C260123DEC493005847FF /* KBTDigitDisplayLabel.swift in Sources */,

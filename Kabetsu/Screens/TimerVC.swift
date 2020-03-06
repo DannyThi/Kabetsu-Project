@@ -269,7 +269,7 @@ extension TimerVC {
             digitDisplayLabel.trailingAnchor.constraint(equalTo: labelGroup.trailingAnchor),
             digitDisplayLabel.heightAnchor.constraint(equalTo: digitDisplayLabel.widthAnchor,
                                                       multiplier: Constants.ViewAppearance.digitalDisplayFontHeightToWidthRatio),
-            
+
             secondaryDigitDisplaylabel.topAnchor.constraint(equalTo: digitDisplayLabel.bottomAnchor, constant: 8),
             secondaryDigitDisplaylabel.widthAnchor.constraint(equalTo: digitDisplayLabel.widthAnchor, multiplier: 0.5),
             secondaryDigitDisplaylabel.heightAnchor.constraint(equalTo: secondaryDigitDisplaylabel.widthAnchor,
@@ -325,7 +325,7 @@ extension TimerVC {
         secondaryButtonsContainer.translatesAutoresizingMaskIntoConstraints = false
         secondaryButtonsContainer.addSubview(stackView)
         
-        let buttonHeight: CGFloat = UIDevice.current.userInterfaceIdiom == .pad ? 120 : 90
+        let buttonHeight: CGFloat = UIDevice.current.userInterfaceIdiom == .pad ? 120 : 80
         
         NSLayoutConstraint.activate([
             decrementButton.heightAnchor.constraint(equalTo: decrementButton.widthAnchor),
@@ -379,7 +379,8 @@ extension TimerVC {
 
 extension TimerVC {
     @objc func configureIPhonePortraitConstraints() {
-        let horizontalPadding: CGFloat = 50
+        let horizontalInset: CGFloat = 30
+        let toolBarHorizontalInset: CGFloat = 50
         let toolBarVerticalPadding: CGFloat = 8
         
         let iPhonePortraitConstraints: [NSLayoutConstraint] = [
@@ -389,8 +390,8 @@ extension TimerVC {
             digitLabelsLayoutContainer.bottomAnchor.constraint(equalTo: primaryButtonsContainer.topAnchor),
 
             primaryButtonsContainer.heightAnchor.constraint(equalTo: primaryActionButton.heightAnchor),
-            primaryButtonsContainer.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            primaryButtonsContainer.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            primaryButtonsContainer.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: horizontalInset),
+            primaryButtonsContainer.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -horizontalInset),
             primaryButtonsContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             primaryButtonsContainer.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             primaryButtonsContainer.bottomAnchor.constraint(equalTo: secondaryButtonsContainer.topAnchor),
@@ -406,8 +407,8 @@ extension TimerVC {
             
             timerIncrementControl.topAnchor.constraint(equalTo: toolBar.topAnchor, constant: toolBarVerticalPadding),
             timerIncrementControl.bottomAnchor.constraint(equalTo: toolBar.bottomAnchor, constant: -toolBarVerticalPadding),
-            timerIncrementControl.leadingAnchor.constraint(greaterThanOrEqualTo: toolBar.leadingAnchor, constant: horizontalPadding),
-            timerIncrementControl.trailingAnchor.constraint(lessThanOrEqualTo: toolBar.trailingAnchor, constant: -horizontalPadding),
+            timerIncrementControl.leadingAnchor.constraint(greaterThanOrEqualTo: toolBar.leadingAnchor, constant: toolBarHorizontalInset),
+            timerIncrementControl.trailingAnchor.constraint(lessThanOrEqualTo: toolBar.trailingAnchor, constant: -toolBarHorizontalInset),
             timerIncrementControl.centerXAnchor.constraint(equalTo: toolBar.centerXAnchor),
             timerIncrementControl.widthAnchor.constraint(equalToConstant: 800).withPriority(.defaultHigh)
         ]
