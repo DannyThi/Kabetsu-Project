@@ -6,6 +6,15 @@
 //  Copyright © 2020 Hai Long Danny Thi. All rights reserved.
 //
 
+
+
+// **** DEPRECATED *****
+// **** DEPRECATED *****
+// **** DEPRECATED *****
+// **** DEPRECATED *****
+
+
+
 import UIKit
 
 protocol TimerExtScnMasterDelegate: class {

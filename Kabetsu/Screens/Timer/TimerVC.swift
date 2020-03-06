@@ -222,11 +222,11 @@ extension TimerVC {
         updateConstraints()
         updateTimeDisplayLabels()
         updateTitle()
-        updateProjectButtonStatus()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.prefersLargeTitles = false
+        updateProjectButtonStatus()
     }
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)

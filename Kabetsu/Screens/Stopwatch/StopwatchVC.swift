@@ -8,9 +8,9 @@
 
 import UIKit
 
-class StopwatchVC: UIViewController {
+class StopwatchVC: UIViewController, StopwatchExtScnDetailsDelegate {
     
-    private var stopwatch = Stopwatch()
+    var stopwatch: Stopwatch! = Stopwatch()
     private var settings = Settings.shared
     private var constraints = KBTConstraints()
     
@@ -26,7 +26,6 @@ class StopwatchVC: UIViewController {
     private var buttonContainer: UIView!
     
     private var cellCounter: Int = 0
-//    UITraitCollection.current.verticalSizeClass == .compact
     
     private enum Section: Int, CaseIterable {
         case main
@@ -113,10 +112,9 @@ extension StopwatchVC {
             return
         }
         if externalDisplay.rootViewController == nil {
-            
-//            let detailsView = TimerExtScnDetails()
-//            detailsView.delegate = self
-            //externalDisplay.project(detailsViewController: detailsView)
+            let detailsView = StopwatchExtScnDetails()
+            detailsView.delegate = self
+            externalDisplay.project(detailsViewController: detailsView)
         }
     }
 }
@@ -142,6 +140,8 @@ extension StopwatchVC {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.prefersLargeTitles = true
+        updateProjectButtonStatus()
+
     }
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
@@ -156,12 +156,6 @@ extension StopwatchVC {
     private func configureViewController() {
         view.backgroundColor = .systemBackground
         self.title = "Stopwatch"
-    }
-    private func configureProjectButton() {
-        let projectButton =
-            UIBarButtonItem(image: GlobalImageKeys.project.image, style: .plain, target: self, action: #selector(projectScreen))
-            navigationItem.rightBarButtonItem = projectButton
-        self.projectButton = projectButton
     }
     private func configureBarButtonItems() {
         let config = GlobalImageKeys.symbolConfig()
