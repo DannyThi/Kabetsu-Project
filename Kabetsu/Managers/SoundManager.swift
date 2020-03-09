@@ -27,7 +27,7 @@ enum SoundFileKey: String, Codable, CaseIterable {
 class SoundManager {
     static let shared = SoundManager()
     private let settings = Settings.shared
-    private var currentSoundEffect = Settings.shared.currentAlertSound
+    //private var currentSoundEffect = Settings.shared.currentAlertSound
     private var audioPlayer: AVAudioPlayer?
     
     private init() {
@@ -43,8 +43,9 @@ class SoundManager {
     
     private func playCurrentSoundEffect() {
         guard audioPlayer == nil else { return }
-        guard let path = Bundle.main.path(forResource: currentSoundEffect.rawValue, ofType: "wav") else {
-            print("Cannot create path for: \(currentSoundEffect).");
+        let soundEffect = settings.currentAlertSound
+        guard let path = Bundle.main.path(forResource: soundEffect.rawValue, ofType: "wav") else {
+            print("Cannot create path for: \(soundEffect).");
             return
         }
         let url = URL(fileURLWithPath: path)
@@ -54,7 +55,7 @@ class SoundManager {
             audioPlayer?.volume = Float(settings.volume)
             audioPlayer?.play()
         } catch {
-            print("Could not play soundfile: \(currentSoundEffect)")
+            print("Could not play soundfile: \(soundEffect)")
         }
     }
     
