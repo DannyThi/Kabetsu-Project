@@ -341,7 +341,7 @@ extension AddNewTimerVC {
     private func configureIPhonePortraitConstraints() {
         let verticalPadding: CGFloat = 15
         let horizontalPadding: CGFloat = 20
-        let buttonHeight: CGFloat = 50
+        let buttonHeight: CGFloat = 70
         
         let iPhonePortraitConstraints: [NSLayoutConstraint] = [
             textLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: verticalPadding),
@@ -364,7 +364,7 @@ extension AddNewTimerVC {
     private func configureIPhoneLandscapeRegularConstraints() {
         let verticalPadding: CGFloat = 30
         let horizontalPadding: CGFloat = 10
-        let buttonHeight: CGFloat = 50
+        let buttonHeight: CGFloat = 70
         
         let iPhoneLandscapeRegularConstraints: [NSLayoutConstraint] = [
             timePicker.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: verticalPadding),

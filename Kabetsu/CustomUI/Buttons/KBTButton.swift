@@ -82,6 +82,7 @@ extension KBTButton {
     
     private func updateView(for userInterfaceStyle: UIUserInterfaceStyle) {
         layer.borderWidth = Constants.ViewAppearance.borderWidth
+        self.layer.borderColor = KBTColors.kabetsuGreenBorder!.cgColor
         switch userInterfaceStyle {
         case .dark:
             layer.shadowOpacity = 0
