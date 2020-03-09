@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="ipad10_2" orientation="portrait" layout="fullscreen" appearance="dark"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -12,11 +12,11 @@
             <objects>
                 <viewController id="01J-lp-oVM" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="810" height="1080"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="kabetsu-logo" translatesAutoresizingMaskIntoConstraints="NO" id="Xpu-1O-cY2">
-                                <rect key="frame" x="83" y="284.5" width="248" height="327"/>
+                                <rect key="frame" x="283.5" y="380" width="243" height="320"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Xpu-1O-cY2" secondAttribute="height" multiplier="512:675" id="vNq-Zl-a7A"/>
                                 </constraints>
@@ -24,11 +24,30 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="Xpu-1O-cY2" firstAttribute="height" secondItem="Ze5-6b-2t3" secondAttribute="height" multiplier="0.7" id="5Dw-rx-kgv"/>
                             <constraint firstItem="Xpu-1O-cY2" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="8xH-wC-fkC"/>
+                            <constraint firstItem="Xpu-1O-cY2" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" multiplier="0.3" id="Cgc-s4-XBF"/>
                             <constraint firstItem="Xpu-1O-cY2" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="f0C-ON-ct8"/>
-                            <constraint firstItem="Xpu-1O-cY2" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" multiplier="0.6" id="nj4-EI-O3y"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <variation key="heightClass=compact-widthClass=regular">
+                            <mask key="constraints">
+                                <include reference="5Dw-rx-kgv"/>
+                                <exclude reference="Cgc-s4-XBF"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="constraints">
+                                <exclude reference="5Dw-rx-kgv"/>
+                                <include reference="Cgc-s4-XBF"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=regular">
+                            <mask key="constraints">
+                                <exclude reference="5Dw-rx-kgv"/>
+                                <include reference="Cgc-s4-XBF"/>
+                            </mask>
+                        </variation>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
