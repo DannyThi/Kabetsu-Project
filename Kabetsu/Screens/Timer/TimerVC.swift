@@ -456,7 +456,7 @@ extension TimerVC {
         let horizontalEdgeInset: CGFloat = 40
         let toolBarVerticalInset: CGFloat = 8
         
-        var primaryButtonSize: CGFloat { return CGFloat.minimum(view.bounds.width, view.bounds.height) * 0.5}
+        var primaryButtonSize: CGFloat { return CGFloat.minimum(view.bounds.width, view.bounds.height) * 0.4}
 
         let iPadAndExternalDisplayConstraints: [NSLayoutConstraint] = [
             digitLabelsLayoutContainer.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -467,7 +467,7 @@ extension TimerVC {
             primaryButtonsContainer.heightAnchor.constraint(equalTo: primaryActionButton.heightAnchor).withPriority(.defaultHigh),
             primaryButtonsContainer.widthAnchor.constraint(equalToConstant: primaryButtonSize),
             primaryButtonsContainer.topAnchor.constraint(equalTo: digitLabelsLayoutContainer.bottomAnchor, constant: -verticalEdgeInset),
-            primaryButtonsContainer.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -horizontalEdgeInset),
+            primaryButtonsContainer.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             primaryButtonsContainer.bottomAnchor.constraint(equalTo: toolBar.topAnchor, constant: -verticalEdgeInset),
             
             secondaryButtonsContainer.centerYAnchor.constraint(equalTo: primaryButtonsContainer.centerYAnchor),
