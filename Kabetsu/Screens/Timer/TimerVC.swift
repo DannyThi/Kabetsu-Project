@@ -242,6 +242,7 @@ extension TimerVC {
     private func configureViewController() {
         view.backgroundColor = .systemBackground
         print(settings.currentAlertSound.title)
+
     }
     private func configureToolBar() {
         toolBar = UIToolbar()
@@ -467,7 +468,9 @@ extension TimerVC {
             primaryButtonsContainer.heightAnchor.constraint(equalTo: primaryActionButton.heightAnchor).withPriority(.defaultHigh),
             primaryButtonsContainer.widthAnchor.constraint(equalToConstant: primaryButtonSize),
             primaryButtonsContainer.topAnchor.constraint(equalTo: digitLabelsLayoutContainer.bottomAnchor, constant: -verticalEdgeInset),
-            primaryButtonsContainer.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            //primaryButtonsContainer.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            primaryButtonsContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: view.bounds.width / 4),
+            
             primaryButtonsContainer.bottomAnchor.constraint(equalTo: toolBar.topAnchor, constant: -verticalEdgeInset),
             
             secondaryButtonsContainer.centerYAnchor.constraint(equalTo: primaryButtonsContainer.centerYAnchor),
