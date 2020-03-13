@@ -43,6 +43,13 @@ extension UIView {
         }
         return gradient
     }
+    
+    func scaledBorderWidth(strength: CGFloat) -> CGFloat {
+        let deviceMinWidth = CGFloat.minimum(UIScreen.main.bounds.width, UIScreen.main.bounds.height)
+        let viewMin = CGFloat.minimum(bounds.width, bounds.height)
+        let normalized = CGFloat(viewMin / deviceMinWidth) * (strength * 2)
+        return normalized
+    }
 }
 
 extension UIColor {

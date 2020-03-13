@@ -21,13 +21,9 @@ class Constants {
                             UIColor(red: 31 / 255, green: 156 / 255, blue: 62 / 255, alpha: 1)]
     }
     
-    struct ImageKey {
-        
-    }
-    
     struct ViewAppearance {
         static let cornerRadius: CGFloat = 25
-        static var borderWidth: CGFloat { return UITraitCollection.current.userInterfaceStyle == .dark ? 3 : 1 }
+        static var borderWidth: CGFloat { return UITraitCollection.current.userInterfaceStyle == .dark ? 3 : 0 }
         static var shadowOpacity: Float { return UITraitCollection.current.userInterfaceStyle == .dark ? 0 : 0.5 }
         static let digitalDisplayFontHeightToWidthRatio: CGFloat = 0.17
     }

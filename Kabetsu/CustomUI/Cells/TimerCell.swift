@@ -51,7 +51,7 @@ extension TimerCell {
         updateViewAppearance()
     }
     private func updateViewAppearance() {
-        contentView.layer.borderWidth = Constants.ViewAppearance.borderWidth
+        contentView.layer.borderWidth = scaledBorderWidth(strength: Constants.ViewAppearance.borderWidth)
         layer.shadowOpacity = Constants.ViewAppearance.shadowOpacity
     }
 }
@@ -65,7 +65,7 @@ extension TimerCell {
         contentView.backgroundColor = .secondarySystemBackground
         contentView.layer.cornerRadius = 25
         contentView.layer.borderColor = UIColor.white.cgColor
-        contentView.layer.borderWidth = Constants.ViewAppearance.borderWidth
+        contentView.layer.borderWidth = scaledBorderWidth(strength: Constants.ViewAppearance.borderWidth)
         contentView.layer.masksToBounds = true
     
         layer.shadowColor = UIColor.lightGray.cgColor

@@ -33,6 +33,7 @@ class KBTButton: UIButton {
         self.imageView?.layer.shadowOpacity = 0.16
         self.imageView?.layer.masksToBounds = false
 
+        self.contentMode = .scaleAspectFit
         configureButton()
     }
     
@@ -81,7 +82,8 @@ extension KBTButton {
     }
     
     private func updateView(for userInterfaceStyle: UIUserInterfaceStyle) {
-        layer.borderWidth = Constants.ViewAppearance.borderWidth
+        layer.borderWidth = self.scaledBorderWidth(strength: Constants.ViewAppearance.borderWidth)
+        
         self.layer.borderColor = KBTColors.kabetsuGreenBorder!.cgColor
         switch userInterfaceStyle {
         case .dark:
@@ -127,6 +129,10 @@ extension KBTButton {
         let cornerRadius = CGFloat.minimum(bounds.width, bounds.height) * 0.3
         self.layer.cornerRadius = cornerRadius
     }
+//    private func calculateBorderWidth() {
+//        let border = Constants.normalize(val: 3)
+//        print(border)
+//    }
     private func applyGradient() {
         self.applyGradient(colours: Constants.Gradient.green)
     }
