@@ -69,7 +69,7 @@ extension TimerCell {
         contentView.layer.masksToBounds = true
     
         layer.shadowColor = UIColor.lightGray.cgColor
-        layer.shadowOffset = CGSize(width: 3, height: 3)
+        layer.shadowOffset = CGSize(width: 0, height: 2)
         layer.shadowRadius = 1.5
         layer.shadowOpacity = Constants.ViewAppearance.shadowOpacity
         layer.masksToBounds = false

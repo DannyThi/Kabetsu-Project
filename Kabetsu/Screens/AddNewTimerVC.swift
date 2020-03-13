@@ -271,8 +271,8 @@ extension AddNewTimerVC {
         textLabel.layer.borderWidth = Constants.ViewAppearance.borderWidth
         
         textLabel.layer.shadowColor = UIColor.lightGray.cgColor
-        textLabel.layer.shadowOffset = CGSize(width: 3, height: 3)
-        textLabel.layer.shadowRadius = 3
+        textLabel.layer.shadowOffset = CGSize(width: 0, height: 2)
+        textLabel.layer.shadowRadius = 1.5
         textLabel.layer.shadowOpacity = Constants.ViewAppearance.shadowOpacity
     }
     
@@ -286,8 +286,8 @@ extension AddNewTimerVC {
         timePicker.layer.borderWidth = Constants.ViewAppearance.borderWidth
         
         timePicker.layer.shadowColor = UIColor.lightGray.cgColor
-        timePicker.layer.shadowOffset = CGSize(width: 3, height: 3)
-        timePicker.layer.shadowRadius = 3
+        timePicker.layer.shadowOffset = CGSize(width: 0, height: 2)
+        timePicker.layer.shadowRadius = 1.5
         timePicker.layer.shadowOpacity = Constants.ViewAppearance.shadowOpacity
         timePicker.layer.masksToBounds = false
         timePicker.delegate = self

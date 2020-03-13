@@ -104,8 +104,8 @@ extension KBTButton {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.layer.borderColor = KBTColors.kabetsuGreenBorder!.cgColor
         self.layer.shadowColor = UIColor.black.cgColor
-        self.layer.shadowOffset = CGSize(width: 3, height: 3)
-        self.layer.shadowRadius = 4
+        self.layer.shadowOffset = CGSize(width: 0, height: 2)
+        self.layer.shadowRadius = 1.5
     }
     private func calculateImageEdgeInsets() {
         let multiplier: CGFloat = 0.2
