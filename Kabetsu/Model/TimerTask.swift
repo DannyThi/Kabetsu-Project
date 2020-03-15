@@ -79,6 +79,7 @@ class TimerTask {
     init(withTotalTime time: Double) {
         originalCountdownTime = time
         adjustedCountdownTime = time
+        NotificationCenter.default.post(Notification(name: .timerDidUpdate))
     }
     
     private func updateTime() {
