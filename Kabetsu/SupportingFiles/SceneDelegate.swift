@@ -37,29 +37,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     private func createTabBarController() -> UITabBarController {
         let tabBar = UITabBarController()
-        tabBar.viewControllers = [createCountdownTimerVC(), createStopwatchVC()]
+        tabBar.viewControllers = [
+            createTab(withName: "Timer", imageName: "timer", controllerType: TimersListVC.self),
+            createTab(withName: "Stopwatch", imageName: "stopwatch", controllerType: StopwatchVC.self),
+            createTab(withName: "Random", imageName: "r.circle", controllerType: RandomNumberVC.self)
+        ]
         return tabBar
     }
     
-    private func createStopwatchVC() -> UINavigationController {
-        let tabImage = UIImage(systemName: "stopwatch", withConfiguration: UIImage.SymbolConfiguration(scale: .large))
-        let tab = UITabBarItem(title: "Stopwatch", image: tabImage, tag: tabItemCount)
-        let navCon = UINavigationController(rootViewController: StopwatchVC())
+    private func createTab(withName name: String, imageName: String, controllerType controller: UIViewController.Type) -> UINavigationController {
+        let tabImage = UIImage(systemName: imageName, withConfiguration: UIImage.SymbolConfiguration(scale: .large))
+        let tab = UITabBarItem(title: name, image: tabImage, tag: tabItemCount)
+        let navCon = UINavigationController(rootViewController: controller.init())
         navCon.navigationBar.prefersLargeTitles = true
         navCon.tabBarItem = tab
         navCon.navigationBar.barStyle = .default
         tabItemCount += 1
-        return navCon
-    }
-    private func createCountdownTimerVC() -> UINavigationController {
-        let tabImage = UIImage(systemName: "timer", withConfiguration: UIImage.SymbolConfiguration(scale: .large))
-        let tab = UITabBarItem(title: "Timers", image: tabImage, tag: tabItemCount)
-        let navCon = UINavigationController(rootViewController: TimersListVC())
-        navCon.navigationBar.prefersLargeTitles = true
-        navCon.tabBarItem = tab
-        navCon.navigationBar.barStyle = .default
-        tabItemCount += 1
-        
         return navCon
     }
     

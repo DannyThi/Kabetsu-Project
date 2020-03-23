@@ -49,6 +49,8 @@
 		975D92A223E2957C000CE57D /* KBTCircularButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975D92A123E2957C000CE57D /* KBTCircularButton.swift */; };
 		975D92A623E401AC000CE57D /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975D92A523E401AC000CE57D /* Settings.swift */; };
 		975D92B523EBD78F000CE57D /* AddNewTimerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975D92B423EBD78F000CE57D /* AddNewTimerVC.swift */; };
+		9798C0FF242331E500CD8D2B /* RandomNumberSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9798C0FE242331E500CD8D2B /* RandomNumberSelector.swift */; };
+		9798C10224283E1A00CD8D2B /* RandomNumberVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9798C10124283E1A00CD8D2B /* RandomNumberVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -96,6 +98,8 @@
 		975D92A123E2957C000CE57D /* KBTCircularButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KBTCircularButton.swift; sourceTree = "<group>"; };
 		975D92A523E401AC000CE57D /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		975D92B423EBD78F000CE57D /* AddNewTimerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewTimerVC.swift; sourceTree = "<group>"; };
+		9798C0FE242331E500CD8D2B /* RandomNumberSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomNumberSelector.swift; sourceTree = "<group>"; };
+		9798C10124283E1A00CD8D2B /* RandomNumberVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomNumberVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +172,8 @@
 		9753C2992408866B0035A514 /* Timer */ = {
 			isa = PBXGroup;
 			children = (
+				975C25ED23DEBCEF005847FF /* TimersListVC.swift */,
+				975D92B423EBD78F000CE57D /* AddNewTimerVC.swift */,
 				9753C28523FF8BFC0035A514 /* TimerExtScnDetails.swift */,
 				9753C29C240C9A410035A514 /* TimerExtScnMaster.swift */,
 				975D929B23E100AD000CE57D /* TimerVC.swift */,
@@ -247,6 +253,7 @@
 				975C260823DFBC2B005847FF /* TimersList.swift */,
 				975C260523DFA8C5005847FF /* TimerTask.swift */,
 				975D92A523E401AC000CE57D /* Settings.swift */,
+				9798C0FE242331E500CD8D2B /* RandomNumberSelector.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -254,9 +261,8 @@
 		975C260723DFBBEF005847FF /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				9798C10024283DFF00CD8D2B /* RandomNumberSelector */,
 				9753C2992408866B0035A514 /* Timer */,
-				975C25ED23DEBCEF005847FF /* TimersListVC.swift */,
-				975D92B423EBD78F000CE57D /* AddNewTimerVC.swift */,
 				9753C22723F663770035A514 /* SettingsVC.swift */,
 				974355812411D71100F8EB32 /* Stopwatch */,
 			);
@@ -293,6 +299,14 @@
 				9753C23F23FA6ED80035A514 /* KBTBodyLabel.swift */,
 			);
 			path = Labels;
+			sourceTree = "<group>";
+		};
+		9798C10024283DFF00CD8D2B /* RandomNumberSelector */ = {
+			isa = PBXGroup;
+			children = (
+				9798C10124283E1A00CD8D2B /* RandomNumberVC.swift */,
+			);
+			path = RandomNumberSelector;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -382,6 +396,7 @@
 				975C260123DEC493005847FF /* KBTDigitDisplayLabel.swift in Sources */,
 				9753C22E23F8CB730035A514 /* ThemeTVCell.swift in Sources */,
 				9753C24023FA6ED80035A514 /* KBTBodyLabel.swift in Sources */,
+				9798C10224283E1A00CD8D2B /* RandomNumberVC.swift in Sources */,
 				9753C291240146820035A514 /* AlertSoundTVCell.swift in Sources */,
 				975C260923DFBC2B005847FF /* TimersList.swift in Sources */,
 				974355802411D70800F8EB32 /* StopwatchExtScnDetails.swift in Sources */,
@@ -392,6 +407,7 @@
 				9753C2932401FAE80035A514 /* AlertVolumeTVCell.swift in Sources */,
 				9753C23423F941520035A514 /* TimerIncrementsTVCell.swift in Sources */,
 				975C25EE23DEBCEF005847FF /* TimersListVC.swift in Sources */,
+				9798C0FF242331E500CD8D2B /* RandomNumberSelector.swift in Sources */,
 				9753C29524028DAF0035A514 /* KBTSettingsBaseTVCell.swift in Sources */,
 				9753C22423F133C40035A514 /* KBTConstraints.swift in Sources */,
 				975D92A623E401AC000CE57D /* Settings.swift in Sources */,
